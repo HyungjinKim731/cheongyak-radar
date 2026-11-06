@@ -1,0 +1,56 @@
+name: 청약·정비 데이터 갱신
+
+on:
+  schedule:
+    - cron: "10 21,3,9,15 * * *"   # 매일 06:10·12:10·18:10·00:10 KST (UTC 21·3·9·15시)
+  workflow_dispatch: {}      # Actions 탭에서 수동 실행
+  push:
+    paths:
+      - "data/watchlist.csv"  # 관심목록을 고치면 바로 반영
+      - "data/raw/**"
+      - "config.toml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-data
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: 개인 파일이 올라오지 않았는지 확인
+        run: |
+          for f in profile.local.json portfolio.local.json .env; do
+            if git ls-files --error-unmatch "$f" >/dev/null 2>&1; then echo "::error::$f 가 저장소에 올라와 있습니다. 지우고 다시 푸시하세요."; exit 1; fi
+          done
+
+      - name: 데이터 수집·빌드
+        env:
+          DATA_GO_KR_KEY: ${{ secrets.DATA_GO_KR_KEY }}
+          KAKAO_REST_KEY: ${{ secrets.KAKAO_REST_KEY }}   # 없어도 됨(지도 정확도용)
+          VWORLD_KEY: ${{ secrets.VWORLD_KEY }}           # 없어도 됨
+        run: python -m tracker.run
+
+      - name: 변경분 커밋
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/data data/state data/raw
+          if git diff --cached --quiet; then
+            echo "변경 없음"
+          else
+            git commit -m "data: $(TZ=Asia/Seoul date +'%Y-%m-%d %H:%M') 갱신"
+            git push
+          fi

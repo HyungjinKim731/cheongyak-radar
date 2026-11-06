@@ -1,0 +1,16 @@
+{
+  "name": "청약·정비 레이더",
+  "short_name": "청약레이더",
+  "description": "서울·경기 청약 일정, 추천 순위, 재건축·재개발 단계",
+  "lang": "ko",
+  "start_url": "./#ranking",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f6f5",
+  "theme_color": "#0e6b5b",
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png"},
+    {"src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}

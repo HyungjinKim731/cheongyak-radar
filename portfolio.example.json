@@ -1,0 +1,86 @@
+{
+ "_comment": "예시. portfolio.local.json 으로 복사해 쓰세요.",
+ "plan_date": "2026-11-02",
+ "goal": "2027년 4~5월까지 손실을 최소화하면서 전량 정리",
+ "rebound_pct": 3.0,
+ "holdings": [
+  {
+   "ticker": "SOXL",
+   "name": "반도체 3배 레버리지",
+   "group": "1 레버리지",
+   "avg": 198,
+   "plan_price": 68,
+   "window": "11~12월",
+   "memo": "본전까지 +191% 필요. 반등일마다 1/3씩 매도. 반도체를 계속 들고 싶으면 SOXX(1배)로 교체",
+   "shares": null,
+   "target": null,
+   "currency": "USD",
+   "tax_exempt": false
+  },
+  {
+   "ticker": "TQQQ",
+   "name": "나스닥 3배 레버리지",
+   "group": "1 레버리지",
+   "avg": 76,
+   "plan_price": 59,
+   "window": "11~12월",
+   "memo": "나스닥 반등 시 2~3회 분할",
+   "shares": null,
+   "target": null,
+   "currency": "USD",
+   "tax_exempt": false
+  }
+ ],
+ "events": [
+  {
+   "date": "2026-11-03",
+   "label": "미국 중간선거"
+  },
+  {
+   "date": "2026-11-13",
+   "label": "퀀텀주 실적 · 10월 CPI",
+   "approx": "11월 중순"
+  },
+  {
+   "date": "2026-11-25",
+   "label": "엔비디아 실적",
+   "approx": "11월 하순"
+  },
+  {
+   "date": "2026-12-09",
+   "label": "FOMC"
+  },
+  {
+   "date": "2026-12-31",
+   "label": "양도세 과세연도 마감 (손익 통산 기준일)"
+  },
+  {
+   "date": "2027-02-01",
+   "label": "빅테크 4분기 실적",
+   "approx": "1월 하순~2월"
+  },
+  {
+   "date": "2027-05-31",
+   "label": "2026년분 해외주식 양도세 신고"
+  }
+ ],
+ "principles": [
+  "매입가 대신 '지금 이 돈을 새로 넣을 종목인가'로 판단",
+  "변동성 큰 것부터, 반등일에 분할 매도 (급락일 투매 금지)",
+  "해외주식 양도세는 연 단위로 손익을 합산(250만원 공제, 22%)하고 손실은 이월되지 않음 → 올해 실현 이익이 있으면 손실 종목을 올해 안에 함께 실현"
+ ],
+ "checklist": [
+  {
+   "text": "2026년 이미 실현한 해외주식 손익 확인 (앱의 매매손익 탭)",
+   "done": false,
+   "key": "realized"
+  },
+  {
+   "text": "원화 환전 시점은 매도와 별개로 판단 (달러 예수금으로 보유 가능)",
+   "done": false,
+   "key": "fx"
+  }
+ ],
+ "prior_realized_krw_2026": null,
+ "trades": []
+}
