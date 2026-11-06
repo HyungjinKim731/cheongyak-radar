@@ -1,0 +1,5155 @@
+{
+ "apt:2026820014:2026820014": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "046.0000O",
+    "SUPLY_AR": "67.1669",
+    "LTTOT_TOP_AMOUNT": "35276",
+    "SUPLY_HSHLDCO": 0,
+    "SPSPLY_HSHLDCO": 18
+   },
+   {
+    "HOUSE_TY": "055.0000O",
+    "SUPLY_AR": "79.7936",
+    "LTTOT_TOP_AMOUNT": "41908",
+    "SUPLY_HSHLDCO": 0,
+    "SPSPLY_HSHLDCO": 14
+   }
+  ]
+ },
+ "apt:2026820013:2026820013": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "055.0000A",
+    "SUPLY_AR": "81.5326",
+    "LTTOT_TOP_AMOUNT": "46658",
+    "SUPLY_HSHLDCO": 0,
+    "SPSPLY_HSHLDCO": 200
+   },
+   {
+    "HOUSE_TY": "055.0000B",
+    "SUPLY_AR": "81.4741",
+    "LTTOT_TOP_AMOUNT": "45692",
+    "SUPLY_HSHLDCO": 0,
+    "SPSPLY_HSHLDCO": 20
+   }
+  ]
+ },
+ "apt:2026000533:2026000533": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "074.9400A",
+    "SUPLY_AR": "97.1385",
+    "LTTOT_TOP_AMOUNT": "51190",
+    "SUPLY_HSHLDCO": 6,
+    "SPSPLY_HSHLDCO": 22
+   },
+   {
+    "HOUSE_TY": "084.7100A",
+    "SUPLY_AR": "109.8026",
+    "LTTOT_TOP_AMOUNT": "59653",
+    "SUPLY_HSHLDCO": 8,
+    "SPSPLY_HSHLDCO": 26
+   },
+   {
+    "HOUSE_TY": "084.9800B",
+    "SUPLY_AR": "110.1526",
+    "LTTOT_TOP_AMOUNT": "58646",
+    "SUPLY_HSHLDCO": 9,
+    "SPSPLY_HSHLDCO": 25
+   },
+   {
+    "HOUSE_TY": "084.8700D",
+    "SUPLY_AR": "110.0100",
+    "LTTOT_TOP_AMOUNT": "59766",
+    "SUPLY_HSHLDCO": 4,
+    "SPSPLY_HSHLDCO": 15
+   },
+   {
+    "HOUSE_TY": "084.5300G",
+    "SUPLY_AR": "109.5693",
+    "LTTOT_TOP_AMOUNT": "60116",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.4400H",
+    "SUPLY_AR": "109.4526",
+    "LTTOT_TOP_AMOUNT": "60052",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.5400I",
+    "SUPLY_AR": "109.5822",
+    "LTTOT_TOP_AMOUNT": "60123",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.9800J",
+    "SUPLY_AR": "110.1526",
+    "LTTOT_TOP_AMOUNT": "60969",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 5
+   }
+  ]
+ },
+ "apt:2026000528:2026000528": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.7637A",
+    "SUPLY_AR": "111.4847",
+    "LTTOT_TOP_AMOUNT": "94930",
+    "SUPLY_HSHLDCO": 10,
+    "SPSPLY_HSHLDCO": 30
+   },
+   {
+    "HOUSE_TY": "084.8159B",
+    "SUPLY_AR": "112.5694",
+    "LTTOT_TOP_AMOUNT": "94890",
+    "SUPLY_HSHLDCO": 70,
+    "SPSPLY_HSHLDCO": 208
+   },
+   {
+    "HOUSE_TY": "084.6192C",
+    "SUPLY_AR": "111.3422",
+    "LTTOT_TOP_AMOUNT": "93860",
+    "SUPLY_HSHLDCO": 10,
+    "SPSPLY_HSHLDCO": 32
+   }
+  ]
+ },
+ "apt:2026000527:2026000527": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.8958A",
+    "SUPLY_AR": "80.3720",
+    "LTTOT_TOP_AMOUNT": "68440",
+    "SUPLY_HSHLDCO": 13,
+    "SPSPLY_HSHLDCO": 30
+   },
+   {
+    "HOUSE_TY": "059.9657B",
+    "SUPLY_AR": "80.5572",
+    "LTTOT_TOP_AMOUNT": "68590",
+    "SUPLY_HSHLDCO": 43,
+    "SPSPLY_HSHLDCO": 100
+   },
+   {
+    "HOUSE_TY": "059.7232C",
+    "SUPLY_AR": "79.2357",
+    "LTTOT_TOP_AMOUNT": "66790",
+    "SUPLY_HSHLDCO": 13,
+    "SPSPLY_HSHLDCO": 29
+   },
+   {
+    "HOUSE_TY": "059.9593D",
+    "SUPLY_AR": "80.4996",
+    "LTTOT_TOP_AMOUNT": "67850",
+    "SUPLY_HSHLDCO": 3,
+    "SPSPLY_HSHLDCO": 9
+   }
+  ]
+ },
+ "apt:2026000515:2026000515": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9343A",
+    "SUPLY_AR": "110.2002",
+    "LTTOT_TOP_AMOUNT": "59130",
+    "SUPLY_HSHLDCO": 109,
+    "SPSPLY_HSHLDCO": 200
+   },
+   {
+    "HOUSE_TY": "084.9075B",
+    "SUPLY_AR": "110.5732",
+    "LTTOT_TOP_AMOUNT": "59130",
+    "SUPLY_HSHLDCO": 21,
+    "SPSPLY_HSHLDCO": 40
+   },
+   {
+    "HOUSE_TY": "084.8505D",
+    "SUPLY_AR": "111.0782",
+    "LTTOT_TOP_AMOUNT": "57890",
+    "SUPLY_HSHLDCO": 10,
+    "SPSPLY_HSHLDCO": 20
+   },
+   {
+    "HOUSE_TY": "094.3143A",
+    "SUPLY_AR": "121.5382",
+    "LTTOT_TOP_AMOUNT": "62010",
+    "SUPLY_HSHLDCO": 42,
+    "SPSPLY_HSHLDCO": 7
+   },
+   {
+    "HOUSE_TY": "094.2875B",
+    "SUPLY_AR": "121.9112",
+    "LTTOT_TOP_AMOUNT": "62010",
+    "SUPLY_HSHLDCO": 20,
+    "SPSPLY_HSHLDCO": 4
+   },
+   {
+    "HOUSE_TY": "094.3805D",
+    "SUPLY_AR": "122.5975",
+    "LTTOT_TOP_AMOUNT": "56790",
+    "SUPLY_HSHLDCO": 5,
+    "SPSPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "101.8311A",
+    "SUPLY_AR": "131.0502",
+    "LTTOT_TOP_AMOUNT": "68190",
+    "SUPLY_HSHLDCO": 65,
+    "SPSPLY_HSHLDCO": 10
+   },
+   {
+    "HOUSE_TY": "101.8531B",
+    "SUPLY_AR": "131.6827",
+    "LTTOT_TOP_AMOUNT": "68100",
+    "SUPLY_HSHLDCO": 48,
+    "SPSPLY_HSHLDCO": 6
+   },
+   {
+    "HOUSE_TY": "111.5911A",
+    "SUPLY_AR": "142.8475",
+    "LTTOT_TOP_AMOUNT": "66760",
+    "SUPLY_HSHLDCO": 6,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "111.4331B",
+    "SUPLY_AR": "143.2625",
+    "LTTOT_TOP_AMOUNT": "68100",
+    "SUPLY_HSHLDCO": 9,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "apt:2026000472:2026000472": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "075.7770 ",
+    "SUPLY_AR": "98.2284",
+    "LTTOT_TOP_AMOUNT": "69580",
+    "SUPLY_HSHLDCO": 38,
+    "SPSPLY_HSHLDCO": 70
+   },
+   {
+    "HOUSE_TY": "084.6686 ",
+    "SUPLY_AR": "109.6218",
+    "LTTOT_TOP_AMOUNT": "78500",
+    "SUPLY_HSHLDCO": 35,
+    "SPSPLY_HSHLDCO": 70
+   }
+  ]
+ },
+ "apt:2026000535:2026000535": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.9670A",
+    "SUPLY_AR": "77.9443",
+    "LTTOT_TOP_AMOUNT": "62500",
+    "SUPLY_HSHLDCO": 7,
+    "SPSPLY_HSHLDCO": 11
+   },
+   {
+    "HOUSE_TY": "059.9898B",
+    "SUPLY_AR": "77.9093",
+    "LTTOT_TOP_AMOUNT": "62530",
+    "SUPLY_HSHLDCO": 7,
+    "SPSPLY_HSHLDCO": 6
+   },
+   {
+    "HOUSE_TY": "068.9683 ",
+    "SUPLY_AR": "90.2230",
+    "LTTOT_TOP_AMOUNT": "71680",
+    "SUPLY_HSHLDCO": 4,
+    "SPSPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "074.9857 ",
+    "SUPLY_AR": "98.0971",
+    "LTTOT_TOP_AMOUNT": "77110",
+    "SUPLY_HSHLDCO": 12,
+    "SPSPLY_HSHLDCO": 11
+   },
+   {
+    "HOUSE_TY": "079.9780 ",
+    "SUPLY_AR": "105.6823",
+    "LTTOT_TOP_AMOUNT": "82270",
+    "SUPLY_HSHLDCO": 7,
+    "SPSPLY_HSHLDCO": 5
+   },
+   {
+    "HOUSE_TY": "084.9932 ",
+    "SUPLY_AR": "110.4400",
+    "LTTOT_TOP_AMOUNT": "85210",
+    "SUPLY_HSHLDCO": 4,
+    "SPSPLY_HSHLDCO": 1
+   }
+  ]
+ },
+ "apt:2026000525:2026000525": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9607A",
+    "SUPLY_AR": "109.1983",
+    "LTTOT_TOP_AMOUNT": "59930",
+    "SUPLY_HSHLDCO": 95,
+    "SPSPLY_HSHLDCO": 164
+   },
+   {
+    "HOUSE_TY": "084.9236B",
+    "SUPLY_AR": "109.1540",
+    "LTTOT_TOP_AMOUNT": "59910",
+    "SUPLY_HSHLDCO": 19,
+    "SPSPLY_HSHLDCO": 26
+   }
+  ]
+ },
+ "apt:2026000499:2026000499": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9424A",
+    "SUPLY_AR": "109.3948",
+    "LTTOT_TOP_AMOUNT": "70875",
+    "SUPLY_HSHLDCO": 207,
+    "SPSPLY_HSHLDCO": 245
+   },
+   {
+    "HOUSE_TY": "084.9927B",
+    "SUPLY_AR": "109.8412",
+    "LTTOT_TOP_AMOUNT": "70095",
+    "SUPLY_HSHLDCO": 97,
+    "SPSPLY_HSHLDCO": 111
+   },
+   {
+    "HOUSE_TY": "084.9839C",
+    "SUPLY_AR": "110.6976",
+    "LTTOT_TOP_AMOUNT": "72450",
+    "SUPLY_HSHLDCO": 79,
+    "SPSPLY_HSHLDCO": 89
+   },
+   {
+    "HOUSE_TY": "084.9199D",
+    "SUPLY_AR": "109.5072",
+    "LTTOT_TOP_AMOUNT": "72350",
+    "SUPLY_HSHLDCO": 57,
+    "SPSPLY_HSHLDCO": 65
+   },
+   {
+    "HOUSE_TY": "116.9134 ",
+    "SUPLY_AR": "148.8094",
+    "LTTOT_TOP_AMOUNT": "96845",
+    "SUPLY_HSHLDCO": 130,
+    "SPSPLY_HSHLDCO": 18
+   }
+  ]
+ },
+ "apt:2026820012:2026820012": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "055.0000A",
+    "SUPLY_AR": "81.0064",
+    "LTTOT_TOP_AMOUNT": "42374",
+    "SUPLY_HSHLDCO": 0,
+    "SPSPLY_HSHLDCO": 155
+   },
+   {
+    "HOUSE_TY": "055.0000B",
+    "SUPLY_AR": "80.7024",
+    "LTTOT_TOP_AMOUNT": "42215",
+    "SUPLY_HSHLDCO": 0,
+    "SPSPLY_HSHLDCO": 15
+   },
+   {
+    "HOUSE_TY": "055.0000C",
+    "SUPLY_AR": "80.8616",
+    "LTTOT_TOP_AMOUNT": "42298",
+    "SUPLY_HSHLDCO": 0,
+    "SPSPLY_HSHLDCO": 5
+   }
+  ]
+ },
+ "apt:2026000531:2026000531": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.9000A",
+    "SUPLY_AR": "78.7184",
+    "LTTOT_TOP_AMOUNT": "41110",
+    "SUPLY_HSHLDCO": 3,
+    "SPSPLY_HSHLDCO": 10
+   },
+   {
+    "HOUSE_TY": "059.8000B",
+    "SUPLY_AR": "78.5870",
+    "LTTOT_TOP_AMOUNT": "41042",
+    "SUPLY_HSHLDCO": 5,
+    "SPSPLY_HSHLDCO": 15
+   },
+   {
+    "HOUSE_TY": "084.8900A",
+    "SUPLY_AR": "111.5594",
+    "LTTOT_TOP_AMOUNT": "57026",
+    "SUPLY_HSHLDCO": 19,
+    "SPSPLY_HSHLDCO": 53
+   }
+  ]
+ },
+ "apt:2026000518:2026000518": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "060.9995 ",
+    "SUPLY_AR": "84.8223",
+    "LTTOT_TOP_AMOUNT": "60100",
+    "SUPLY_HSHLDCO": 33,
+    "SPSPLY_HSHLDCO": 59
+   },
+   {
+    "HOUSE_TY": "084.9594 ",
+    "SUPLY_AR": "114.9317",
+    "LTTOT_TOP_AMOUNT": "81400",
+    "SUPLY_HSHLDCO": 95,
+    "SPSPLY_HSHLDCO": 171
+   }
+  ]
+ },
+ "apt:2026000517:2026000517": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "060.9995 ",
+    "SUPLY_AR": "83.0332",
+    "LTTOT_TOP_AMOUNT": "58900",
+    "SUPLY_HSHLDCO": 12,
+    "SPSPLY_HSHLDCO": 21
+   },
+   {
+    "HOUSE_TY": "084.9594 ",
+    "SUPLY_AR": "112.4399",
+    "LTTOT_TOP_AMOUNT": "79800",
+    "SUPLY_HSHLDCO": 29,
+    "SPSPLY_HSHLDCO": 48
+   },
+   {
+    "HOUSE_TY": "084.4998 ",
+    "SUPLY_AR": "114.2095",
+    "LTTOT_TOP_AMOUNT": "79400",
+    "SUPLY_HSHLDCO": 31,
+    "SPSPLY_HSHLDCO": 55
+   },
+   {
+    "HOUSE_TY": "088.5023 ",
+    "SUPLY_AR": "116.8280",
+    "LTTOT_TOP_AMOUNT": "84100",
+    "SUPLY_HSHLDCO": 55,
+    "SPSPLY_HSHLDCO": 7
+   },
+   {
+    "HOUSE_TY": "115.3141 ",
+    "SUPLY_AR": "151.5064",
+    "LTTOT_TOP_AMOUNT": "99400",
+    "SUPLY_HSHLDCO": 69,
+    "SPSPLY_HSHLDCO": 10
+   }
+  ]
+ },
+ "apt:2026000502:2026000502": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.3522A",
+    "SUPLY_AR": "109.7246",
+    "LTTOT_TOP_AMOUNT": "53600",
+    "SUPLY_HSHLDCO": 132,
+    "SPSPLY_HSHLDCO": 159
+   },
+   {
+    "HOUSE_TY": "084.4355B",
+    "SUPLY_AR": "110.1662",
+    "LTTOT_TOP_AMOUNT": "54300",
+    "SUPLY_HSHLDCO": 64,
+    "SPSPLY_HSHLDCO": 72
+   },
+   {
+    "HOUSE_TY": "084.1443C",
+    "SUPLY_AR": "109.6685",
+    "LTTOT_TOP_AMOUNT": "53500",
+    "SUPLY_HSHLDCO": 187,
+    "SPSPLY_HSHLDCO": 225
+   },
+   {
+    "HOUSE_TY": "084.4447D",
+    "SUPLY_AR": "110.4100",
+    "LTTOT_TOP_AMOUNT": "53900",
+    "SUPLY_HSHLDCO": 40,
+    "SPSPLY_HSHLDCO": 49
+   },
+   {
+    "HOUSE_TY": "084.5473E",
+    "SUPLY_AR": "111.0317",
+    "LTTOT_TOP_AMOUNT": "54200",
+    "SUPLY_HSHLDCO": 136,
+    "SPSPLY_HSHLDCO": 165
+   },
+   {
+    "HOUSE_TY": "084.8194F",
+    "SUPLY_AR": "111.7563",
+    "LTTOT_TOP_AMOUNT": "54600",
+    "SUPLY_HSHLDCO": 38,
+    "SPSPLY_HSHLDCO": 45
+   },
+   {
+    "HOUSE_TY": "084.3216G",
+    "SUPLY_AR": "111.2509",
+    "LTTOT_TOP_AMOUNT": "53200",
+    "SUPLY_HSHLDCO": 8,
+    "SPSPLY_HSHLDCO": 11
+   },
+   {
+    "HOUSE_TY": "102.6403 ",
+    "SUPLY_AR": "134.7897",
+    "LTTOT_TOP_AMOUNT": "64000",
+    "SUPLY_HSHLDCO": 49,
+    "SPSPLY_HSHLDCO": 7
+   },
+   {
+    "HOUSE_TY": "112.1044 ",
+    "SUPLY_AR": "144.8816",
+    "LTTOT_TOP_AMOUNT": "67800",
+    "SUPLY_HSHLDCO": 69,
+    "SPSPLY_HSHLDCO": 9
+   },
+   {
+    "HOUSE_TY": "120.3418 ",
+    "SUPLY_AR": "156.6758",
+    "LTTOT_TOP_AMOUNT": "72700",
+    "SUPLY_HSHLDCO": 68,
+    "SPSPLY_HSHLDCO": 9
+   }
+  ]
+ },
+ "apt:2026000509:2026000509": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9916A",
+    "SUPLY_AR": "124.1106",
+    "LTTOT_TOP_AMOUNT": "171420",
+    "SUPLY_HSHLDCO": 149,
+    "SPSPLY_HSHLDCO": 185
+   },
+   {
+    "HOUSE_TY": "084.9979B",
+    "SUPLY_AR": "124.5750",
+    "LTTOT_TOP_AMOUNT": "171680",
+    "SUPLY_HSHLDCO": 39,
+    "SPSPLY_HSHLDCO": 45
+   },
+   {
+    "HOUSE_TY": "084.9970C",
+    "SUPLY_AR": "123.3468",
+    "LTTOT_TOP_AMOUNT": "171320",
+    "SUPLY_HSHLDCO": 73,
+    "SPSPLY_HSHLDCO": 93
+   },
+   {
+    "HOUSE_TY": "084.9948D",
+    "SUPLY_AR": "124.0810",
+    "LTTOT_TOP_AMOUNT": "171380",
+    "SUPLY_HSHLDCO": 76,
+    "SPSPLY_HSHLDCO": 88
+   },
+   {
+    "HOUSE_TY": "084.9975E",
+    "SUPLY_AR": "124.8977",
+    "LTTOT_TOP_AMOUNT": "171520",
+    "SUPLY_HSHLDCO": 76,
+    "SPSPLY_HSHLDCO": 88
+   },
+   {
+    "HOUSE_TY": "099.9965A",
+    "SUPLY_AR": "146.2861",
+    "LTTOT_TOP_AMOUNT": "191440",
+    "SUPLY_HSHLDCO": 68,
+    "SPSPLY_HSHLDCO": 10
+   },
+   {
+    "HOUSE_TY": "148.9945E",
+    "SUPLY_AR": "219.7294",
+    "LTTOT_TOP_AMOUNT": "316460",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "158.9937D",
+    "SUPLY_AR": "234.3860",
+    "LTTOT_TOP_AMOUNT": "337600",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "162.9999C",
+    "SUPLY_AR": "241.1932",
+    "LTTOT_TOP_AMOUNT": "347450",
+    "SUPLY_HSHLDCO": 4,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "apt:2026000508:2026000508": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9970C",
+    "SUPLY_AR": "115.5180",
+    "LTTOT_TOP_AMOUNT": "171210",
+    "SUPLY_HSHLDCO": 82,
+    "SPSPLY_HSHLDCO": 98
+   },
+   {
+    "HOUSE_TY": "084.9998F",
+    "SUPLY_AR": "117.1346",
+    "LTTOT_TOP_AMOUNT": "171530",
+    "SUPLY_HSHLDCO": 41,
+    "SPSPLY_HSHLDCO": 49
+   },
+   {
+    "HOUSE_TY": "116.9981A",
+    "SUPLY_AR": "156.6146",
+    "LTTOT_TOP_AMOUNT": "218670",
+    "SUPLY_HSHLDCO": 80,
+    "SPSPLY_HSHLDCO": 12
+   },
+   {
+    "HOUSE_TY": "116.9987B",
+    "SUPLY_AR": "158.6444",
+    "LTTOT_TOP_AMOUNT": "221350",
+    "SUPLY_HSHLDCO": 157,
+    "SPSPLY_HSHLDCO": 23
+   },
+   {
+    "HOUSE_TY": "128.9983A",
+    "SUPLY_AR": "174.3807",
+    "LTTOT_TOP_AMOUNT": "243610",
+    "SUPLY_HSHLDCO": 78,
+    "SPSPLY_HSHLDCO": 12
+   },
+   {
+    "HOUSE_TY": "129.9995B",
+    "SUPLY_AR": "177.3078",
+    "LTTOT_TOP_AMOUNT": "248290",
+    "SUPLY_HSHLDCO": 153,
+    "SPSPLY_HSHLDCO": 23
+   },
+   {
+    "HOUSE_TY": "184.9968B",
+    "SUPLY_AR": "253.7585",
+    "LTTOT_TOP_AMOUNT": "391150",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "188.9949A",
+    "SUPLY_AR": "260.2614",
+    "LTTOT_TOP_AMOUNT": "401320",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "apt:2026000373:2026000373": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "049.0000A",
+    "SUPLY_AR": "72.5400",
+    "LTTOT_TOP_AMOUNT": "30800",
+    "SUPLY_HSHLDCO": 5,
+    "SPSPLY_HSHLDCO": 18
+   },
+   {
+    "HOUSE_TY": "049.0000B",
+    "SUPLY_AR": "72.5600",
+    "LTTOT_TOP_AMOUNT": "30800",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 6
+   },
+   {
+    "HOUSE_TY": "049.0000C",
+    "SUPLY_AR": "72.1900",
+    "LTTOT_TOP_AMOUNT": "31416",
+    "SUPLY_HSHLDCO": 19,
+    "SPSPLY_HSHLDCO": 74
+   },
+   {
+    "HOUSE_TY": "049.0000D",
+    "SUPLY_AR": "72.2100",
+    "LTTOT_TOP_AMOUNT": "30800",
+    "SUPLY_HSHLDCO": 3,
+    "SPSPLY_HSHLDCO": 10
+   },
+   {
+    "HOUSE_TY": "049.0000E",
+    "SUPLY_AR": "72.3200",
+    "LTTOT_TOP_AMOUNT": "30800",
+    "SUPLY_HSHLDCO": 4,
+    "SPSPLY_HSHLDCO": 20
+   },
+   {
+    "HOUSE_TY": "049.0000F",
+    "SUPLY_AR": "72.6400",
+    "LTTOT_TOP_AMOUNT": "31724",
+    "SUPLY_HSHLDCO": 14,
+    "SPSPLY_HSHLDCO": 58
+   },
+   {
+    "HOUSE_TY": "049.0000G",
+    "SUPLY_AR": "72.0500",
+    "LTTOT_TOP_AMOUNT": "31724",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 5
+   },
+   {
+    "HOUSE_TY": "049.0000H",
+    "SUPLY_AR": "73.5000",
+    "LTTOT_TOP_AMOUNT": "29567",
+    "SUPLY_HSHLDCO": 8,
+    "SPSPLY_HSHLDCO": 31
+   },
+   {
+    "HOUSE_TY": "049.0000I",
+    "SUPLY_AR": "73.2600",
+    "LTTOT_TOP_AMOUNT": "31416",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 7
+   },
+   {
+    "HOUSE_TY": "049.0000J",
+    "SUPLY_AR": "72.3800",
+    "LTTOT_TOP_AMOUNT": "31416",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 5
+   },
+   {
+    "HOUSE_TY": "049.0000K",
+    "SUPLY_AR": "72.2400",
+    "LTTOT_TOP_AMOUNT": "30184",
+    "SUPLY_HSHLDCO": 3,
+    "SPSPLY_HSHLDCO": 11
+   },
+   {
+    "HOUSE_TY": "059.0000A",
+    "SUPLY_AR": "86.5400",
+    "LTTOT_TOP_AMOUNT": "38670",
+    "SUPLY_HSHLDCO": 6,
+    "SPSPLY_HSHLDCO": 18
+   },
+   {
+    "HOUSE_TY": "059.0000B",
+    "SUPLY_AR": "86.7600",
+    "LTTOT_TOP_AMOUNT": "39050",
+    "SUPLY_HSHLDCO": 12,
+    "SPSPLY_HSHLDCO": 48
+   },
+   {
+    "HOUSE_TY": "059.0000C",
+    "SUPLY_AR": "87.1900",
+    "LTTOT_TOP_AMOUNT": "38670",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 2
+   },
+   {
+    "HOUSE_TY": "059.0000D",
+    "SUPLY_AR": "87.1900",
+    "LTTOT_TOP_AMOUNT": "39050",
+    "SUPLY_HSHLDCO": 16,
+    "SPSPLY_HSHLDCO": 60
+   },
+   {
+    "HOUSE_TY": "059.0000E",
+    "SUPLY_AR": "87.1500",
+    "LTTOT_TOP_AMOUNT": "38670",
+    "SUPLY_HSHLDCO": 9,
+    "SPSPLY_HSHLDCO": 35
+   },
+   {
+    "HOUSE_TY": "059.0000F",
+    "SUPLY_AR": "86.6600",
+    "LTTOT_TOP_AMOUNT": "37154",
+    "SUPLY_HSHLDCO": 9,
+    "SPSPLY_HSHLDCO": 37
+   },
+   {
+    "HOUSE_TY": "059.0000G",
+    "SUPLY_AR": "86.9400",
+    "LTTOT_TOP_AMOUNT": "37912",
+    "SUPLY_HSHLDCO": 25,
+    "SPSPLY_HSHLDCO": 95
+   },
+   {
+    "HOUSE_TY": "059.0000H",
+    "SUPLY_AR": "86.5600",
+    "LTTOT_TOP_AMOUNT": "37154",
+    "SUPLY_HSHLDCO": 4,
+    "SPSPLY_HSHLDCO": 20
+   },
+   {
+    "HOUSE_TY": "059.0000I",
+    "SUPLY_AR": "88.6100",
+    "LTTOT_TOP_AMOUNT": "39050",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 6
+   }
+  ]
+ },
+ "apt:2026000468:2026000468": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "074.9845 ",
+    "SUPLY_AR": "100.3061",
+    "LTTOT_TOP_AMOUNT": "61400",
+    "SUPLY_HSHLDCO": 32,
+    "SPSPLY_HSHLDCO": 38
+   },
+   {
+    "HOUSE_TY": "084.9947A",
+    "SUPLY_AR": "113.9648",
+    "LTTOT_TOP_AMOUNT": "74800",
+    "SUPLY_HSHLDCO": 69,
+    "SPSPLY_HSHLDCO": 80
+   },
+   {
+    "HOUSE_TY": "084.8542B",
+    "SUPLY_AR": "114.5454",
+    "LTTOT_TOP_AMOUNT": "74600",
+    "SUPLY_HSHLDCO": 18,
+    "SPSPLY_HSHLDCO": 22
+   },
+   {
+    "HOUSE_TY": "084.8894C",
+    "SUPLY_AR": "113.6177",
+    "LTTOT_TOP_AMOUNT": "67800",
+    "SUPLY_HSHLDCO": 18,
+    "SPSPLY_HSHLDCO": 19
+   },
+   {
+    "HOUSE_TY": "123.7781 ",
+    "SUPLY_AR": "164.6002",
+    "LTTOT_TOP_AMOUNT": "109500",
+    "SUPLY_HSHLDCO": 30,
+    "SPSPLY_HSHLDCO": 5
+   },
+   {
+    "HOUSE_TY": "146.8598P",
+    "SUPLY_AR": "197.3056",
+    "LTTOT_TOP_AMOUNT": "165000",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "apt:2026000463:2026000463": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "071.8178 ",
+    "SUPLY_AR": "93.4493",
+    "LTTOT_TOP_AMOUNT": "47030",
+    "SUPLY_HSHLDCO": 21,
+    "SPSPLY_HSHLDCO": 28
+   },
+   {
+    "HOUSE_TY": "084.9592A",
+    "SUPLY_AR": "109.7877",
+    "LTTOT_TOP_AMOUNT": "55750",
+    "SUPLY_HSHLDCO": 164,
+    "SPSPLY_HSHLDCO": 207
+   },
+   {
+    "HOUSE_TY": "084.9767B",
+    "SUPLY_AR": "110.1318",
+    "LTTOT_TOP_AMOUNT": "55720",
+    "SUPLY_HSHLDCO": 61,
+    "SPSPLY_HSHLDCO": 77
+   },
+   {
+    "HOUSE_TY": "084.9221C",
+    "SUPLY_AR": "110.8140",
+    "LTTOT_TOP_AMOUNT": "55970",
+    "SUPLY_HSHLDCO": 61,
+    "SPSPLY_HSHLDCO": 77
+   },
+   {
+    "HOUSE_TY": "084.9140D",
+    "SUPLY_AR": "109.7898",
+    "LTTOT_TOP_AMOUNT": "55450",
+    "SUPLY_HSHLDCO": 54,
+    "SPSPLY_HSHLDCO": 71
+   },
+   {
+    "HOUSE_TY": "107.9722A",
+    "SUPLY_AR": "139.4518",
+    "LTTOT_TOP_AMOUNT": "67850",
+    "SUPLY_HSHLDCO": 50,
+    "SPSPLY_HSHLDCO": 8
+   },
+   {
+    "HOUSE_TY": "107.8263B",
+    "SUPLY_AR": "138.2513",
+    "LTTOT_TOP_AMOUNT": "67903",
+    "SUPLY_HSHLDCO": 45,
+    "SPSPLY_HSHLDCO": 7
+   },
+   {
+    "HOUSE_TY": "147.9931P",
+    "SUPLY_AR": "193.4147",
+    "LTTOT_TOP_AMOUNT": "124758",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "apt:2026000386:2026000386": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.9671A",
+    "SUPLY_AR": "82.4639",
+    "LTTOT_TOP_AMOUNT": "44500",
+    "SUPLY_HSHLDCO": 7,
+    "SPSPLY_HSHLDCO": 6
+   },
+   {
+    "HOUSE_TY": "059.9960B",
+    "SUPLY_AR": "83.0805",
+    "LTTOT_TOP_AMOUNT": "42900",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 4
+   },
+   {
+    "HOUSE_TY": "059.9759C",
+    "SUPLY_AR": "83.3100",
+    "LTTOT_TOP_AMOUNT": "44000",
+    "SUPLY_HSHLDCO": 3,
+    "SPSPLY_HSHLDCO": 4
+   },
+   {
+    "HOUSE_TY": "069.9865A",
+    "SUPLY_AR": "95.6338",
+    "LTTOT_TOP_AMOUNT": "49000",
+    "SUPLY_HSHLDCO": 5,
+    "SPSPLY_HSHLDCO": 6
+   },
+   {
+    "HOUSE_TY": "074.9936A",
+    "SUPLY_AR": "102.5345",
+    "LTTOT_TOP_AMOUNT": "53200",
+    "SUPLY_HSHLDCO": 3,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "074.9980B",
+    "SUPLY_AR": "102.7434",
+    "LTTOT_TOP_AMOUNT": "50900",
+    "SUPLY_HSHLDCO": 3,
+    "SPSPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "084.9999A",
+    "SUPLY_AR": "115.7877",
+    "LTTOT_TOP_AMOUNT": "57900",
+    "SUPLY_HSHLDCO": 3,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.9989B",
+    "SUPLY_AR": "115.8004",
+    "LTTOT_TOP_AMOUNT": "55300",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "apt:2026820011:2026820011": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "055.0000O",
+    "SUPLY_AR": "84.0121",
+    "LTTOT_TOP_AMOUNT": "36707",
+    "SUPLY_HSHLDCO": 0,
+    "SPSPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "056.0000O",
+    "SUPLY_AR": "85.5745",
+    "LTTOT_TOP_AMOUNT": "39358",
+    "SUPLY_HSHLDCO": 0,
+    "SPSPLY_HSHLDCO": 60
+   }
+  ]
+ },
+ "apt:2026000453:2026000453": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.9742A",
+    "SUPLY_AR": "78.5038",
+    "LTTOT_TOP_AMOUNT": "87900",
+    "SUPLY_HSHLDCO": 10,
+    "SPSPLY_HSHLDCO": 11
+   },
+   {
+    "HOUSE_TY": "059.7421B",
+    "SUPLY_AR": "78.3014",
+    "LTTOT_TOP_AMOUNT": "87700",
+    "SUPLY_HSHLDCO": 42,
+    "SPSPLY_HSHLDCO": 45
+   },
+   {
+    "HOUSE_TY": "084.8481A",
+    "SUPLY_AR": "109.1804",
+    "LTTOT_TOP_AMOUNT": "118500",
+    "SUPLY_HSHLDCO": 36,
+    "SPSPLY_HSHLDCO": 50
+   },
+   {
+    "HOUSE_TY": "084.9648B",
+    "SUPLY_AR": "109.1521",
+    "LTTOT_TOP_AMOUNT": "119700",
+    "SUPLY_HSHLDCO": 10,
+    "SPSPLY_HSHLDCO": 11
+   },
+   {
+    "HOUSE_TY": "084.9558C",
+    "SUPLY_AR": "109.1838",
+    "LTTOT_TOP_AMOUNT": "118000",
+    "SUPLY_HSHLDCO": 44,
+    "SPSPLY_HSHLDCO": 61
+   },
+   {
+    "HOUSE_TY": "084.9796D",
+    "SUPLY_AR": "109.5564",
+    "LTTOT_TOP_AMOUNT": "119800",
+    "SUPLY_HSHLDCO": 10,
+    "SPSPLY_HSHLDCO": 11
+   },
+   {
+    "HOUSE_TY": "084.9149E",
+    "SUPLY_AR": "110.2750",
+    "LTTOT_TOP_AMOUNT": "118000",
+    "SUPLY_HSHLDCO": 38,
+    "SPSPLY_HSHLDCO": 47
+   }
+  ]
+ },
+ "apt:2026000449:2026000449": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.7459A",
+    "SUPLY_AR": "110.3043",
+    "LTTOT_TOP_AMOUNT": "89800",
+    "SUPLY_HSHLDCO": 11,
+    "SPSPLY_HSHLDCO": 16
+   },
+   {
+    "HOUSE_TY": "084.8508B",
+    "SUPLY_AR": "109.5720",
+    "LTTOT_TOP_AMOUNT": "89300",
+    "SUPLY_HSHLDCO": 39,
+    "SPSPLY_HSHLDCO": 45
+   },
+   {
+    "HOUSE_TY": "084.6391C",
+    "SUPLY_AR": "109.4560",
+    "LTTOT_TOP_AMOUNT": "89300",
+    "SUPLY_HSHLDCO": 18,
+    "SPSPLY_HSHLDCO": 21
+   },
+   {
+    "HOUSE_TY": "084.9663D",
+    "SUPLY_AR": "110.3141",
+    "LTTOT_TOP_AMOUNT": "89300",
+    "SUPLY_HSHLDCO": 33,
+    "SPSPLY_HSHLDCO": 37
+   },
+   {
+    "HOUSE_TY": "084.9739E",
+    "SUPLY_AR": "110.0074",
+    "LTTOT_TOP_AMOUNT": "89300",
+    "SUPLY_HSHLDCO": 8,
+    "SPSPLY_HSHLDCO": 6
+   },
+   {
+    "HOUSE_TY": "094.9503A",
+    "SUPLY_AR": "122.4832",
+    "LTTOT_TOP_AMOUNT": "90400",
+    "SUPLY_HSHLDCO": 129,
+    "SPSPLY_HSHLDCO": 18
+   },
+   {
+    "HOUSE_TY": "094.9610B",
+    "SUPLY_AR": "122.8089",
+    "LTTOT_TOP_AMOUNT": "90400",
+    "SUPLY_HSHLDCO": 13,
+    "SPSPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "099.6774A",
+    "SUPLY_AR": "127.9532",
+    "LTTOT_TOP_AMOUNT": "91100",
+    "SUPLY_HSHLDCO": 72,
+    "SPSPLY_HSHLDCO": 9
+   }
+  ]
+ },
+ "apt:2026000438:2026000438": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.0000A",
+    "SUPLY_AR": "109.4815",
+    "LTTOT_TOP_AMOUNT": "56617",
+    "SUPLY_HSHLDCO": 97,
+    "SPSPLY_HSHLDCO": 558
+   },
+   {
+    "HOUSE_TY": "084.0000B",
+    "SUPLY_AR": "109.8332",
+    "LTTOT_TOP_AMOUNT": "55973",
+    "SUPLY_HSHLDCO": 28,
+    "SPSPLY_HSHLDCO": 154
+   }
+  ]
+ },
+ "apt:2026000437:2026000437": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.0000A",
+    "SUPLY_AR": "108.9879",
+    "LTTOT_TOP_AMOUNT": "58420",
+    "SUPLY_HSHLDCO": 87,
+    "SPSPLY_HSHLDCO": 490
+   },
+   {
+    "HOUSE_TY": "084.0000B",
+    "SUPLY_AR": "109.3401",
+    "LTTOT_TOP_AMOUNT": "57755",
+    "SUPLY_HSHLDCO": 30,
+    "SPSPLY_HSHLDCO": 171
+   },
+   {
+    "HOUSE_TY": "084.9500C",
+    "SUPLY_AR": "109.6677",
+    "LTTOT_TOP_AMOUNT": "57440",
+    "SUPLY_HSHLDCO": 24,
+    "SPSPLY_HSHLDCO": 140
+   }
+  ]
+ },
+ "apt:2026000103:2026000103": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "066.0000A",
+    "SUPLY_AR": "91.6600",
+    "LTTOT_TOP_AMOUNT": "216300",
+    "SUPLY_HSHLDCO": 28,
+    "SPSPLY_HSHLDCO": 24
+   },
+   {
+    "HOUSE_TY": "074.0000A",
+    "SUPLY_AR": "102.0400",
+    "LTTOT_TOP_AMOUNT": "238200",
+    "SUPLY_HSHLDCO": 3,
+    "SPSPLY_HSHLDCO": 5
+   },
+   {
+    "HOUSE_TY": "074.0000B",
+    "SUPLY_AR": "102.7000",
+    "LTTOT_TOP_AMOUNT": "238200",
+    "SUPLY_HSHLDCO": 3,
+    "SPSPLY_HSHLDCO": 3
+   },
+   {
+    "HOUSE_TY": "074.0000C",
+    "SUPLY_AR": "101.8400",
+    "LTTOT_TOP_AMOUNT": "240200",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "074.4400D",
+    "SUPLY_AR": "102.3000",
+    "LTTOT_TOP_AMOUNT": "235200",
+    "SUPLY_HSHLDCO": 3,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.0000A",
+    "SUPLY_AR": "116.4400",
+    "LTTOT_TOP_AMOUNT": "298100",
+    "SUPLY_HSHLDCO": 8,
+    "SPSPLY_HSHLDCO": 13
+   },
+   {
+    "HOUSE_TY": "084.0000B",
+    "SUPLY_AR": "116.3700",
+    "LTTOT_TOP_AMOUNT": "295800",
+    "SUPLY_HSHLDCO": 4,
+    "SPSPLY_HSHLDCO": 5
+   },
+   {
+    "HOUSE_TY": "084.0000C",
+    "SUPLY_AR": "116.1100",
+    "LTTOT_TOP_AMOUNT": "273900",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.0900D",
+    "SUPLY_AR": "115.5600",
+    "LTTOT_TOP_AMOUNT": "276200",
+    "SUPLY_HSHLDCO": 3,
+    "SPSPLY_HSHLDCO": 3
+   },
+   {
+    "HOUSE_TY": "084.0000E",
+    "SUPLY_AR": "116.0100",
+    "LTTOT_TOP_AMOUNT": "291100",
+    "SUPLY_HSHLDCO": 4,
+    "SPSPLY_HSHLDCO": 10
+   },
+   {
+    "HOUSE_TY": "084.7200F",
+    "SUPLY_AR": "116.4300",
+    "LTTOT_TOP_AMOUNT": "290100",
+    "SUPLY_HSHLDCO": 3,
+    "SPSPLY_HSHLDCO": 3
+   },
+   {
+    "HOUSE_TY": "084.6400G",
+    "SUPLY_AR": "116.3200",
+    "LTTOT_TOP_AMOUNT": "292000",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 11
+   },
+   {
+    "HOUSE_TY": "084.7800H",
+    "SUPLY_AR": "116.5100",
+    "LTTOT_TOP_AMOUNT": "290600",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "apt:2026000314:2026000314": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "054.8244 ",
+    "SUPLY_AR": "73.4647",
+    "LTTOT_TOP_AMOUNT": "54900",
+    "SUPLY_HSHLDCO": 3,
+    "SPSPLY_HSHLDCO": 4
+   },
+   {
+    "HOUSE_TY": "059.9935B",
+    "SUPLY_AR": "81.5363",
+    "LTTOT_TOP_AMOUNT": "61000",
+    "SUPLY_HSHLDCO": 3,
+    "SPSPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "060.7403 ",
+    "SUPLY_AR": "81.7324",
+    "LTTOT_TOP_AMOUNT": "61200",
+    "SUPLY_HSHLDCO": 3,
+    "SPSPLY_HSHLDCO": 5
+   },
+   {
+    "HOUSE_TY": "084.9888A",
+    "SUPLY_AR": "112.4623",
+    "LTTOT_TOP_AMOUNT": "75300",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.9933B",
+    "SUPLY_AR": "112.4677",
+    "LTTOT_TOP_AMOUNT": "79300",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 5
+   },
+   {
+    "HOUSE_TY": "084.9894C",
+    "SUPLY_AR": "112.8753",
+    "LTTOT_TOP_AMOUNT": "79600",
+    "SUPLY_HSHLDCO": 5,
+    "SPSPLY_HSHLDCO": 6
+   }
+  ]
+ },
+ "apt:2026000431:2026000431": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.7153A",
+    "SUPLY_AR": "84.1528",
+    "LTTOT_TOP_AMOUNT": "53400",
+    "SUPLY_HSHLDCO": 33,
+    "SPSPLY_HSHLDCO": 35
+   },
+   {
+    "HOUSE_TY": "059.9642B",
+    "SUPLY_AR": "85.1890",
+    "LTTOT_TOP_AMOUNT": "52800",
+    "SUPLY_HSHLDCO": 29,
+    "SPSPLY_HSHLDCO": 28
+   },
+   {
+    "HOUSE_TY": "075.4603 ",
+    "SUPLY_AR": "105.0792",
+    "LTTOT_TOP_AMOUNT": "64900",
+    "SUPLY_HSHLDCO": 4,
+    "SPSPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "084.9596 ",
+    "SUPLY_AR": "118.2130",
+    "LTTOT_TOP_AMOUNT": "70900",
+    "SUPLY_HSHLDCO": 3,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "apt:2026000393:2026000393": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "039.1570 ",
+    "SUPLY_AR": "54.8990",
+    "LTTOT_TOP_AMOUNT": "30760",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "048.8190 ",
+    "SUPLY_AR": "68.7140",
+    "LTTOT_TOP_AMOUNT": "37900",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "052.1850A",
+    "SUPLY_AR": "72.5250",
+    "LTTOT_TOP_AMOUNT": "42500",
+    "SUPLY_HSHLDCO": 3,
+    "SPSPLY_HSHLDCO": 7
+   },
+   {
+    "HOUSE_TY": "052.7840B",
+    "SUPLY_AR": "73.3300",
+    "LTTOT_TOP_AMOUNT": "42400",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "052.4300C",
+    "SUPLY_AR": "74.4130",
+    "LTTOT_TOP_AMOUNT": "41400",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "059.6120A",
+    "SUPLY_AR": "82.7140",
+    "LTTOT_TOP_AMOUNT": "48500",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "059.0050B",
+    "SUPLY_AR": "83.5460",
+    "LTTOT_TOP_AMOUNT": "46400",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "059.0570C",
+    "SUPLY_AR": "83.3810",
+    "LTTOT_TOP_AMOUNT": "45900",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "apt:2026000394:2026000394": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.6536A",
+    "SUPLY_AR": "112.4076",
+    "LTTOT_TOP_AMOUNT": "51965",
+    "SUPLY_HSHLDCO": 247,
+    "SPSPLY_HSHLDCO": 299
+   },
+   {
+    "HOUSE_TY": "084.0452B",
+    "SUPLY_AR": "113.0481",
+    "LTTOT_TOP_AMOUNT": "51860",
+    "SUPLY_HSHLDCO": 56,
+    "SPSPLY_HSHLDCO": 68
+   },
+   {
+    "HOUSE_TY": "084.8414C",
+    "SUPLY_AR": "112.3926",
+    "LTTOT_TOP_AMOUNT": "50786",
+    "SUPLY_HSHLDCO": 10,
+    "SPSPLY_HSHLDCO": 16
+   }
+  ]
+ },
+ "apt:2026820009:2026820009": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "055.0000O",
+    "SUPLY_AR": "78.4514",
+    "LTTOT_TOP_AMOUNT": "38446",
+    "SUPLY_HSHLDCO": 0,
+    "SPSPLY_HSHLDCO": 5
+   }
+  ]
+ },
+ "apt:2026000399:2026000399": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.9442A",
+    "SUPLY_AR": "81.6956",
+    "LTTOT_TOP_AMOUNT": "91000",
+    "SUPLY_HSHLDCO": 7,
+    "SPSPLY_HSHLDCO": 21
+   },
+   {
+    "HOUSE_TY": "059.9442B",
+    "SUPLY_AR": "81.6956",
+    "LTTOT_TOP_AMOUNT": "89200",
+    "SUPLY_HSHLDCO": 6,
+    "SPSPLY_HSHLDCO": 5
+   },
+   {
+    "HOUSE_TY": "059.9293C",
+    "SUPLY_AR": "81.5083",
+    "LTTOT_TOP_AMOUNT": "86200",
+    "SUPLY_HSHLDCO": 9,
+    "SPSPLY_HSHLDCO": 9
+   },
+   {
+    "HOUSE_TY": "074.9610 ",
+    "SUPLY_AR": "102.5132",
+    "LTTOT_TOP_AMOUNT": "107500",
+    "SUPLY_HSHLDCO": 5,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "apt:2026000416:2026000416": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.7400A",
+    "SUPLY_AR": "82.6719",
+    "LTTOT_TOP_AMOUNT": "35708",
+    "SUPLY_HSHLDCO": 41,
+    "SPSPLY_HSHLDCO": 221
+   },
+   {
+    "HOUSE_TY": "059.9100B",
+    "SUPLY_AR": "82.9072",
+    "LTTOT_TOP_AMOUNT": "35093",
+    "SUPLY_HSHLDCO": 20,
+    "SPSPLY_HSHLDCO": 112
+   },
+   {
+    "HOUSE_TY": "074.6100A",
+    "SUPLY_AR": "103.2500",
+    "LTTOT_TOP_AMOUNT": "43704",
+    "SUPLY_HSHLDCO": 13,
+    "SPSPLY_HSHLDCO": 74
+   },
+   {
+    "HOUSE_TY": "074.9700B",
+    "SUPLY_AR": "103.7482",
+    "LTTOT_TOP_AMOUNT": "43718",
+    "SUPLY_HSHLDCO": 12,
+    "SPSPLY_HSHLDCO": 69
+   },
+   {
+    "HOUSE_TY": "084.8600A",
+    "SUPLY_AR": "117.4346",
+    "LTTOT_TOP_AMOUNT": "49201",
+    "SUPLY_HSHLDCO": 33,
+    "SPSPLY_HSHLDCO": 197
+   }
+  ]
+ },
+ "apt:2026000409:2026000409": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.9200A",
+    "SUPLY_AR": "83.9780",
+    "LTTOT_TOP_AMOUNT": "40646",
+    "SUPLY_HSHLDCO": 20,
+    "SPSPLY_HSHLDCO": 120
+   },
+   {
+    "HOUSE_TY": "059.9600B",
+    "SUPLY_AR": "84.0341",
+    "LTTOT_TOP_AMOUNT": "40419",
+    "SUPLY_HSHLDCO": 7,
+    "SPSPLY_HSHLDCO": 38
+   }
+  ]
+ },
+ "apt:2026000372:2026000372": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.9883A",
+    "SUPLY_AR": "78.4853",
+    "LTTOT_TOP_AMOUNT": "108650",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "084.9458A",
+    "SUPLY_AR": "110.2769",
+    "LTTOT_TOP_AMOUNT": "137330",
+    "SUPLY_HSHLDCO": 23,
+    "SPSPLY_HSHLDCO": 30
+   },
+   {
+    "HOUSE_TY": "084.9722B",
+    "SUPLY_AR": "110.0644",
+    "LTTOT_TOP_AMOUNT": "135340",
+    "SUPLY_HSHLDCO": 3,
+    "SPSPLY_HSHLDCO": 3
+   }
+  ]
+ },
+ "apt:2026000354:2026000354": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9199A",
+    "SUPLY_AR": "117.4230",
+    "LTTOT_TOP_AMOUNT": "163000",
+    "SUPLY_HSHLDCO": 103,
+    "SPSPLY_HSHLDCO": 121
+   },
+   {
+    "HOUSE_TY": "084.7123B",
+    "SUPLY_AR": "118.9543",
+    "LTTOT_TOP_AMOUNT": "149900",
+    "SUPLY_HSHLDCO": 39,
+    "SPSPLY_HSHLDCO": 45
+   },
+   {
+    "HOUSE_TY": "084.9874C",
+    "SUPLY_AR": "115.9778",
+    "LTTOT_TOP_AMOUNT": "159800",
+    "SUPLY_HSHLDCO": 159,
+    "SPSPLY_HSHLDCO": 194
+   },
+   {
+    "HOUSE_TY": "084.9074D",
+    "SUPLY_AR": "115.8792",
+    "LTTOT_TOP_AMOUNT": "159900",
+    "SUPLY_HSHLDCO": 40,
+    "SPSPLY_HSHLDCO": 49
+   },
+   {
+    "HOUSE_TY": "084.9872E",
+    "SUPLY_AR": "116.4833",
+    "LTTOT_TOP_AMOUNT": "163800",
+    "SUPLY_HSHLDCO": 80,
+    "SPSPLY_HSHLDCO": 98
+   },
+   {
+    "HOUSE_TY": "084.9928F",
+    "SUPLY_AR": "116.8367",
+    "LTTOT_TOP_AMOUNT": "159900",
+    "SUPLY_HSHLDCO": 195,
+    "SPSPLY_HSHLDCO": 247
+   },
+   {
+    "HOUSE_TY": "113.0966A",
+    "SUPLY_AR": "154.8489",
+    "LTTOT_TOP_AMOUNT": "224200",
+    "SUPLY_HSHLDCO": 196,
+    "SPSPLY_HSHLDCO": 28
+   },
+   {
+    "HOUSE_TY": "113.0705B",
+    "SUPLY_AR": "155.7619",
+    "LTTOT_TOP_AMOUNT": "224900",
+    "SUPLY_HSHLDCO": 74,
+    "SPSPLY_HSHLDCO": 10
+   },
+   {
+    "HOUSE_TY": "121.5813 ",
+    "SUPLY_AR": "166.9972",
+    "LTTOT_TOP_AMOUNT": "234900",
+    "SUPLY_HSHLDCO": 155,
+    "SPSPLY_HSHLDCO": 23
+   },
+   {
+    "HOUSE_TY": "153.9148P",
+    "SUPLY_AR": "209.3577",
+    "LTTOT_TOP_AMOUNT": "475000",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "187.5097P",
+    "SUPLY_AR": "252.3946",
+    "LTTOT_TOP_AMOUNT": "572700",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "192.1528P",
+    "SUPLY_AR": "266.1052",
+    "LTTOT_TOP_AMOUNT": "603800",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "apt:2026000377:2026000377": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "049.9881 ",
+    "SUPLY_AR": "70.2764",
+    "LTTOT_TOP_AMOUNT": "56300",
+    "SUPLY_HSHLDCO": 25,
+    "SPSPLY_HSHLDCO": 39
+   },
+   {
+    "HOUSE_TY": "059.9920B",
+    "SUPLY_AR": "84.0716",
+    "LTTOT_TOP_AMOUNT": "72500",
+    "SUPLY_HSHLDCO": 6,
+    "SPSPLY_HSHLDCO": 6
+   },
+   {
+    "HOUSE_TY": "074.9930 ",
+    "SUPLY_AR": "104.2502",
+    "LTTOT_TOP_AMOUNT": "85700",
+    "SUPLY_HSHLDCO": 9,
+    "SPSPLY_HSHLDCO": 5
+   },
+   {
+    "HOUSE_TY": "084.9861B",
+    "SUPLY_AR": "117.8964",
+    "LTTOT_TOP_AMOUNT": "94000",
+    "SUPLY_HSHLDCO": 9,
+    "SPSPLY_HSHLDCO": 9
+   }
+  ]
+ },
+ "apt:2026000365:2026000365": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.7153A",
+    "SUPLY_AR": "83.9533",
+    "LTTOT_TOP_AMOUNT": "55400",
+    "SUPLY_HSHLDCO": 40,
+    "SPSPLY_HSHLDCO": 43
+   },
+   {
+    "HOUSE_TY": "059.9642B",
+    "SUPLY_AR": "84.9886",
+    "LTTOT_TOP_AMOUNT": "54800",
+    "SUPLY_HSHLDCO": 31,
+    "SPSPLY_HSHLDCO": 32
+   },
+   {
+    "HOUSE_TY": "075.4603 ",
+    "SUPLY_AR": "104.8271",
+    "LTTOT_TOP_AMOUNT": "65900",
+    "SUPLY_HSHLDCO": 11,
+    "SPSPLY_HSHLDCO": 8
+   },
+   {
+    "HOUSE_TY": "084.9596 ",
+    "SUPLY_AR": "117.9293",
+    "LTTOT_TOP_AMOUNT": "71900",
+    "SUPLY_HSHLDCO": 9,
+    "SPSPLY_HSHLDCO": 6
+   }
+  ]
+ },
+ "apt:2026000382:2026000382": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.9400A",
+    "SUPLY_AR": "87.4908",
+    "LTTOT_TOP_AMOUNT": "87500",
+    "SUPLY_HSHLDCO": 145,
+    "SPSPLY_HSHLDCO": 176
+   },
+   {
+    "HOUSE_TY": "059.9800B",
+    "SUPLY_AR": "86.2636",
+    "LTTOT_TOP_AMOUNT": "86400",
+    "SUPLY_HSHLDCO": 77,
+    "SPSPLY_HSHLDCO": 93
+   },
+   {
+    "HOUSE_TY": "074.9500A",
+    "SUPLY_AR": "109.7215",
+    "LTTOT_TOP_AMOUNT": "105500",
+    "SUPLY_HSHLDCO": 72,
+    "SPSPLY_HSHLDCO": 84
+   },
+   {
+    "HOUSE_TY": "074.9900B",
+    "SUPLY_AR": "108.6643",
+    "LTTOT_TOP_AMOUNT": "101500",
+    "SUPLY_HSHLDCO": 72,
+    "SPSPLY_HSHLDCO": 88
+   },
+   {
+    "HOUSE_TY": "084.9500A",
+    "SUPLY_AR": "123.7198",
+    "LTTOT_TOP_AMOUNT": "118200",
+    "SUPLY_HSHLDCO": 49,
+    "SPSPLY_HSHLDCO": 56
+   },
+   {
+    "HOUSE_TY": "084.9400B",
+    "SUPLY_AR": "122.0067",
+    "LTTOT_TOP_AMOUNT": "112300",
+    "SUPLY_HSHLDCO": 110,
+    "SPSPLY_HSHLDCO": 136
+   }
+  ]
+ },
+ "apt:2026820008:2026820008": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "055.9700A",
+    "SUPLY_AR": "83.6488",
+    "LTTOT_TOP_AMOUNT": "79831",
+    "SUPLY_HSHLDCO": 0,
+    "SPSPLY_HSHLDCO": 145
+   },
+   {
+    "HOUSE_TY": "055.9700B",
+    "SUPLY_AR": "83.6488",
+    "LTTOT_TOP_AMOUNT": "79831",
+    "SUPLY_HSHLDCO": 0,
+    "SPSPLY_HSHLDCO": 12
+   },
+   {
+    "HOUSE_TY": "055.9800C",
+    "SUPLY_AR": "83.6638",
+    "LTTOT_TOP_AMOUNT": "79845",
+    "SUPLY_HSHLDCO": 0,
+    "SPSPLY_HSHLDCO": 6
+   },
+   {
+    "HOUSE_TY": "056.9400T",
+    "SUPLY_AR": "85.0985",
+    "LTTOT_TOP_AMOUNT": "81214",
+    "SUPLY_HSHLDCO": 0,
+    "SPSPLY_HSHLDCO": 3
+   }
+  ]
+ },
+ "apt:2026820006:2026820006": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "055.0000A",
+    "SUPLY_AR": "82.2068",
+    "LTTOT_TOP_AMOUNT": "44812",
+    "SUPLY_HSHLDCO": 0,
+    "SPSPLY_HSHLDCO": 220
+   },
+   {
+    "HOUSE_TY": "055.0000B",
+    "SUPLY_AR": "81.3813",
+    "LTTOT_TOP_AMOUNT": "44555",
+    "SUPLY_HSHLDCO": 0,
+    "SPSPLY_HSHLDCO": 64
+   }
+  ]
+ },
+ "apt:2026000374:2026000374": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "051.9981A",
+    "SUPLY_AR": "73.9159",
+    "LTTOT_TOP_AMOUNT": "124000",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "051.9931B",
+    "SUPLY_AR": "74.1669",
+    "LTTOT_TOP_AMOUNT": "125000",
+    "SUPLY_HSHLDCO": 5,
+    "SPSPLY_HSHLDCO": 5
+   },
+   {
+    "HOUSE_TY": "051.9927C",
+    "SUPLY_AR": "73.4069",
+    "LTTOT_TOP_AMOUNT": "122000",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "051.9909D",
+    "SUPLY_AR": "74.2516",
+    "LTTOT_TOP_AMOUNT": "124000",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 4
+   },
+   {
+    "HOUSE_TY": "051.9953E",
+    "SUPLY_AR": "73.8748",
+    "LTTOT_TOP_AMOUNT": "118000",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "059.9973A",
+    "SUPLY_AR": "84.6386",
+    "LTTOT_TOP_AMOUNT": "145000",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 2
+   },
+   {
+    "HOUSE_TY": "059.9945B",
+    "SUPLY_AR": "85.0896",
+    "LTTOT_TOP_AMOUNT": "144000",
+    "SUPLY_HSHLDCO": 6,
+    "SPSPLY_HSHLDCO": 11
+   },
+   {
+    "HOUSE_TY": "059.9903C",
+    "SUPLY_AR": "84.7477",
+    "LTTOT_TOP_AMOUNT": "144000",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 2
+   },
+   {
+    "HOUSE_TY": "059.9987D",
+    "SUPLY_AR": "85.4616",
+    "LTTOT_TOP_AMOUNT": "145000",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "074.9939A",
+    "SUPLY_AR": "106.6876",
+    "LTTOT_TOP_AMOUNT": "170000",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 2
+   },
+   {
+    "HOUSE_TY": "074.9944B",
+    "SUPLY_AR": "105.4237",
+    "LTTOT_TOP_AMOUNT": "168000",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "074.9920C",
+    "SUPLY_AR": "104.9328",
+    "LTTOT_TOP_AMOUNT": "165000",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 2
+   },
+   {
+    "HOUSE_TY": "084.9993A",
+    "SUPLY_AR": "118.9800",
+    "LTTOT_TOP_AMOUNT": "184000",
+    "SUPLY_HSHLDCO": 6,
+    "SPSPLY_HSHLDCO": 5
+   }
+  ]
+ },
+ "apt:2026000371:2026000371": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.9390A",
+    "SUPLY_AR": "81.0066",
+    "LTTOT_TOP_AMOUNT": "41600",
+    "SUPLY_HSHLDCO": 40,
+    "SPSPLY_HSHLDCO": 135
+   },
+   {
+    "HOUSE_TY": "059.8977B",
+    "SUPLY_AR": "80.6387",
+    "LTTOT_TOP_AMOUNT": "40800",
+    "SUPLY_HSHLDCO": 24,
+    "SPSPLY_HSHLDCO": 88
+   },
+   {
+    "HOUSE_TY": "059.5027C",
+    "SUPLY_AR": "80.6419",
+    "LTTOT_TOP_AMOUNT": "39700",
+    "SUPLY_HSHLDCO": 7,
+    "SPSPLY_HSHLDCO": 31
+   },
+   {
+    "HOUSE_TY": "071.2889A",
+    "SUPLY_AR": "95.7427",
+    "LTTOT_TOP_AMOUNT": "47800",
+    "SUPLY_HSHLDCO": 7,
+    "SPSPLY_HSHLDCO": 31
+   },
+   {
+    "HOUSE_TY": "071.8211B",
+    "SUPLY_AR": "95.8881",
+    "LTTOT_TOP_AMOUNT": "47600",
+    "SUPLY_HSHLDCO": 17,
+    "SPSPLY_HSHLDCO": 61
+   },
+   {
+    "HOUSE_TY": "084.7577A",
+    "SUPLY_AR": "112.9011",
+    "LTTOT_TOP_AMOUNT": "53400",
+    "SUPLY_HSHLDCO": 34,
+    "SPSPLY_HSHLDCO": 114
+   }
+  ]
+ },
+ "apt:2026000364:2026000364": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "044.9631A",
+    "SUPLY_AR": "68.3143",
+    "LTTOT_TOP_AMOUNT": "132510",
+    "SUPLY_HSHLDCO": 7,
+    "SPSPLY_HSHLDCO": 4
+   },
+   {
+    "HOUSE_TY": "044.5894B",
+    "SUPLY_AR": "67.8879",
+    "LTTOT_TOP_AMOUNT": "130370",
+    "SUPLY_HSHLDCO": 4,
+    "SPSPLY_HSHLDCO": 3
+   },
+   {
+    "HOUSE_TY": "049.9779 ",
+    "SUPLY_AR": "67.2775",
+    "LTTOT_TOP_AMOUNT": "146600",
+    "SUPLY_HSHLDCO": 5,
+    "SPSPLY_HSHLDCO": 3
+   },
+   {
+    "HOUSE_TY": "059.9025A",
+    "SUPLY_AR": "80.8783",
+    "LTTOT_TOP_AMOUNT": "172900",
+    "SUPLY_HSHLDCO": 5,
+    "SPSPLY_HSHLDCO": 7
+   },
+   {
+    "HOUSE_TY": "059.9030B",
+    "SUPLY_AR": "80.9371",
+    "LTTOT_TOP_AMOUNT": "183790",
+    "SUPLY_HSHLDCO": 12,
+    "SPSPLY_HSHLDCO": 20
+   },
+   {
+    "HOUSE_TY": "059.8890C",
+    "SUPLY_AR": "81.2840",
+    "LTTOT_TOP_AMOUNT": "186630",
+    "SUPLY_HSHLDCO": 20,
+    "SPSPLY_HSHLDCO": 21
+   },
+   {
+    "HOUSE_TY": "059.9245D",
+    "SUPLY_AR": "80.7724",
+    "LTTOT_TOP_AMOUNT": "185080",
+    "SUPLY_HSHLDCO": 30,
+    "SPSPLY_HSHLDCO": 35
+   }
+  ]
+ },
+ "apt:2026000358:2026000358": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "039.9972A",
+    "SUPLY_AR": "56.6227",
+    "LTTOT_TOP_AMOUNT": "103500",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "039.9814B",
+    "SUPLY_AR": "56.9654",
+    "LTTOT_TOP_AMOUNT": "100400",
+    "SUPLY_HSHLDCO": 3,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "059.9882 ",
+    "SUPLY_AR": "84.9586",
+    "LTTOT_TOP_AMOUNT": "188500",
+    "SUPLY_HSHLDCO": 35,
+    "SPSPLY_HSHLDCO": 45
+   },
+   {
+    "HOUSE_TY": "084.9972A",
+    "SUPLY_AR": "118.2405",
+    "LTTOT_TOP_AMOUNT": "245500",
+    "SUPLY_HSHLDCO": 12,
+    "SPSPLY_HSHLDCO": 21
+   },
+   {
+    "HOUSE_TY": "084.9965B",
+    "SUPLY_AR": "118.6745",
+    "LTTOT_TOP_AMOUNT": "229500",
+    "SUPLY_HSHLDCO": 32,
+    "SPSPLY_HSHLDCO": 36
+   }
+  ]
+ },
+ "apt:2026000367:2026000367": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.7402A",
+    "SUPLY_AR": "113.0210",
+    "LTTOT_TOP_AMOUNT": "77300",
+    "SUPLY_HSHLDCO": 311,
+    "SPSPLY_HSHLDCO": 577
+   },
+   {
+    "HOUSE_TY": "084.5605B",
+    "SUPLY_AR": "113.2751",
+    "LTTOT_TOP_AMOUNT": "76800",
+    "SUPLY_HSHLDCO": 23,
+    "SPSPLY_HSHLDCO": 45
+   },
+   {
+    "HOUSE_TY": "084.9219C",
+    "SUPLY_AR": "112.5506",
+    "LTTOT_TOP_AMOUNT": "74200",
+    "SUPLY_HSHLDCO": 190,
+    "SPSPLY_HSHLDCO": 347
+   },
+   {
+    "HOUSE_TY": "084.8168D",
+    "SUPLY_AR": "113.9384",
+    "LTTOT_TOP_AMOUNT": "73700",
+    "SUPLY_HSHLDCO": 55,
+    "SPSPLY_HSHLDCO": 93
+   },
+   {
+    "HOUSE_TY": "084.7060E",
+    "SUPLY_AR": "112.9669",
+    "LTTOT_TOP_AMOUNT": "75200",
+    "SUPLY_HSHLDCO": 37,
+    "SPSPLY_HSHLDCO": 61
+   },
+   {
+    "HOUSE_TY": "084.9001F",
+    "SUPLY_AR": "112.6296",
+    "LTTOT_TOP_AMOUNT": "74200",
+    "SUPLY_HSHLDCO": 15,
+    "SPSPLY_HSHLDCO": 21
+   },
+   {
+    "HOUSE_TY": "106.8713A",
+    "SUPLY_AR": "141.6004",
+    "LTTOT_TOP_AMOUNT": "95100",
+    "SUPLY_HSHLDCO": 250,
+    "SPSPLY_HSHLDCO": 38
+   },
+   {
+    "HOUSE_TY": "106.9778B",
+    "SUPLY_AR": "141.5485",
+    "LTTOT_TOP_AMOUNT": "95000",
+    "SUPLY_HSHLDCO": 126,
+    "SPSPLY_HSHLDCO": 18
+   },
+   {
+    "HOUSE_TY": "122.7490 ",
+    "SUPLY_AR": "163.0800",
+    "LTTOT_TOP_AMOUNT": "118600",
+    "SUPLY_HSHLDCO": 188,
+    "SPSPLY_HSHLDCO": 28
+   },
+   {
+    "HOUSE_TY": "180.2607A",
+    "SUPLY_AR": "237.3821",
+    "LTTOT_TOP_AMOUNT": "299600",
+    "SUPLY_HSHLDCO": 4,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "180.9387B",
+    "SUPLY_AR": "238.7052",
+    "LTTOT_TOP_AMOUNT": "292200",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "180.9315C",
+    "SUPLY_AR": "237.6252",
+    "LTTOT_TOP_AMOUNT": "299900",
+    "SUPLY_HSHLDCO": 3,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "apt:2026820007:2026820007": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "046.0000O",
+    "SUPLY_AR": "66.5715",
+    "LTTOT_TOP_AMOUNT": "34760",
+    "SUPLY_HSHLDCO": 0,
+    "SPSPLY_HSHLDCO": 65
+   },
+   {
+    "HOUSE_TY": "055.0000O",
+    "SUPLY_AR": "79.0289",
+    "LTTOT_TOP_AMOUNT": "41478",
+    "SUPLY_HSHLDCO": 0,
+    "SPSPLY_HSHLDCO": 77
+   }
+  ]
+ },
+ "apt:2026000355:2026000355": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "036.9533 ",
+    "SUPLY_AR": "57.3845",
+    "LTTOT_TOP_AMOUNT": "69590",
+    "SUPLY_HSHLDCO": 10,
+    "SPSPLY_HSHLDCO": 10
+   },
+   {
+    "HOUSE_TY": "059.9667A",
+    "SUPLY_AR": "81.3915",
+    "LTTOT_TOP_AMOUNT": "126350",
+    "SUPLY_HSHLDCO": 33,
+    "SPSPLY_HSHLDCO": 38
+   },
+   {
+    "HOUSE_TY": "059.9424B",
+    "SUPLY_AR": "81.7760",
+    "LTTOT_TOP_AMOUNT": "124200",
+    "SUPLY_HSHLDCO": 17,
+    "SPSPLY_HSHLDCO": 25
+   },
+   {
+    "HOUSE_TY": "084.9807A",
+    "SUPLY_AR": "110.2674",
+    "LTTOT_TOP_AMOUNT": "149910",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "apt:2026000327:2026000327": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.9987B",
+    "SUPLY_AR": "82.6751",
+    "LTTOT_TOP_AMOUNT": "45700",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "074.9988A",
+    "SUPLY_AR": "101.1988",
+    "LTTOT_TOP_AMOUNT": "58700",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.9947A",
+    "SUPLY_AR": "114.1421",
+    "LTTOT_TOP_AMOUNT": "64600",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.9956B",
+    "SUPLY_AR": "114.9255",
+    "LTTOT_TOP_AMOUNT": "65500",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "apt:2026000291:2026000291": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9649A",
+    "SUPLY_AR": "113.0630",
+    "LTTOT_TOP_AMOUNT": "57440",
+    "SUPLY_HSHLDCO": 100,
+    "SPSPLY_HSHLDCO": 121
+   },
+   {
+    "HOUSE_TY": "084.9611B",
+    "SUPLY_AR": "112.9319",
+    "LTTOT_TOP_AMOUNT": "57370",
+    "SUPLY_HSHLDCO": 59,
+    "SPSPLY_HSHLDCO": 72
+   },
+   {
+    "HOUSE_TY": "084.9404C",
+    "SUPLY_AR": "113.2033",
+    "LTTOT_TOP_AMOUNT": "56360",
+    "SUPLY_HSHLDCO": 82,
+    "SPSPLY_HSHLDCO": 102
+   }
+  ]
+ },
+ "apt:2026000316:2026000316": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "075.4736 ",
+    "SUPLY_AR": "99.1407",
+    "LTTOT_TOP_AMOUNT": "73380",
+    "SUPLY_HSHLDCO": 24,
+    "SPSPLY_HSHLDCO": 23
+   },
+   {
+    "HOUSE_TY": "084.9796A",
+    "SUPLY_AR": "111.8083",
+    "LTTOT_TOP_AMOUNT": "78300",
+    "SUPLY_HSHLDCO": 108,
+    "SPSPLY_HSHLDCO": 131
+   },
+   {
+    "HOUSE_TY": "084.9665B",
+    "SUPLY_AR": "112.3861",
+    "LTTOT_TOP_AMOUNT": "78900",
+    "SUPLY_HSHLDCO": 82,
+    "SPSPLY_HSHLDCO": 94
+   },
+   {
+    "HOUSE_TY": "084.8237C",
+    "SUPLY_AR": "111.4434",
+    "LTTOT_TOP_AMOUNT": "79400",
+    "SUPLY_HSHLDCO": 84,
+    "SPSPLY_HSHLDCO": 100
+   },
+   {
+    "HOUSE_TY": "102.6201 ",
+    "SUPLY_AR": "130.8984",
+    "LTTOT_TOP_AMOUNT": "90710",
+    "SUPLY_HSHLDCO": 38,
+    "SPSPLY_HSHLDCO": 5
+   },
+   {
+    "HOUSE_TY": "124.8692 ",
+    "SUPLY_AR": "157.5044",
+    "LTTOT_TOP_AMOUNT": "106300",
+    "SUPLY_HSHLDCO": 20,
+    "SPSPLY_HSHLDCO": 3
+   },
+   {
+    "HOUSE_TY": "166.2309P",
+    "SUPLY_AR": "210.1771",
+    "LTTOT_TOP_AMOUNT": "207730",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "apt:2026000315:2026000315": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "075.4736 ",
+    "SUPLY_AR": "99.1264",
+    "LTTOT_TOP_AMOUNT": "73380",
+    "SUPLY_HSHLDCO": 21,
+    "SPSPLY_HSHLDCO": 23
+   },
+   {
+    "HOUSE_TY": "084.9796A",
+    "SUPLY_AR": "110.8249",
+    "LTTOT_TOP_AMOUNT": "78300",
+    "SUPLY_HSHLDCO": 122,
+    "SPSPLY_HSHLDCO": 148
+   },
+   {
+    "HOUSE_TY": "084.9665B",
+    "SUPLY_AR": "111.4029",
+    "LTTOT_TOP_AMOUNT": "78900",
+    "SUPLY_HSHLDCO": 117,
+    "SPSPLY_HSHLDCO": 143
+   },
+   {
+    "HOUSE_TY": "084.8237C",
+    "SUPLY_AR": "110.4619",
+    "LTTOT_TOP_AMOUNT": "79400",
+    "SUPLY_HSHLDCO": 119,
+    "SPSPLY_HSHLDCO": 143
+   },
+   {
+    "HOUSE_TY": "084.9708D",
+    "SUPLY_AR": "110.7265",
+    "LTTOT_TOP_AMOUNT": "79300",
+    "SUPLY_HSHLDCO": 40,
+    "SPSPLY_HSHLDCO": 48
+   },
+   {
+    "HOUSE_TY": "102.6201 ",
+    "SUPLY_AR": "130.3482",
+    "LTTOT_TOP_AMOUNT": "90710",
+    "SUPLY_HSHLDCO": 85,
+    "SPSPLY_HSHLDCO": 12
+   },
+   {
+    "HOUSE_TY": "124.8692 ",
+    "SUPLY_AR": "155.8720",
+    "LTTOT_TOP_AMOUNT": "106300",
+    "SUPLY_HSHLDCO": 40,
+    "SPSPLY_HSHLDCO": 5
+   },
+   {
+    "HOUSE_TY": "166.2309P",
+    "SUPLY_AR": "210.1771",
+    "LTTOT_TOP_AMOUNT": "207730",
+    "SUPLY_HSHLDCO": 3,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "apt:2026000301:2026000301": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "036.9653 ",
+    "SUPLY_AR": "56.7861",
+    "LTTOT_TOP_AMOUNT": "39500",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "045.9344 ",
+    "SUPLY_AR": "69.4157",
+    "LTTOT_TOP_AMOUNT": "56800",
+    "SUPLY_HSHLDCO": 20,
+    "SPSPLY_HSHLDCO": 14
+   },
+   {
+    "HOUSE_TY": "059.8216A",
+    "SUPLY_AR": "86.4711",
+    "LTTOT_TOP_AMOUNT": "89500",
+    "SUPLY_HSHLDCO": 27,
+    "SPSPLY_HSHLDCO": 39
+   },
+   {
+    "HOUSE_TY": "059.7397B",
+    "SUPLY_AR": "86.3906",
+    "LTTOT_TOP_AMOUNT": "88300",
+    "SUPLY_HSHLDCO": 185,
+    "SPSPLY_HSHLDCO": 230
+   },
+   {
+    "HOUSE_TY": "084.6871A",
+    "SUPLY_AR": "114.6910",
+    "LTTOT_TOP_AMOUNT": "109300",
+    "SUPLY_HSHLDCO": 20,
+    "SPSPLY_HSHLDCO": 30
+   },
+   {
+    "HOUSE_TY": "084.3460B",
+    "SUPLY_AR": "114.2181",
+    "LTTOT_TOP_AMOUNT": "109600",
+    "SUPLY_HSHLDCO": 66,
+    "SPSPLY_HSHLDCO": 76
+   },
+   {
+    "HOUSE_TY": "084.2485C",
+    "SUPLY_AR": "114.5094",
+    "LTTOT_TOP_AMOUNT": "109800",
+    "SUPLY_HSHLDCO": 50,
+    "SPSPLY_HSHLDCO": 60
+   }
+  ]
+ },
+ "apt:2026000336:2026000336": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "079.9213 ",
+    "SUPLY_AR": "120.8133",
+    "LTTOT_TOP_AMOUNT": "55000",
+    "SUPLY_HSHLDCO": 12,
+    "SPSPLY_HSHLDCO": 7
+   },
+   {
+    "HOUSE_TY": "084.5994A",
+    "SUPLY_AR": "126.7330",
+    "LTTOT_TOP_AMOUNT": "59500",
+    "SUPLY_HSHLDCO": 7,
+    "SPSPLY_HSHLDCO": 12
+   },
+   {
+    "HOUSE_TY": "084.6767B",
+    "SUPLY_AR": "127.3111",
+    "LTTOT_TOP_AMOUNT": "60300",
+    "SUPLY_HSHLDCO": 9,
+    "SPSPLY_HSHLDCO": 10
+   },
+   {
+    "HOUSE_TY": "084.7673C",
+    "SUPLY_AR": "127.1958",
+    "LTTOT_TOP_AMOUNT": "60900",
+    "SUPLY_HSHLDCO": 9,
+    "SPSPLY_HSHLDCO": 10
+   },
+   {
+    "HOUSE_TY": "084.9764D",
+    "SUPLY_AR": "126.9835",
+    "LTTOT_TOP_AMOUNT": "56300",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 7
+   },
+   {
+    "HOUSE_TY": "084.7673P",
+    "SUPLY_AR": "127.1958",
+    "LTTOT_TOP_AMOUNT": "70200",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "110.9626P",
+    "SUPLY_AR": "166.2300",
+    "LTTOT_TOP_AMOUNT": "88700",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "125.2266 ",
+    "SUPLY_AR": "185.2432",
+    "LTTOT_TOP_AMOUNT": "83000",
+    "SUPLY_HSHLDCO": 11,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "125.2266P",
+    "SUPLY_AR": "185.2444",
+    "LTTOT_TOP_AMOUNT": "92300",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "152.0764P",
+    "SUPLY_AR": "227.1267",
+    "LTTOT_TOP_AMOUNT": "116900",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "apt:2026000329:2026000329": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.9848A",
+    "SUPLY_AR": "82.1354",
+    "LTTOT_TOP_AMOUNT": "59740",
+    "SUPLY_HSHLDCO": 40,
+    "SPSPLY_HSHLDCO": 90
+   },
+   {
+    "HOUSE_TY": "059.9813B",
+    "SUPLY_AR": "81.3722",
+    "LTTOT_TOP_AMOUNT": "58610",
+    "SUPLY_HSHLDCO": 36,
+    "SPSPLY_HSHLDCO": 72
+   },
+   {
+    "HOUSE_TY": "084.9897A",
+    "SUPLY_AR": "114.1037",
+    "LTTOT_TOP_AMOUNT": "76250",
+    "SUPLY_HSHLDCO": 57,
+    "SPSPLY_HSHLDCO": 121
+   },
+   {
+    "HOUSE_TY": "084.9810B",
+    "SUPLY_AR": "114.2220",
+    "LTTOT_TOP_AMOUNT": "75220",
+    "SUPLY_HSHLDCO": 33,
+    "SPSPLY_HSHLDCO": 70
+   },
+   {
+    "HOUSE_TY": "084.9874C",
+    "SUPLY_AR": "114.4705",
+    "LTTOT_TOP_AMOUNT": "74350",
+    "SUPLY_HSHLDCO": 21,
+    "SPSPLY_HSHLDCO": 44
+   },
+   {
+    "HOUSE_TY": "084.9795D",
+    "SUPLY_AR": "114.4026",
+    "LTTOT_TOP_AMOUNT": "73590",
+    "SUPLY_HSHLDCO": 25,
+    "SPSPLY_HSHLDCO": 51
+   }
+  ]
+ },
+ "apt:2026000310:2026000310": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "072.4726A",
+    "SUPLY_AR": "96.5554",
+    "LTTOT_TOP_AMOUNT": "58500",
+    "SUPLY_HSHLDCO": 15,
+    "SPSPLY_HSHLDCO": 33
+   },
+   {
+    "HOUSE_TY": "084.4746A",
+    "SUPLY_AR": "111.4215",
+    "LTTOT_TOP_AMOUNT": "66190",
+    "SUPLY_HSHLDCO": 49,
+    "SPSPLY_HSHLDCO": 84
+   },
+   {
+    "HOUSE_TY": "084.7614B",
+    "SUPLY_AR": "112.3041",
+    "LTTOT_TOP_AMOUNT": "67370",
+    "SUPLY_HSHLDCO": 13,
+    "SPSPLY_HSHLDCO": 20
+   },
+   {
+    "HOUSE_TY": "095.2508A",
+    "SUPLY_AR": "125.1022",
+    "LTTOT_TOP_AMOUNT": "71330",
+    "SUPLY_HSHLDCO": 118,
+    "SPSPLY_HSHLDCO": 19
+   },
+   {
+    "HOUSE_TY": "095.3102B",
+    "SUPLY_AR": "125.3455",
+    "LTTOT_TOP_AMOUNT": "67430",
+    "SUPLY_HSHLDCO": 10,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910282:2026910282": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.7421B",
+    "LTTOT_TOP_AMOUNT": "82700",
+    "SUPLY_HSHLDCO": 4,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.9796D",
+    "LTTOT_TOP_AMOUNT": "119800",
+    "SUPLY_HSHLDCO": 17,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910279:2026910279": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.7822A",
+    "LTTOT_TOP_AMOUNT": "46220",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.3879B",
+    "LTTOT_TOP_AMOUNT": "45770",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910281:2026910281": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9760B",
+    "LTTOT_TOP_AMOUNT": "67700",
+    "SUPLY_HSHLDCO": 4,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "098.9850B",
+    "LTTOT_TOP_AMOUNT": "78200",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026930043:2026930043": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.9955 ",
+    "SUPLY_AR": "83.9670",
+    "LTTOT_TOP_AMOUNT": "85715",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910275:2026910275": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "074.0000A",
+    "LTTOT_TOP_AMOUNT": "234200",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "074.0000C",
+    "LTTOT_TOP_AMOUNT": "238200",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "074.4400D",
+    "LTTOT_TOP_AMOUNT": "230200",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.0000A",
+    "LTTOT_TOP_AMOUNT": "298100",
+    "SUPLY_HSHLDCO": 18,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.0000B",
+    "LTTOT_TOP_AMOUNT": "273900",
+    "SUPLY_HSHLDCO": 6,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.0000C",
+    "LTTOT_TOP_AMOUNT": "273900",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.0900D",
+    "LTTOT_TOP_AMOUNT": "276200",
+    "SUPLY_HSHLDCO": 4,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.0000E",
+    "LTTOT_TOP_AMOUNT": "291100",
+    "SUPLY_HSHLDCO": 8,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.7200F",
+    "LTTOT_TOP_AMOUNT": "290100",
+    "SUPLY_HSHLDCO": 5,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.6400G",
+    "LTTOT_TOP_AMOUNT": "292000",
+    "SUPLY_HSHLDCO": 12,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026930042:2026930042": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9891A",
+    "SUPLY_AR": "113.6235",
+    "LTTOT_TOP_AMOUNT": "54250",
+    "SUPLY_HSHLDCO": 0,
+    "SPSPLY_HSHLDCO": 1
+   }
+  ]
+ },
+ "remndr:2026910269:2026910269": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.7459A",
+    "LTTOT_TOP_AMOUNT": "89800",
+    "SUPLY_HSHLDCO": 26,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.8508B",
+    "LTTOT_TOP_AMOUNT": "89300",
+    "SUPLY_HSHLDCO": 76,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.9663D",
+    "LTTOT_TOP_AMOUNT": "89300",
+    "SUPLY_HSHLDCO": 67,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910257:2026910257": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9891A",
+    "LTTOT_TOP_AMOUNT": "54250",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.9867B",
+    "LTTOT_TOP_AMOUNT": "53450",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910270:2026910270": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9972A",
+    "LTTOT_TOP_AMOUNT": "243300",
+    "SUPLY_HSHLDCO": 9,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026930044:2026930044": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "066.8113 ",
+    "SUPLY_AR": "94.9824",
+    "LTTOT_TOP_AMOUNT": "51220",
+    "SUPLY_HSHLDCO": 0,
+    "SPSPLY_HSHLDCO": 1
+   }
+  ]
+ },
+ "remndr:2026910268:2026910268": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.7324C",
+    "LTTOT_TOP_AMOUNT": "68060",
+    "SUPLY_HSHLDCO": 3,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.0616D",
+    "LTTOT_TOP_AMOUNT": "67190",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.5859E",
+    "LTTOT_TOP_AMOUNT": "64630",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "111.6914A",
+    "LTTOT_TOP_AMOUNT": "84430",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "111.9114B",
+    "LTTOT_TOP_AMOUNT": "81000",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910265:2026910265": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "068.9883 ",
+    "LTTOT_TOP_AMOUNT": "57600",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910264:2026910264": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "048.8190 ",
+    "LTTOT_TOP_AMOUNT": "37900",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "052.1850A",
+    "LTTOT_TOP_AMOUNT": "42500",
+    "SUPLY_HSHLDCO": 10,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "059.6120A",
+    "LTTOT_TOP_AMOUNT": "48500",
+    "SUPLY_HSHLDCO": 3,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "059.0570C",
+    "LTTOT_TOP_AMOUNT": "45900",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910262:2026910262": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9631A",
+    "LTTOT_TOP_AMOUNT": "48220",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.5993C",
+    "LTTOT_TOP_AMOUNT": "46700",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "090.9392 ",
+    "LTTOT_TOP_AMOUNT": "54030",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "123.0091 ",
+    "LTTOT_TOP_AMOUNT": "76810",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910263:2026910263": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "039.6950 ",
+    "LTTOT_TOP_AMOUNT": "76112",
+    "SUPLY_HSHLDCO": 10,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910260:2026910260": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.9920B",
+    "LTTOT_TOP_AMOUNT": "70000",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.9861B",
+    "LTTOT_TOP_AMOUNT": "94000",
+    "SUPLY_HSHLDCO": 6,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910256:2026910256": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9199A",
+    "LTTOT_TOP_AMOUNT": "162200",
+    "SUPLY_HSHLDCO": 112,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.7123B",
+    "LTTOT_TOP_AMOUNT": "149900",
+    "SUPLY_HSHLDCO": 45,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.9874C",
+    "LTTOT_TOP_AMOUNT": "159800",
+    "SUPLY_HSHLDCO": 267,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.9074D",
+    "LTTOT_TOP_AMOUNT": "159900",
+    "SUPLY_HSHLDCO": 62,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.9872E",
+    "LTTOT_TOP_AMOUNT": "161300",
+    "SUPLY_HSHLDCO": 36,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.9928F",
+    "LTTOT_TOP_AMOUNT": "159900",
+    "SUPLY_HSHLDCO": 262,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "187.5097P",
+    "LTTOT_TOP_AMOUNT": "572700",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026930038:2026930038": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9958A",
+    "SUPLY_AR": "109.3125",
+    "LTTOT_TOP_AMOUNT": "66303",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 3
+   },
+   {
+    "HOUSE_TY": "084.9478B",
+    "SUPLY_AR": "109.9698",
+    "LTTOT_TOP_AMOUNT": "66034",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 1
+   }
+  ]
+ },
+ "remndr:2026910253:2026910253": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9596 ",
+    "LTTOT_TOP_AMOUNT": "71900",
+    "SUPLY_HSHLDCO": 12,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910250:2026910250": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "035.7100 ",
+    "LTTOT_TOP_AMOUNT": "45000",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "038.3400 ",
+    "LTTOT_TOP_AMOUNT": "45000",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "056.4500 ",
+    "LTTOT_TOP_AMOUNT": "59900",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910251:2026910251": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9972A",
+    "LTTOT_TOP_AMOUNT": "243300",
+    "SUPLY_HSHLDCO": 21,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.9965B",
+    "LTTOT_TOP_AMOUNT": "229500",
+    "SUPLY_HSHLDCO": 14,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026930040:2026930040": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9811C",
+    "SUPLY_AR": "105.8939",
+    "LTTOT_TOP_AMOUNT": "122202",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026930037:2026930037": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "099.9842B",
+    "SUPLY_AR": "129.9614",
+    "LTTOT_TOP_AMOUNT": "95218",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026930036:2026930036": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.7450D",
+    "SUPLY_AR": "110.3239",
+    "LTTOT_TOP_AMOUNT": "80338",
+    "SUPLY_HSHLDCO": 0,
+    "SPSPLY_HSHLDCO": 2
+   }
+  ]
+ },
+ "remndr:2026910220:2026910220": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "140.8560P",
+    "LTTOT_TOP_AMOUNT": "492800",
+    "SUPLY_HSHLDCO": 3,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910247:2026910247": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.7050A",
+    "LTTOT_TOP_AMOUNT": "66460",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.7324C",
+    "LTTOT_TOP_AMOUNT": "68060",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.0616D",
+    "LTTOT_TOP_AMOUNT": "67190",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "111.6914A",
+    "LTTOT_TOP_AMOUNT": "84430",
+    "SUPLY_HSHLDCO": 4,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "111.9114B",
+    "LTTOT_TOP_AMOUNT": "85290",
+    "SUPLY_HSHLDCO": 6,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026930031:2026930031": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.9979A",
+    "SUPLY_AR": "81.3053",
+    "LTTOT_TOP_AMOUNT": "80170",
+    "SUPLY_HSHLDCO": 0,
+    "SPSPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "059.9960B",
+    "SUPLY_AR": "80.9982",
+    "LTTOT_TOP_AMOUNT": "86670",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910236:2026910236": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.9626 ",
+    "LTTOT_TOP_AMOUNT": "80800",
+    "SUPLY_HSHLDCO": 3,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "059.9353 ",
+    "LTTOT_TOP_AMOUNT": "75700",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910246:2026910246": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.9390A",
+    "LTTOT_TOP_AMOUNT": "41600",
+    "SUPLY_HSHLDCO": 38,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "059.5027C",
+    "LTTOT_TOP_AMOUNT": "39700",
+    "SUPLY_HSHLDCO": 12,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "071.2889A",
+    "LTTOT_TOP_AMOUNT": "47800",
+    "SUPLY_HSHLDCO": 15,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "071.8211B",
+    "LTTOT_TOP_AMOUNT": "47600",
+    "SUPLY_HSHLDCO": 38,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.7577A",
+    "LTTOT_TOP_AMOUNT": "53400",
+    "SUPLY_HSHLDCO": 23,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910241:2026910241": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.9400A",
+    "LTTOT_TOP_AMOUNT": "87500",
+    "SUPLY_HSHLDCO": 229,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910244:2026910244": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.8400A",
+    "LTTOT_TOP_AMOUNT": "95300",
+    "SUPLY_HSHLDCO": 14,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910238:2026910238": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "124.4008P",
+    "LTTOT_TOP_AMOUNT": "148640",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910232:2026910232": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.9987B",
+    "LTTOT_TOP_AMOUNT": "45700",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "074.9988A",
+    "LTTOT_TOP_AMOUNT": "58700",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.9956B",
+    "LTTOT_TOP_AMOUNT": "65500",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910227:2026910227": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.7402A",
+    "LTTOT_TOP_AMOUNT": "77300",
+    "SUPLY_HSHLDCO": 705,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.7060E",
+    "LTTOT_TOP_AMOUNT": "75200",
+    "SUPLY_HSHLDCO": 70,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "106.9778B",
+    "LTTOT_TOP_AMOUNT": "93700",
+    "SUPLY_HSHLDCO": 55,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "180.9387B",
+    "LTTOT_TOP_AMOUNT": "292200",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910235:2026910235": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "039.6950 ",
+    "LTTOT_TOP_AMOUNT": "76112",
+    "SUPLY_HSHLDCO": 13,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910233:2026910233": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.0000B",
+    "LTTOT_TOP_AMOUNT": "266000",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "109.8652A",
+    "LTTOT_TOP_AMOUNT": "306000",
+    "SUPLY_HSHLDCO": 5,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910228:2026910228": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.4746A",
+    "LTTOT_TOP_AMOUNT": "66190",
+    "SUPLY_HSHLDCO": 43,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.7614B",
+    "LTTOT_TOP_AMOUNT": "66740",
+    "SUPLY_HSHLDCO": 19,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "095.2508A",
+    "LTTOT_TOP_AMOUNT": "71330",
+    "SUPLY_HSHLDCO": 69,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "095.3102B",
+    "LTTOT_TOP_AMOUNT": "67430",
+    "SUPLY_HSHLDCO": 10,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910225:2026910225": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.8216A",
+    "LTTOT_TOP_AMOUNT": "87300",
+    "SUPLY_HSHLDCO": 4,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.6871A",
+    "LTTOT_TOP_AMOUNT": "109300",
+    "SUPLY_HSHLDCO": 13,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910226:2026910226": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "027.2967A",
+    "LTTOT_TOP_AMOUNT": "36900",
+    "SUPLY_HSHLDCO": 3,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "029.6544A",
+    "LTTOT_TOP_AMOUNT": "39400",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "042.4793A",
+    "LTTOT_TOP_AMOUNT": "57000",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "042.3953B",
+    "LTTOT_TOP_AMOUNT": "60900",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "042.0337C",
+    "LTTOT_TOP_AMOUNT": "61900",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910224:2026910224": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "039.7700A",
+    "LTTOT_TOP_AMOUNT": "73220",
+    "SUPLY_HSHLDCO": 4,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910221:2026910221": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "024.9100 ",
+    "LTTOT_TOP_AMOUNT": "48550",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "025.3700 ",
+    "LTTOT_TOP_AMOUNT": "47750",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910229:2026910229": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9810B",
+    "LTTOT_TOP_AMOUNT": "72210",
+    "SUPLY_HSHLDCO": 3,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.9795D",
+    "LTTOT_TOP_AMOUNT": "68440",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910222:2026910222": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "075.4736 ",
+    "LTTOT_TOP_AMOUNT": "73380",
+    "SUPLY_HSHLDCO": 36,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.9796A",
+    "LTTOT_TOP_AMOUNT": "78300",
+    "SUPLY_HSHLDCO": 220,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026930028:2026930028": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "082.4015B",
+    "SUPLY_AR": "117.2282",
+    "LTTOT_TOP_AMOUNT": "87710",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910218:2026910218": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.5396A",
+    "LTTOT_TOP_AMOUNT": "108400",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.8949B",
+    "LTTOT_TOP_AMOUNT": "108300",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026930026:2026930026": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9436A",
+    "SUPLY_AR": "111.2312",
+    "LTTOT_TOP_AMOUNT": "54770",
+    "SUPLY_HSHLDCO": 0,
+    "SPSPLY_HSHLDCO": 1
+   }
+  ]
+ },
+ "remndr:2026930025:2026930025": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9800C",
+    "SUPLY_AR": "111.8800",
+    "LTTOT_TOP_AMOUNT": "94085",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910214:2026910214": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.8554A",
+    "LTTOT_TOP_AMOUNT": "253000",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.0000B",
+    "LTTOT_TOP_AMOUNT": "271800",
+    "SUPLY_HSHLDCO": 9,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "109.8652A",
+    "LTTOT_TOP_AMOUNT": "306000",
+    "SUPLY_HSHLDCO": 5,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910213:2026910213": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "039.6950 ",
+    "LTTOT_TOP_AMOUNT": "76112",
+    "SUPLY_HSHLDCO": 13,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910210:2026910210": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.8303P",
+    "LTTOT_TOP_AMOUNT": "36110",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.9800P",
+    "LTTOT_TOP_AMOUNT": "47920",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910212:2026910212": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "039.7700A",
+    "LTTOT_TOP_AMOUNT": "73220",
+    "SUPLY_HSHLDCO": 21,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.8600A",
+    "LTTOT_TOP_AMOUNT": "174970",
+    "SUPLY_HSHLDCO": 8,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.9000C",
+    "LTTOT_TOP_AMOUNT": "176350",
+    "SUPLY_HSHLDCO": 6,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "101.7400 ",
+    "LTTOT_TOP_AMOUNT": "194570",
+    "SUPLY_HSHLDCO": 4,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910211:2026910211": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.7390B",
+    "LTTOT_TOP_AMOUNT": "29660",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910202:2026910202": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.8400A",
+    "LTTOT_TOP_AMOUNT": "95300",
+    "SUPLY_HSHLDCO": 14,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910208:2026910208": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "099.9869B",
+    "LTTOT_TOP_AMOUNT": "61809",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "115.9570B",
+    "LTTOT_TOP_AMOUNT": "70707",
+    "SUPLY_HSHLDCO": 3,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910201:2026910201": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "100.8334A",
+    "LTTOT_TOP_AMOUNT": "55930",
+    "SUPLY_HSHLDCO": 3,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910200:2026910200": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "053.9927 ",
+    "LTTOT_TOP_AMOUNT": "48520",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "059.9765 ",
+    "LTTOT_TOP_AMOUNT": "52900",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910194:2026910194": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "140.8560P",
+    "LTTOT_TOP_AMOUNT": "492800",
+    "SUPLY_HSHLDCO": 3,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026930024:2026930024": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.7500A",
+    "SUPLY_AR": "112.1000",
+    "LTTOT_TOP_AMOUNT": "134190",
+    "SUPLY_HSHLDCO": 0,
+    "SPSPLY_HSHLDCO": 1
+   }
+  ]
+ },
+ "remndr:2026910198:2026910198": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "135.4547T",
+    "LTTOT_TOP_AMOUNT": "171500",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910180:2026910180": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9343A",
+    "LTTOT_TOP_AMOUNT": "58730",
+    "SUPLY_HSHLDCO": 114,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "094.3143A",
+    "LTTOT_TOP_AMOUNT": "55250",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "094.2875B",
+    "LTTOT_TOP_AMOUNT": "57680",
+    "SUPLY_HSHLDCO": 5,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "094.3805D",
+    "LTTOT_TOP_AMOUNT": "58800",
+    "SUPLY_HSHLDCO": 4,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "101.8311A",
+    "LTTOT_TOP_AMOUNT": "67800",
+    "SUPLY_HSHLDCO": 68,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910182:2026910182": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "110.7034A",
+    "LTTOT_TOP_AMOUNT": "78130",
+    "SUPLY_HSHLDCO": 2,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "remndr:2026910177:2026910177": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "113.9765A",
+    "LTTOT_TOP_AMOUNT": "87060",
+    "SUPLY_HSHLDCO": 8,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "opt:2026940246:2026940246": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9109A",
+    "LTTOT_TOP_AMOUNT": "75,840",
+    "SUPLY_HSHLDCO": 5
+   },
+   {
+    "HOUSE_TY": "084.3506B",
+    "LTTOT_TOP_AMOUNT": "74,520",
+    "SUPLY_HSHLDCO": 4
+   },
+   {
+    "HOUSE_TY": "105.9852 ",
+    "LTTOT_TOP_AMOUNT": "93,780",
+    "SUPLY_HSHLDCO": 1
+   }
+  ]
+ },
+ "opt:2026940245:2026940245": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "046.9340 ",
+    "LTTOT_TOP_AMOUNT": "38,548",
+    "SUPLY_HSHLDCO": 17
+   },
+   {
+    "HOUSE_TY": "048.9071 ",
+    "LTTOT_TOP_AMOUNT": "40,934",
+    "SUPLY_HSHLDCO": 4
+   },
+   {
+    "HOUSE_TY": "059.9788C",
+    "LTTOT_TOP_AMOUNT": "51,543",
+    "SUPLY_HSHLDCO": 3
+   },
+   {
+    "HOUSE_TY": "078.8866 ",
+    "LTTOT_TOP_AMOUNT": "67,600",
+    "SUPLY_HSHLDCO": 2
+   }
+  ]
+ },
+ "opt:2026940241:2026940241": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "105.2083 ",
+    "LTTOT_TOP_AMOUNT": "82,530",
+    "SUPLY_HSHLDCO": 4
+   }
+  ]
+ },
+ "opt:2026940239:2026940239": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.7884A",
+    "LTTOT_TOP_AMOUNT": "54,700",
+    "SUPLY_HSHLDCO": 15
+   }
+  ]
+ },
+ "opt:2026940238:2026940238": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9900 ",
+    "LTTOT_TOP_AMOUNT": "44,330",
+    "SUPLY_HSHLDCO": 73
+   }
+  ]
+ },
+ "opt:2026940237:2026940237": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9900A",
+    "LTTOT_TOP_AMOUNT": "73,200",
+    "SUPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "084.9900B",
+    "LTTOT_TOP_AMOUNT": "73,000",
+    "SUPLY_HSHLDCO": 3
+   },
+   {
+    "HOUSE_TY": "084.9900C",
+    "LTTOT_TOP_AMOUNT": "75,800",
+    "SUPLY_HSHLDCO": 5
+   },
+   {
+    "HOUSE_TY": "084.9900D",
+    "LTTOT_TOP_AMOUNT": "79,500",
+    "SUPLY_HSHLDCO": 12
+   }
+  ]
+ },
+ "opt:2026940236:2026940236": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "052.1088 ",
+    "LTTOT_TOP_AMOUNT": "43,669",
+    "SUPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "064.5397A",
+    "LTTOT_TOP_AMOUNT": "53,136",
+    "SUPLY_HSHLDCO": 2
+   },
+   {
+    "HOUSE_TY": "064.2641B",
+    "LTTOT_TOP_AMOUNT": "55,332",
+    "SUPLY_HSHLDCO": 2
+   }
+  ]
+ },
+ "opt:2026940235:2026940235": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9890C",
+    "LTTOT_TOP_AMOUNT": "66,260",
+    "SUPLY_HSHLDCO": 4
+   },
+   {
+    "HOUSE_TY": "099.3062 ",
+    "LTTOT_TOP_AMOUNT": "76,410",
+    "SUPLY_HSHLDCO": 5
+   },
+   {
+    "HOUSE_TY": "113.6508 ",
+    "LTTOT_TOP_AMOUNT": "88,930",
+    "SUPLY_HSHLDCO": 11
+   }
+  ]
+ },
+ "opt:2026940233:2026940233": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "060.2700E",
+    "LTTOT_TOP_AMOUNT": "47,100",
+    "SUPLY_HSHLDCO": 4
+   },
+   {
+    "HOUSE_TY": "063.7900H",
+    "LTTOT_TOP_AMOUNT": "51,340",
+    "SUPLY_HSHLDCO": 2
+   },
+   {
+    "HOUSE_TY": "068.6700B",
+    "LTTOT_TOP_AMOUNT": "53,400",
+    "SUPLY_HSHLDCO": 5
+   }
+  ]
+ },
+ "opt:2026940232:2026940232": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "072.2757 ",
+    "LTTOT_TOP_AMOUNT": "71,185",
+    "SUPLY_HSHLDCO": 25
+   },
+   {
+    "HOUSE_TY": "081.0413 ",
+    "LTTOT_TOP_AMOUNT": "71,185",
+    "SUPLY_HSHLDCO": 27
+   }
+  ]
+ },
+ "opt:2026940231:2026940231": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.8422A",
+    "LTTOT_TOP_AMOUNT": "82,600",
+    "SUPLY_HSHLDCO": 3
+   },
+   {
+    "HOUSE_TY": "084.7200B",
+    "LTTOT_TOP_AMOUNT": "79,600",
+    "SUPLY_HSHLDCO": 5
+   }
+  ]
+ },
+ "opt:2026940229:2026940229": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "109.8652A",
+    "LTTOT_TOP_AMOUNT": "295,000",
+    "SUPLY_HSHLDCO": 1
+   }
+  ]
+ },
+ "opt:2026940228:2026940228": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "043.1547 ",
+    "LTTOT_TOP_AMOUNT": "48,600",
+    "SUPLY_HSHLDCO": 2
+   },
+   {
+    "HOUSE_TY": "044.5837 ",
+    "LTTOT_TOP_AMOUNT": "54,700",
+    "SUPLY_HSHLDCO": 6
+   },
+   {
+    "HOUSE_TY": "059.8594 ",
+    "LTTOT_TOP_AMOUNT": "71,500",
+    "SUPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "059.7382 ",
+    "LTTOT_TOP_AMOUNT": "67,400",
+    "SUPLY_HSHLDCO": 9
+   },
+   {
+    "HOUSE_TY": "059.6713 ",
+    "LTTOT_TOP_AMOUNT": "69,800",
+    "SUPLY_HSHLDCO": 2
+   },
+   {
+    "HOUSE_TY": "059.1344 ",
+    "LTTOT_TOP_AMOUNT": "68,800",
+    "SUPLY_HSHLDCO": 3
+   },
+   {
+    "HOUSE_TY": "059.8594N",
+    "LTTOT_TOP_AMOUNT": "60,600",
+    "SUPLY_HSHLDCO": 1
+   }
+  ]
+ },
+ "opt:2026940227:2026940227": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "033.6442 ",
+    "LTTOT_TOP_AMOUNT": "30,631",
+    "SUPLY_HSHLDCO": 4
+   },
+   {
+    "HOUSE_TY": "055.8501 ",
+    "LTTOT_TOP_AMOUNT": "47,449",
+    "SUPLY_HSHLDCO": 1
+   }
+  ]
+ },
+ "opt:2026940226:2026940226": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "098.7952 ",
+    "LTTOT_TOP_AMOUNT": "62,900",
+    "SUPLY_HSHLDCO": 35
+   }
+  ]
+ },
+ "opt:2026940224:2026940224": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "049.7500A",
+    "LTTOT_TOP_AMOUNT": "80,200",
+    "SUPLY_HSHLDCO": 16
+   }
+  ]
+ },
+ "opt:2026940223:2026940223": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "074.9800 ",
+    "LTTOT_TOP_AMOUNT": "73,300",
+    "SUPLY_HSHLDCO": 3
+   },
+   {
+    "HOUSE_TY": "084.9100A",
+    "LTTOT_TOP_AMOUNT": "81,100",
+    "SUPLY_HSHLDCO": 2
+   },
+   {
+    "HOUSE_TY": "103.9500A",
+    "LTTOT_TOP_AMOUNT": "91,200",
+    "SUPLY_HSHLDCO": 3
+   }
+  ]
+ },
+ "opt:2026940222:2026940222": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.7419B",
+    "LTTOT_TOP_AMOUNT": "86,500",
+    "SUPLY_HSHLDCO": 13
+   }
+  ]
+ },
+ "opt:2026940221:2026940221": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "105.2083 ",
+    "LTTOT_TOP_AMOUNT": "82,530",
+    "SUPLY_HSHLDCO": 6
+   }
+  ]
+ },
+ "opt:2026940220:2026940220": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.9870A",
+    "LTTOT_TOP_AMOUNT": "37,400",
+    "SUPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "084.7884A",
+    "LTTOT_TOP_AMOUNT": "54,700",
+    "SUPLY_HSHLDCO": 15
+   },
+   {
+    "HOUSE_TY": "084.9970B",
+    "LTTOT_TOP_AMOUNT": "51,600",
+    "SUPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "084.9665C",
+    "LTTOT_TOP_AMOUNT": "55,600",
+    "SUPLY_HSHLDCO": 3
+   }
+  ]
+ },
+ "opt:2026940219:2026940219": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.6388A",
+    "LTTOT_TOP_AMOUNT": "74,790",
+    "SUPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "084.8874B",
+    "LTTOT_TOP_AMOUNT": "76,040",
+    "SUPLY_HSHLDCO": 3
+   }
+  ]
+ },
+ "opt:2026940218:2026940218": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "074.5900A",
+    "LTTOT_TOP_AMOUNT": "47,552",
+    "SUPLY_HSHLDCO": 10
+   },
+   {
+    "HOUSE_TY": "074.7200B",
+    "LTTOT_TOP_AMOUNT": "47,635",
+    "SUPLY_HSHLDCO": 4
+   },
+   {
+    "HOUSE_TY": "084.5600A",
+    "LTTOT_TOP_AMOUNT": "53,908",
+    "SUPLY_HSHLDCO": 10
+   },
+   {
+    "HOUSE_TY": "084.5600B",
+    "LTTOT_TOP_AMOUNT": "53,908",
+    "SUPLY_HSHLDCO": 15
+   }
+  ]
+ },
+ "opt:2026940215:2026940215": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "043.6000 ",
+    "LTTOT_TOP_AMOUNT": "56,990",
+    "SUPLY_HSHLDCO": 2
+   },
+   {
+    "HOUSE_TY": "050.0400 ",
+    "LTTOT_TOP_AMOUNT": "62,550",
+    "SUPLY_HSHLDCO": 2
+   },
+   {
+    "HOUSE_TY": "061.1400 ",
+    "LTTOT_TOP_AMOUNT": "82,370",
+    "SUPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "068.3900 ",
+    "LTTOT_TOP_AMOUNT": "84,650",
+    "SUPLY_HSHLDCO": 1
+   }
+  ]
+ },
+ "opt:2026940214:2026940214": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "039.4007 ",
+    "LTTOT_TOP_AMOUNT": "56,040",
+    "SUPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "059.1925 ",
+    "LTTOT_TOP_AMOUNT": "99,610",
+    "SUPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "081.0566 ",
+    "LTTOT_TOP_AMOUNT": "126,920",
+    "SUPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "084.9830B",
+    "LTTOT_TOP_AMOUNT": "127,720",
+    "SUPLY_HSHLDCO": 1
+   }
+  ]
+ },
+ "opt:2026940213:2026940213": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.9951C",
+    "LTTOT_TOP_AMOUNT": "39,950",
+    "SUPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "084.9616 ",
+    "LTTOT_TOP_AMOUNT": "58,950",
+    "SUPLY_HSHLDCO": 2
+   }
+  ]
+ },
+ "opt:2026940211:2026940211": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "078.4400N",
+    "LTTOT_TOP_AMOUNT": "193,800",
+    "SUPLY_HSHLDCO": 2
+   },
+   {
+    "HOUSE_TY": "084.0800N",
+    "LTTOT_TOP_AMOUNT": "205,900",
+    "SUPLY_HSHLDCO": 1
+   }
+  ]
+ },
+ "opt:2026940208:2026940208": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "052.1088 ",
+    "LTTOT_TOP_AMOUNT": "43,890",
+    "SUPLY_HSHLDCO": 2
+   },
+   {
+    "HOUSE_TY": "055.0641 ",
+    "LTTOT_TOP_AMOUNT": "46,564",
+    "SUPLY_HSHLDCO": 2
+   },
+   {
+    "HOUSE_TY": "064.5397A",
+    "LTTOT_TOP_AMOUNT": "54,755",
+    "SUPLY_HSHLDCO": 2
+   },
+   {
+    "HOUSE_TY": "064.2641B",
+    "LTTOT_TOP_AMOUNT": "55,332",
+    "SUPLY_HSHLDCO": 2
+   }
+  ]
+ },
+ "opt:2026940207:2026940207": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "060.2700E",
+    "LTTOT_TOP_AMOUNT": "47,100",
+    "SUPLY_HSHLDCO": 5
+   },
+   {
+    "HOUSE_TY": "068.6700B",
+    "LTTOT_TOP_AMOUNT": "53,400",
+    "SUPLY_HSHLDCO": 5
+   }
+  ]
+ },
+ "opt:2026940206:2026940206": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "076.6275 ",
+    "LTTOT_TOP_AMOUNT": "125,000",
+    "SUPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "081.6700 ",
+    "LTTOT_TOP_AMOUNT": "134,800",
+    "SUPLY_HSHLDCO": 7
+   },
+   {
+    "HOUSE_TY": "081.6937 ",
+    "LTTOT_TOP_AMOUNT": "135,200",
+    "SUPLY_HSHLDCO": 3
+   }
+  ]
+ },
+ "opt:2026940205:2026940205": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "120.8061 ",
+    "LTTOT_TOP_AMOUNT": "219,800",
+    "SUPLY_HSHLDCO": 6
+   }
+  ]
+ },
+ "opt:2026940204:2026940204": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.3545 ",
+    "LTTOT_TOP_AMOUNT": "56,230",
+    "SUPLY_HSHLDCO": 2
+   },
+   {
+    "HOUSE_TY": "065.4097 ",
+    "LTTOT_TOP_AMOUNT": "62,490",
+    "SUPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "084.9315A",
+    "LTTOT_TOP_AMOUNT": "84,800",
+    "SUPLY_HSHLDCO": 5
+   },
+   {
+    "HOUSE_TY": "084.7948B",
+    "LTTOT_TOP_AMOUNT": "86,050",
+    "SUPLY_HSHLDCO": 4
+   }
+  ]
+ },
+ "opt:2026940203:2026940203": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.6189A",
+    "LTTOT_TOP_AMOUNT": "51,800",
+    "SUPLY_HSHLDCO": 22
+   },
+   {
+    "HOUSE_TY": "084.4918B",
+    "LTTOT_TOP_AMOUNT": "51,700",
+    "SUPLY_HSHLDCO": 17
+   }
+  ]
+ },
+ "opt:2026940202:2026940202": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "074.9800 ",
+    "LTTOT_TOP_AMOUNT": "72,100",
+    "SUPLY_HSHLDCO": 5
+   },
+   {
+    "HOUSE_TY": "084.9900B",
+    "LTTOT_TOP_AMOUNT": "78,800",
+    "SUPLY_HSHLDCO": 3
+   },
+   {
+    "HOUSE_TY": "103.9500A",
+    "LTTOT_TOP_AMOUNT": "86,600",
+    "SUPLY_HSHLDCO": 2
+   },
+   {
+    "HOUSE_TY": "103.6500B",
+    "LTTOT_TOP_AMOUNT": "88,300",
+    "SUPLY_HSHLDCO": 2
+   }
+  ]
+ },
+ "opt:2026940201:2026940201": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.9870A",
+    "LTTOT_TOP_AMOUNT": "37,900",
+    "SUPLY_HSHLDCO": 2
+   },
+   {
+    "HOUSE_TY": "059.9870B",
+    "LTTOT_TOP_AMOUNT": "37,900",
+    "SUPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "084.7884A",
+    "LTTOT_TOP_AMOUNT": "54,700",
+    "SUPLY_HSHLDCO": 23
+   },
+   {
+    "HOUSE_TY": "084.9970B",
+    "LTTOT_TOP_AMOUNT": "53,200",
+    "SUPLY_HSHLDCO": 3
+   },
+   {
+    "HOUSE_TY": "084.9665C",
+    "LTTOT_TOP_AMOUNT": "55,000",
+    "SUPLY_HSHLDCO": 1
+   }
+  ]
+ },
+ "opt:2026940200:2026940200": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.8863B",
+    "LTTOT_TOP_AMOUNT": "54,100",
+    "SUPLY_HSHLDCO": 5
+   },
+   {
+    "HOUSE_TY": "084.9264C",
+    "LTTOT_TOP_AMOUNT": "54,900",
+    "SUPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "117.9920 ",
+    "LTTOT_TOP_AMOUNT": "76,300",
+    "SUPLY_HSHLDCO": 5
+   }
+  ]
+ },
+ "opt:2026940198:2026940198": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "045.8300 ",
+    "LTTOT_TOP_AMOUNT": "45,480",
+    "SUPLY_HSHLDCO": 4
+   },
+   {
+    "HOUSE_TY": "053.8100A",
+    "LTTOT_TOP_AMOUNT": "52,500",
+    "SUPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "053.7200B",
+    "LTTOT_TOP_AMOUNT": "51,800",
+    "SUPLY_HSHLDCO": 7
+   }
+  ]
+ },
+ "opt:2026940197:2026940197": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.6388A",
+    "LTTOT_TOP_AMOUNT": "76,350",
+    "SUPLY_HSHLDCO": 4
+   },
+   {
+    "HOUSE_TY": "084.8874B",
+    "LTTOT_TOP_AMOUNT": "77,200",
+    "SUPLY_HSHLDCO": 6
+   }
+  ]
+ },
+ "opt:2026940196:2026940196": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.8422A",
+    "LTTOT_TOP_AMOUNT": "82,600",
+    "SUPLY_HSHLDCO": 5
+   },
+   {
+    "HOUSE_TY": "084.7200B",
+    "LTTOT_TOP_AMOUNT": "79,600",
+    "SUPLY_HSHLDCO": 6
+   }
+  ]
+ },
+ "opt:2026940195:2026940195": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "049.7500A",
+    "LTTOT_TOP_AMOUNT": "80,200",
+    "SUPLY_HSHLDCO": 31
+   }
+  ]
+ },
+ "opt:2026940192:2026940192": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9900B",
+    "LTTOT_TOP_AMOUNT": "76,100",
+    "SUPLY_HSHLDCO": 3
+   },
+   {
+    "HOUSE_TY": "084.9900C",
+    "LTTOT_TOP_AMOUNT": "75,800",
+    "SUPLY_HSHLDCO": 6
+   },
+   {
+    "HOUSE_TY": "084.9900D",
+    "LTTOT_TOP_AMOUNT": "79,500",
+    "SUPLY_HSHLDCO": 6
+   },
+   {
+    "HOUSE_TY": "106.9900A",
+    "LTTOT_TOP_AMOUNT": "79,900",
+    "SUPLY_HSHLDCO": 4
+   }
+  ]
+ },
+ "opt:2026940191:2026940191": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "074.5900A",
+    "LTTOT_TOP_AMOUNT": "47,552",
+    "SUPLY_HSHLDCO": 13
+   },
+   {
+    "HOUSE_TY": "074.7200B",
+    "LTTOT_TOP_AMOUNT": "47,635",
+    "SUPLY_HSHLDCO": 6
+   },
+   {
+    "HOUSE_TY": "084.5600A",
+    "LTTOT_TOP_AMOUNT": "53,908",
+    "SUPLY_HSHLDCO": 12
+   },
+   {
+    "HOUSE_TY": "084.5600B",
+    "LTTOT_TOP_AMOUNT": "53,908",
+    "SUPLY_HSHLDCO": 18
+   }
+  ]
+ },
+ "opt:2026940189:2026940189": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9649A",
+    "LTTOT_TOP_AMOUNT": "57,440",
+    "SUPLY_HSHLDCO": 17
+   },
+   {
+    "HOUSE_TY": "084.9611B",
+    "LTTOT_TOP_AMOUNT": "57,370",
+    "SUPLY_HSHLDCO": 6
+   },
+   {
+    "HOUSE_TY": "084.9404C",
+    "LTTOT_TOP_AMOUNT": "56,360",
+    "SUPLY_HSHLDCO": 12
+   }
+  ]
+ },
+ "opt:2026940187:2026940187": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9939 ",
+    "LTTOT_TOP_AMOUNT": "71,150",
+    "SUPLY_HSHLDCO": 4
+   },
+   {
+    "HOUSE_TY": "105.2083 ",
+    "LTTOT_TOP_AMOUNT": "82,530",
+    "SUPLY_HSHLDCO": 4
+   }
+  ]
+ },
+ "opt:2026940186:2026940186": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.9567A",
+    "LTTOT_TOP_AMOUNT": "41,900",
+    "SUPLY_HSHLDCO": 10
+   },
+   {
+    "HOUSE_TY": "084.9501A",
+    "LTTOT_TOP_AMOUNT": "57,600",
+    "SUPLY_HSHLDCO": 5
+   },
+   {
+    "HOUSE_TY": "084.9553B",
+    "LTTOT_TOP_AMOUNT": "56,600",
+    "SUPLY_HSHLDCO": 8
+   }
+  ]
+ },
+ "opt:2026940185:2026940185": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9109A",
+    "LTTOT_TOP_AMOUNT": "75,840",
+    "SUPLY_HSHLDCO": 5
+   },
+   {
+    "HOUSE_TY": "084.3506B",
+    "LTTOT_TOP_AMOUNT": "74,520",
+    "SUPLY_HSHLDCO": 3
+   },
+   {
+    "HOUSE_TY": "105.9852 ",
+    "LTTOT_TOP_AMOUNT": "93,780",
+    "SUPLY_HSHLDCO": 2
+   }
+  ]
+ },
+ "opt:2026940184:2026940184": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "078.4400N",
+    "LTTOT_TOP_AMOUNT": "196,300",
+    "SUPLY_HSHLDCO": 3
+   },
+   {
+    "HOUSE_TY": "084.0800N",
+    "LTTOT_TOP_AMOUNT": "207,200",
+    "SUPLY_HSHLDCO": 1
+   }
+  ]
+ },
+ "opt:2026940183:2026940183": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "038.0151 ",
+    "LTTOT_TOP_AMOUNT": "63,410",
+    "SUPLY_HSHLDCO": 2
+   },
+   {
+    "HOUSE_TY": "039.4007 ",
+    "LTTOT_TOP_AMOUNT": "61,130",
+    "SUPLY_HSHLDCO": 3
+   },
+   {
+    "HOUSE_TY": "044.1911 ",
+    "LTTOT_TOP_AMOUNT": "65,830",
+    "SUPLY_HSHLDCO": 6
+   },
+   {
+    "HOUSE_TY": "049.4829 ",
+    "LTTOT_TOP_AMOUNT": "79,550",
+    "SUPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "059.1925 ",
+    "LTTOT_TOP_AMOUNT": "99,610",
+    "SUPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "070.7954 ",
+    "LTTOT_TOP_AMOUNT": "108,330",
+    "SUPLY_HSHLDCO": 2
+   },
+   {
+    "HOUSE_TY": "081.0566 ",
+    "LTTOT_TOP_AMOUNT": "132,050",
+    "SUPLY_HSHLDCO": 8
+   },
+   {
+    "HOUSE_TY": "084.9830 ",
+    "LTTOT_TOP_AMOUNT": "130,380",
+    "SUPLY_HSHLDCO": 6
+   }
+  ]
+ },
+ "opt:2026940182:2026940182": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "074.9800 ",
+    "LTTOT_TOP_AMOUNT": "73,300",
+    "SUPLY_HSHLDCO": 4
+   },
+   {
+    "HOUSE_TY": "084.9100A",
+    "LTTOT_TOP_AMOUNT": "81,100",
+    "SUPLY_HSHLDCO": 2
+   },
+   {
+    "HOUSE_TY": "103.9500A",
+    "LTTOT_TOP_AMOUNT": "91,200",
+    "SUPLY_HSHLDCO": 5
+   }
+  ]
+ },
+ "opt:2026940179:2026940179": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.7419B",
+    "LTTOT_TOP_AMOUNT": "86,500",
+    "SUPLY_HSHLDCO": 13
+   },
+   {
+    "HOUSE_TY": "059.6793C",
+    "LTTOT_TOP_AMOUNT": "86,000",
+    "SUPLY_HSHLDCO": 2
+   }
+  ]
+ },
+ "opt:2026940176:2026940176": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9251A",
+    "LTTOT_TOP_AMOUNT": "50,960",
+    "SUPLY_HSHLDCO": 20
+   },
+   {
+    "HOUSE_TY": "084.9289B",
+    "LTTOT_TOP_AMOUNT": "49,950",
+    "SUPLY_HSHLDCO": 1
+   }
+  ]
+ },
+ "opt:2026940174:2026940174": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "074.9800 ",
+    "LTTOT_TOP_AMOUNT": "72,100",
+    "SUPLY_HSHLDCO": 5
+   },
+   {
+    "HOUSE_TY": "084.9900B",
+    "LTTOT_TOP_AMOUNT": "78,800",
+    "SUPLY_HSHLDCO": 3
+   },
+   {
+    "HOUSE_TY": "103.9500A",
+    "LTTOT_TOP_AMOUNT": "86,600",
+    "SUPLY_HSHLDCO": 2
+   },
+   {
+    "HOUSE_TY": "103.6500B",
+    "LTTOT_TOP_AMOUNT": "88,300",
+    "SUPLY_HSHLDCO": 2
+   }
+  ]
+ },
+ "opt:2026940172:2026940172": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.8422A",
+    "LTTOT_TOP_AMOUNT": "82,600",
+    "SUPLY_HSHLDCO": 8
+   },
+   {
+    "HOUSE_TY": "084.7200B",
+    "LTTOT_TOP_AMOUNT": "79,600",
+    "SUPLY_HSHLDCO": 7
+   }
+  ]
+ },
+ "opt:2026940171:2026940171": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.9809A",
+    "LTTOT_TOP_AMOUNT": "27,600",
+    "SUPLY_HSHLDCO": 2
+   },
+   {
+    "HOUSE_TY": "059.9890B",
+    "LTTOT_TOP_AMOUNT": "27,800",
+    "SUPLY_HSHLDCO": 4
+   },
+   {
+    "HOUSE_TY": "079.9735B",
+    "LTTOT_TOP_AMOUNT": "36,700",
+    "SUPLY_HSHLDCO": 1
+   }
+  ]
+ },
+ "opt:2026940170:2026940170": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9939 ",
+    "LTTOT_TOP_AMOUNT": "71,150",
+    "SUPLY_HSHLDCO": 6
+   },
+   {
+    "HOUSE_TY": "105.2083 ",
+    "LTTOT_TOP_AMOUNT": "82,530",
+    "SUPLY_HSHLDCO": 9
+   }
+  ]
+ },
+ "opt:2026940169:2026940169": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.7914A",
+    "LTTOT_TOP_AMOUNT": "75,900",
+    "SUPLY_HSHLDCO": 4
+   },
+   {
+    "HOUSE_TY": "084.9920B",
+    "LTTOT_TOP_AMOUNT": "75,700",
+    "SUPLY_HSHLDCO": 2
+   }
+  ]
+ },
+ "opt:2026940167:2026940167": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "052.1088 ",
+    "LTTOT_TOP_AMOUNT": "43,669",
+    "SUPLY_HSHLDCO": 2
+   },
+   {
+    "HOUSE_TY": "055.0641 ",
+    "LTTOT_TOP_AMOUNT": "46,564",
+    "SUPLY_HSHLDCO": 2
+   },
+   {
+    "HOUSE_TY": "064.5397A",
+    "LTTOT_TOP_AMOUNT": "54,755",
+    "SUPLY_HSHLDCO": 2
+   },
+   {
+    "HOUSE_TY": "064.2641B",
+    "LTTOT_TOP_AMOUNT": "54,790",
+    "SUPLY_HSHLDCO": 2
+   }
+  ]
+ },
+ "opt:2026940166:2026940166": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "060.2700E",
+    "LTTOT_TOP_AMOUNT": "47,100",
+    "SUPLY_HSHLDCO": 4
+   },
+   {
+    "HOUSE_TY": "063.7900H",
+    "LTTOT_TOP_AMOUNT": "51,340",
+    "SUPLY_HSHLDCO": 6
+   },
+   {
+    "HOUSE_TY": "068.1800F",
+    "LTTOT_TOP_AMOUNT": "52,700",
+    "SUPLY_HSHLDCO": 6
+   }
+  ]
+ },
+ "opt:2026940164:2026940164": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.9928A",
+    "LTTOT_TOP_AMOUNT": "50,370",
+    "SUPLY_HSHLDCO": 35
+   },
+   {
+    "HOUSE_TY": "059.9984B",
+    "LTTOT_TOP_AMOUNT": "51,750",
+    "SUPLY_HSHLDCO": 10
+   },
+   {
+    "HOUSE_TY": "074.9590A",
+    "LTTOT_TOP_AMOUNT": "60,460",
+    "SUPLY_HSHLDCO": 30
+   },
+   {
+    "HOUSE_TY": "074.9604C",
+    "LTTOT_TOP_AMOUNT": "61,120",
+    "SUPLY_HSHLDCO": 20
+   },
+   {
+    "HOUSE_TY": "084.9121A",
+    "LTTOT_TOP_AMOUNT": "67,200",
+    "SUPLY_HSHLDCO": 102
+   },
+   {
+    "HOUSE_TY": "084.9102B",
+    "LTTOT_TOP_AMOUNT": "68,310",
+    "SUPLY_HSHLDCO": 21
+   },
+   {
+    "HOUSE_TY": "084.9695C",
+    "LTTOT_TOP_AMOUNT": "67,050",
+    "SUPLY_HSHLDCO": 18
+   },
+   {
+    "HOUSE_TY": "099.3455A",
+    "LTTOT_TOP_AMOUNT": "75,860",
+    "SUPLY_HSHLDCO": 34
+   },
+   {
+    "HOUSE_TY": "099.3436B",
+    "LTTOT_TOP_AMOUNT": "77,050",
+    "SUPLY_HSHLDCO": 17
+   }
+  ]
+ },
+ "opt:2026940163:2026940163": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "074.9800 ",
+    "LTTOT_TOP_AMOUNT": "74,300",
+    "SUPLY_HSHLDCO": 7
+   },
+   {
+    "HOUSE_TY": "084.9100A",
+    "LTTOT_TOP_AMOUNT": "82,100",
+    "SUPLY_HSHLDCO": 4
+   },
+   {
+    "HOUSE_TY": "103.9500A",
+    "LTTOT_TOP_AMOUNT": "92,400",
+    "SUPLY_HSHLDCO": 6
+   }
+  ]
+ },
+ "opt:2026940161:2026940161": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "073.5900B",
+    "LTTOT_TOP_AMOUNT": "183,300",
+    "SUPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "078.4400N",
+    "LTTOT_TOP_AMOUNT": "188,200",
+    "SUPLY_HSHLDCO": 2
+   },
+   {
+    "HOUSE_TY": "084.0800N",
+    "LTTOT_TOP_AMOUNT": "211,500",
+    "SUPLY_HSHLDCO": 2
+   }
+  ]
+ },
+ "opt:2026940157:2026940157": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.7419B",
+    "LTTOT_TOP_AMOUNT": "86,000",
+    "SUPLY_HSHLDCO": 13
+   },
+   {
+    "HOUSE_TY": "059.6793C",
+    "LTTOT_TOP_AMOUNT": "86,000",
+    "SUPLY_HSHLDCO": 3
+   },
+   {
+    "HOUSE_TY": "059.6793D",
+    "LTTOT_TOP_AMOUNT": "80,000",
+    "SUPLY_HSHLDCO": 1
+   }
+  ]
+ },
+ "opt:2026940156:2026940156": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "039.0400A",
+    "LTTOT_TOP_AMOUNT": "84,653",
+    "SUPLY_HSHLDCO": 4
+   },
+   {
+    "HOUSE_TY": "062.2400A",
+    "LTTOT_TOP_AMOUNT": "149,990",
+    "SUPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "078.8900A",
+    "LTTOT_TOP_AMOUNT": "166,145",
+    "SUPLY_HSHLDCO": 1
+   }
+  ]
+ },
+ "opt:2026940155:2026940155": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9939 ",
+    "LTTOT_TOP_AMOUNT": "71,150",
+    "SUPLY_HSHLDCO": 15
+   },
+   {
+    "HOUSE_TY": "105.2083 ",
+    "LTTOT_TOP_AMOUNT": "82,530",
+    "SUPLY_HSHLDCO": 15
+   }
+  ]
+ },
+ "opt:2026940153:2026940153": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.8536A",
+    "LTTOT_TOP_AMOUNT": "111,787",
+    "SUPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "084.3693B",
+    "LTTOT_TOP_AMOUNT": "105,503",
+    "SUPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "084.9796C",
+    "LTTOT_TOP_AMOUNT": "100,986",
+    "SUPLY_HSHLDCO": 2
+   }
+  ]
+ },
+ "opt:2026940150:2026940150": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.9936A",
+    "LTTOT_TOP_AMOUNT": "56,630",
+    "SUPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "084.9771A",
+    "LTTOT_TOP_AMOUNT": "83,800",
+    "SUPLY_HSHLDCO": 15
+   },
+   {
+    "HOUSE_TY": "084.9626B",
+    "LTTOT_TOP_AMOUNT": "82,380",
+    "SUPLY_HSHLDCO": 4
+   },
+   {
+    "HOUSE_TY": "084.9533C",
+    "LTTOT_TOP_AMOUNT": "82,480",
+    "SUPLY_HSHLDCO": 3
+   }
+  ]
+ },
+ "opt:2026940149:2026940149": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.8422A",
+    "LTTOT_TOP_AMOUNT": "81,400",
+    "SUPLY_HSHLDCO": 8
+   },
+   {
+    "HOUSE_TY": "084.7200B",
+    "LTTOT_TOP_AMOUNT": "79,600",
+    "SUPLY_HSHLDCO": 13
+   }
+  ]
+ },
+ "opt:2026940148:2026940148": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.7914A",
+    "LTTOT_TOP_AMOUNT": "75,900",
+    "SUPLY_HSHLDCO": 7
+   },
+   {
+    "HOUSE_TY": "084.9920B",
+    "LTTOT_TOP_AMOUNT": "76,500",
+    "SUPLY_HSHLDCO": 6
+   }
+  ]
+ },
+ "opt:2026940147:2026940147": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9109A",
+    "LTTOT_TOP_AMOUNT": "75,840",
+    "SUPLY_HSHLDCO": 5
+   },
+   {
+    "HOUSE_TY": "084.3506B",
+    "LTTOT_TOP_AMOUNT": "74,520",
+    "SUPLY_HSHLDCO": 4
+   },
+   {
+    "HOUSE_TY": "105.9852 ",
+    "LTTOT_TOP_AMOUNT": "93,780",
+    "SUPLY_HSHLDCO": 2
+   }
+  ]
+ },
+ "opt:2026940146:2026940146": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "052.1088 ",
+    "LTTOT_TOP_AMOUNT": "43,669",
+    "SUPLY_HSHLDCO": 2
+   },
+   {
+    "HOUSE_TY": "055.0641 ",
+    "LTTOT_TOP_AMOUNT": "46,564",
+    "SUPLY_HSHLDCO": 4
+   },
+   {
+    "HOUSE_TY": "064.5397A",
+    "LTTOT_TOP_AMOUNT": "53,136",
+    "SUPLY_HSHLDCO": 2
+   },
+   {
+    "HOUSE_TY": "064.2641B",
+    "LTTOT_TOP_AMOUNT": "53,976",
+    "SUPLY_HSHLDCO": 2
+   }
+  ]
+ },
+ "opt:2026940145:2026940145": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "074.9800 ",
+    "LTTOT_TOP_AMOUNT": "73,100",
+    "SUPLY_HSHLDCO": 7
+   },
+   {
+    "HOUSE_TY": "084.9900B",
+    "LTTOT_TOP_AMOUNT": "78,800",
+    "SUPLY_HSHLDCO": 3
+   },
+   {
+    "HOUSE_TY": "103.9500A",
+    "LTTOT_TOP_AMOUNT": "89,300",
+    "SUPLY_HSHLDCO": 3
+   },
+   {
+    "HOUSE_TY": "103.6500B",
+    "LTTOT_TOP_AMOUNT": "89,500",
+    "SUPLY_HSHLDCO": 4
+   }
+  ]
+ },
+ "opt:2026940144:2026940144": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9910A",
+    "LTTOT_TOP_AMOUNT": "75,650",
+    "SUPLY_HSHLDCO": 12
+   },
+   {
+    "HOUSE_TY": "084.9824C",
+    "LTTOT_TOP_AMOUNT": "73,540",
+    "SUPLY_HSHLDCO": 3
+   }
+  ]
+ },
+ "opt:2026940139:2026940139": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.7277A",
+    "LTTOT_TOP_AMOUNT": "56,117",
+    "SUPLY_HSHLDCO": 8
+   },
+   {
+    "HOUSE_TY": "084.9343B",
+    "LTTOT_TOP_AMOUNT": "51,259",
+    "SUPLY_HSHLDCO": 4
+   },
+   {
+    "HOUSE_TY": "128.8451A",
+    "LTTOT_TOP_AMOUNT": "82,693",
+    "SUPLY_HSHLDCO": 20
+   },
+   {
+    "HOUSE_TY": "128.6421B",
+    "LTTOT_TOP_AMOUNT": "80,236",
+    "SUPLY_HSHLDCO": 22
+   }
+  ]
+ },
+ "opt:2026940119:2026940119": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "077.0700A",
+    "LTTOT_TOP_AMOUNT": "54,000",
+    "SUPLY_HSHLDCO": 1
+   },
+   {
+    "HOUSE_TY": "077.0700B",
+    "LTTOT_TOP_AMOUNT": "59,000",
+    "SUPLY_HSHLDCO": 6
+   }
+  ]
+ }
+}
