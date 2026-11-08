@@ -1,6 +1,6 @@
 {
  "아크메르 동탄 95": {
-  "fetched_at": "2026-11-07T19:00:36+09:00",
+  "fetched_at": "2026-11-08T19:15:16+09:00",
   "articles": [
    {
     "title": "주택특별공급",
@@ -69,7 +69,7 @@
   ]
  },
  "아크메르 동탄 99": {
-  "fetched_at": "2026-11-07T19:00:35+09:00",
+  "fetched_at": "2026-11-08T19:15:15+09:00",
   "articles": [
    {
     "title": "게시판 관리",
@@ -122,7 +122,7 @@
   ]
  },
  "충정로역자이르네(2차)": {
-  "fetched_at": "2026-11-07T19:00:41+09:00",
+  "fetched_at": "2026-11-08T19:15:21+09:00",
   "articles": [
    {
     "title": "주택특별공급 - 알림소식 - 서울지방중소벤처기업청",
@@ -143,8 +143,16 @@
   ]
  },
  "고덕강일지구 3단지 토지임대부(본청약)": {
-  "fetched_at": "2026-11-07T19:00:37+09:00",
+  "fetched_at": "2026-11-08T19:15:17+09:00",
   "articles": [
+   {
+    "title": "입주자모집공고",
+    "source": "SH",
+    "date": "2026-10-27",
+    "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOdWtZME1BU2dZdVJNQTNiNi1wSnd6ZHU3cU9zdWR6M2N2VlZwTjJVeTI5V2xhMS1EVDJCb1VVUDhpYU1hTUFHdWFvTHRhOXVLUENDZ1psOU1xR1VMQ3BCc1V1LXk0OEdSV21CVWZ2MjVHbTc5b250RnhfMGFKRXMxQW9QZFRCaUhfZnZiV1RvM044YmlodC1aTGRLMlFlVGpVTHBzNA?oc=5",
+    "source_url": "https://www.i-sh.co.kr",
+    "text": "입주자모집공고  입주자모집공고    서울주택도시개발공사 "
+   },
    {
     "title": "SH인터넷청약시스템 >SH소식>공사소식>영상 갤러리",
     "source": "SH",
@@ -156,8 +164,16 @@
   ]
  },
  "화성 향남 롯데캐슬 시그니처": {
-  "fetched_at": "2026-11-07T19:00:49+09:00",
+  "fetched_at": "2026-11-08T19:15:29+09:00",
   "articles": [
+   {
+    "title": "(추천명단)(#화성)’화성 향남 롯데캐슬 시그니처’ 서울시 장애인 특별공급 기관추천 명단",
+    "source": "서울시",
+    "date": "2026-10-28",
+    "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5yd1d5aHU5c19WWkpUNTBHaW5FN05BVDJBb2RDRlY4UVpsSGhZdld6MExueEFsM19UbnFfX2hoUFFwYXMwckd6VGNqZGNIdWJvcGVBX19rZ2hsRDJG?oc=5",
+    "source_url": "https://news.seoul.go.kr",
+    "text": "(추천명단)(#화성)’화성 향남 롯데캐슬 시그니처’ 서울시 장애인 특별공급 기관추천 명단  (추천명단)(#화성)’화성 향남 롯데캐슬 시그니처’ 서울시 장애인 특별공급 기관추천 명단    분야별정보 "
+   },
    {
     "title": "동행정복지센터공지",
     "source": "goyang.go.kr",
@@ -177,24 +193,15 @@
   ]
  },
  "GTX운정중앙역 시티프라디움 3단지(후속사업)": {
-  "fetched_at": "2026-11-07T19:00:48+09:00",
-  "articles": [
-   {
-    "title": "'GTX운정중앙역 시티프라디움 3단지' 장애인 특별공급 기관추천자 명단",
-    "source": "incheon.go.kr",
-    "date": "2026-11-04",
-    "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxQVThYRXBSZ3VXQkFvcVgwX0xjejNpZEVFWTdXLU9iS091bnpwQUlXNFhqNGE2ZHp4N3FsaHJwdlpta3daNUdraWlfQWhOSktVRkZieldyZlJ0eElOR2lGbkdvbDBVS2xHWjFpS2IwNDh2czVIYzdyenNkcEhCbzhlMWxxWGtvTDdCNmx0ZUhtMUwtVnZucmc?oc=5",
-    "source_url": "https://www.incheon.go.kr",
-    "text": "'GTX운정중앙역 시티프라디움 3단지' 장애인 특별공급 기관추천자 명단  'GTX운정중앙역 시티프라디움 3단지' 장애인 특별공급 기관추천자 명단    인천광역시 "
-   }
-  ]
+  "fetched_at": "2026-11-08T19:15:29+09:00",
+  "articles": []
  },
  "GTX운정중앙역 시티프라디움 4단지(후속사업)": {
-  "fetched_at": "2026-11-07T19:00:48+09:00",
+  "fetched_at": "2026-11-08T19:15:28+09:00",
   "articles": []
  },
  "시흥거모지구 S-1블록 공공분양(본청약)": {
-  "fetched_at": "2026-11-07T19:00:47+09:00",
+  "fetched_at": "2026-11-08T19:15:27+09:00",
   "articles": [
    {
     "title": "한국토지주택공사(LH), 시흥거모지구 S-1블록 공공분양주택 300호 공급",
@@ -207,16 +214,8 @@
   ]
  },
  "화서역 호수공원 아너스빌": {
-  "fetched_at": "2026-11-07T19:00:52+09:00",
+  "fetched_at": "2026-11-08T19:15:33+09:00",
   "articles": [
-   {
-    "title": "문서뷰어",
-    "source": "goyang.go.kr",
-    "date": "2026-11-03",
-    "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxQWW13MlpUcTdaeERfUHpwYkpBclFabk14NU5Pa0tBUUJEZGREcHk4ak05OXBHQ3U2aEdiMTVma3BlR2N5MEl3bS1IZGpiRi10dHJtMFpqdUw0Y2VkcHpxV1NOdWpoZ1ZmbEZLU2ZlWmVzRk5KZl9xZXdrOGc2bzVsLVRfTXViVTBpaklVQUFhT1dNWXFIcHViNldTYzVsb2wzWDJuY1dUbHNLd0U?oc=5",
-    "source_url": "https://www.goyang.go.kr",
-    "text": "문서뷰어  문서뷰어    고양시청 "
-   },
    {
     "title": "PowerPoint 프레젠테이션",
     "source": "goyang.go.kr",
@@ -244,7 +243,7 @@
   ]
  },
  "더샵 분당하이스트": {
-  "fetched_at": "2026-11-07T19:00:51+09:00",
+  "fetched_at": "2026-11-08T19:15:31+09:00",
   "articles": [
    {
     "title": "우리동 소식 목록 - 인덕원동 - 동안구청",
@@ -265,24 +264,24 @@
   ]
  },
  "파주 운정신도시 우미 린 더 센텀": {
-  "fetched_at": "2026-11-07T19:00:52+09:00",
+  "fetched_at": "2026-11-08T19:15:32+09:00",
   "articles": [
    {
-    "title": "파주 운정신도시 우미 린 더 센텀 무순위(사후) 입주자모집공고",
+    "title": "파주 운정신도시 우미 린 더 센텀 불법행위재공급 입주자모집공고",
     "source": "청약홈",
     "date": "2026-10-26",
-    "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNU2g2RkcyTjFQMWN6ZzU2MEVuenN2RFlSZ2U3ZFlEOXJsWGVYZFNBcHRmWTNndW5iQVZrdlJOa3pBTkpuYWNaY3hSb2llc0RKSTJ2SFRKaW5nY0pMVFNVQ29jSEpFQ2NxSy1VczBwektXYUlfeWs0a0ZkUmlfNlY1TVFuS0pkLWVQbWxjNlZIclpHTlR3UC1qVmJkVEt5VXR3N2xKbVNTY2VtbHRSOG5FaXBmZUFXQmVLTElfNGZZUTJPUWpLNjJDWVhuQmg?oc=5",
+    "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxOZkFEelBEMGNpbUZEOXBhQzRsS3dSX2RWWWRyd0pGdG5pc1g3c1EycE1hTExUSEdmZGowOENKMEpZQkR1aXFKM2tleVBWVFRuX0c2eUYzanFvV1FWUE14bDlHdDhmRXlxOWJISmFCVUNvWWlIdkN5VXlDZ3dQOFh0cXctWGZvZFJMVmZOM3FMNUdLeEpGcy1ENXZmNjE2ZllNanFOWmpVamFyOG9lUTdmZThQZmR4ajRhWTVRckoxV2NoM1VVaTJwbDNPV3o?oc=5",
     "source_url": "https://static.applyhome.co.kr",
-    "text": "파주 운정신도시 우미 린 더 센텀 무순위(사후) 입주자모집공고  파주 운정신도시 우미 린 더 센텀 무순위(사후) 입주자모집공고    우미 린 "
+    "text": "파주 운정신도시 우미 린 더 센텀 불법행위재공급 입주자모집공고  파주 운정신도시 우미 린 더 센텀 불법행위재공급 입주자모집공고    우미 린 "
    }
   ]
  },
  "수원당수지구 A5블록 신혼희망타운(공공분양) 추가 입주자모집": {
-  "fetched_at": "2026-11-07T19:00:15+09:00",
+  "fetched_at": "2026-11-08T19:14:57+09:00",
   "articles": []
  },
  "시흥거모 A-5블록 신혼희망타운(공공분양)(본청약)": {
-  "fetched_at": "2026-11-07T19:00:16+09:00",
+  "fetched_at": "2026-11-08T19:14:58+09:00",
   "articles": [
    {
     "title": "마이홈포털",
@@ -319,7 +318,7 @@
   ]
  },
  "성남복정2 A1블록 신혼희망타운(공공분양)(본청약)": {
-  "fetched_at": "2026-11-07T19:00:16+09:00",
+  "fetched_at": "2026-11-08T19:14:59+09:00",
   "articles": [
    {
     "title": "마이홈이란?",
@@ -356,31 +355,31 @@
   ]
  },
  "의정부우정 A2블록 공공분양주택(본청약)": {
-  "fetched_at": "2026-11-07T19:00:17+09:00",
+  "fetched_at": "2026-11-08T19:15:00+09:00",
   "articles": []
  },
  "남양주진접2지구 A-4블록 신혼희망타운(공공분양) 잔여세대 추가입주자모집공고": {
-  "fetched_at": "2026-11-07T19:00:18+09:00",
+  "fetched_at": "2026-11-08T19:15:01+09:00",
   "articles": []
  },
  "양주회천지구 A-26블록 공공분양주택": {
-  "fetched_at": "2026-11-07T19:00:19+09:00",
+  "fetched_at": "2026-11-08T19:15:01+09:00",
   "articles": []
  },
  "힐스테이트 고덕엘리스트 A65BL 공공분양주택": {
-  "fetched_at": "2026-11-07T19:00:20+09:00",
+  "fetched_at": "2026-11-08T19:15:02+09:00",
   "articles": []
  },
  "힐스테이트 고덕엘리스트 A12BL 공공분양주택": {
-  "fetched_at": "2026-11-07T19:00:21+09:00",
+  "fetched_at": "2026-11-08T19:15:03+09:00",
   "articles": []
  },
  "시흥하중지구 A-4블록 신혼희망타운(공공분양) 추가입주자모집": {
-  "fetched_at": "2026-11-07T19:00:21+09:00",
+  "fetched_at": "2026-11-08T19:15:04+09:00",
   "articles": []
  },
  "광명 시티프라디움 에듀하임": {
-  "fetched_at": "2026-11-07T19:00:22+09:00",
+  "fetched_at": "2026-11-08T19:15:05+09:00",
   "articles": [
    {
     "title": "광명 시티프라디움 에듀하임 기관추천 특별공급 안내문",
@@ -397,14 +396,6 @@
     "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBQblVWU29teUIxSlA5dDhKN2xrRmhyaEZjM0J5MmhQSTl4QlpBR2R6dnZHTFQ2Qm1kRW5kVEJCa2ljOVBVZkpYUm5qanFXbGRnWDJjMEFHQUVOYXdi?oc=5",
     "source_url": "https://news.seoul.go.kr",
     "text": "(일정변경)(#광명)'광명 시티프라디움 에듀하임' 서울시 장애인 특별공급 기관추천 일정 1차 변경 안내  (일정변경)(#광명)'광명 시티프라디움 에듀하임' 서울시 장애인 특별공급 기관추천 일정 1차 변경 안내    분야별정보 "
-   },
-   {
-    "title": "게시판 관리",
-    "source": "hscity.go.kr",
-    "date": "2026-09-04",
-    "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNYjlza0s4MEpHeGhHcUpOd2J3RXFZY0pYMkpJTERjLXM5WjNreE5QeUpfZE5VWnRCYUhrLUFYV1BUT3lxMXJyTlRFXzJLWlBIVmhmcVMtTFJyTEczNUQwVk9OQU05V1JLNXFPZkhIb2ItcHlUWm1pdGR1QUVXOXI0TUdCZFNxZVUzSUNZZWNWZ2pjeUNvUzBuR3BTUTl3X1IwdHVz?oc=5",
-    "source_url": "https://www.hscity.go.kr",
-    "text": "게시판 관리  게시판 관리    화성시청 "
    },
    {
     "title": "인천광역시 당하동 행정복지센터",
@@ -433,7 +424,7 @@
   ]
  },
  "쌍용 더 플래티넘 한강": {
-  "fetched_at": "2026-11-07T19:00:23+09:00",
+  "fetched_at": "2026-11-08T19:15:06+09:00",
   "articles": [
    {
     "title": "게시판 관리",
@@ -494,7 +485,7 @@
   ]
  },
  "향남역 그로브 스위첸": {
-  "fetched_at": "2026-11-07T19:00:24+09:00",
+  "fetched_at": "2026-11-08T19:15:06+09:00",
   "articles": [
    {
     "title": "주택특별공급",
@@ -547,23 +538,23 @@
   ]
  },
  "용인 양지 서희스타힐스 하이뷰 (조합원 취소분)": {
-  "fetched_at": "2026-11-07T19:00:25+09:00",
+  "fetched_at": "2026-11-08T19:15:07+09:00",
   "articles": []
  },
  "화성 송산 동원로얄듀크 포레(2차)": {
-  "fetched_at": "2026-11-07T19:00:27+09:00",
+  "fetched_at": "2026-11-08T19:15:08+09:00",
   "articles": []
  },
  "청계 노르웨이숲(13차)": {
-  "fetched_at": "2026-11-07T19:00:28+09:00",
+  "fetched_at": "2026-11-08T19:15:09+09:00",
   "articles": []
  },
  "의왕역 한신더휴": {
-  "fetched_at": "2026-11-07T19:00:29+09:00",
+  "fetched_at": "2026-11-08T19:15:10+09:00",
   "articles": []
  },
  "더 리치먼드 미아(2차)": {
-  "fetched_at": "2026-11-07T19:00:29+09:00",
+  "fetched_at": "2026-11-08T19:15:10+09:00",
   "articles": [
    {
     "title": "Ⅰ 공급개요 및 일정 안내",
@@ -576,19 +567,19 @@
   ]
  },
  "시흥 은계 에피트(조합원 취소분)": {
-  "fetched_at": "2026-11-07T19:00:31+09:00",
+  "fetched_at": "2026-11-08T19:15:11+09:00",
   "articles": []
  },
  "방배 더 유엘 포레(2차)": {
-  "fetched_at": "2026-11-07T19:00:32+09:00",
+  "fetched_at": "2026-11-08T19:15:12+09:00",
   "articles": []
  },
  "운정 아이파크 포레스트(2차)": {
-  "fetched_at": "2026-11-07T19:00:33+09:00",
+  "fetched_at": "2026-11-08T19:15:13+09:00",
   "articles": []
  },
  "중앙하이츠 원종역(3차)": {
-  "fetched_at": "2026-11-07T19:00:33+09:00",
+  "fetched_at": "2026-11-08T19:15:14+09:00",
   "articles": [
    {
     "title": "우리동 소식 목록 - 평촌동 - 동안구청",
@@ -601,72 +592,64 @@
   ]
  },
  "의정부역 센트럴 아이파크 (5차)": {
-  "fetched_at": "2026-11-07T19:00:34+09:00",
+  "fetched_at": "2026-11-08T19:15:14+09:00",
   "articles": []
  },
  "한화포레나 영흥숲": {
-  "fetched_at": "2026-11-07T19:00:37+09:00",
+  "fetched_at": "2026-11-08T19:15:18+09:00",
   "articles": []
  },
  "신천역 에피트(3차)": {
-  "fetched_at": "2026-11-07T19:00:38+09:00",
+  "fetched_at": "2026-11-08T19:15:19+09:00",
   "articles": []
  },
  "한화포레나 영흥숲(3차)": {
-  "fetched_at": "2026-11-07T19:00:39+09:00",
+  "fetched_at": "2026-11-08T19:15:19+09:00",
   "articles": []
  },
  "마곡스카이온": {
-  "fetched_at": "2026-11-07T19:00:40+09:00",
+  "fetched_at": "2026-11-08T19:15:20+09:00",
   "articles": []
  },
  "화곡더리브스카이(4차)": {
-  "fetched_at": "2026-11-07T19:00:40+09:00",
+  "fetched_at": "2026-11-08T19:15:21+09:00",
   "articles": []
  },
  "금정역 개성로니엘(4차)": {
-  "fetched_at": "2026-11-07T19:00:42+09:00",
+  "fetched_at": "2026-11-08T19:15:22+09:00",
   "articles": []
  },
  "안성 아양지구 B-2블록 금성백조 예미지(2차)": {
-  "fetched_at": "2026-11-07T19:00:43+09:00",
+  "fetched_at": "2026-11-08T19:15:23+09:00",
   "articles": []
  },
  "부천역 에피트 어바닉(5차)": {
-  "fetched_at": "2026-11-07T19:00:44+09:00",
+  "fetched_at": "2026-11-08T19:15:24+09:00",
   "articles": []
  },
  "이천 중리지구 B3블록 금성백조 예미지(3차)": {
-  "fetched_at": "2026-11-07T19:00:44+09:00",
+  "fetched_at": "2026-11-08T19:15:25+09:00",
   "articles": []
  },
  "풍무역세권 수자인 그라센트 2차(5차)": {
-  "fetched_at": "2026-11-07T19:00:45+09:00",
+  "fetched_at": "2026-11-08T19:15:25+09:00",
   "articles": []
  },
  "시흥하중지구 A1블록 신혼희망타운(공공분양) 추가입주자모집공고": {
-  "fetched_at": "2026-11-07T19:00:46+09:00",
+  "fetched_at": "2026-11-08T19:15:26+09:00",
   "articles": []
  },
  "과천 디에트르 퍼스티지(S2BL)": {
-  "fetched_at": "2026-11-07T19:00:50+09:00",
+  "fetched_at": "2026-11-08T19:15:30+09:00",
   "articles": []
  },
  "엘리프 한신더휴 수원 C3블록(2차)": {
-  "fetched_at": "2026-11-07T19:00:53+09:00",
+  "fetched_at": "2026-11-08T19:15:33+09:00",
   "articles": []
  },
  "고촌센트럴자이(14차)": {
-  "fetched_at": "2026-11-07T19:00:54+09:00",
+  "fetched_at": "2026-11-08T19:15:34+09:00",
   "articles": [
-   {
-    "title": "경기도청원",
-    "source": "경기도",
-    "date": "2026-11-04",
-    "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE9rNWUxMDJXYzVCTk91NXJiZERKelo3WGhaUXBHaVJmTUFidU43REdzbEx6dUhCTjVoQU95VURTb0luVnlzanI5eGRibWF4RE1ySkQyTU5hSkcweGM3UWt4SkFYdEFuUTQ?oc=5",
-    "source_url": "https://petitions.gg.go.kr",
-    "text": "경기도청원  경기도청원    경기도청원 "
-   },
    {
     "title": "경기도청원",
     "source": "경기도",
@@ -678,32 +661,23 @@
   ]
  },
  "고강휴먼빌": {
-  "fetched_at": "2026-11-07T19:00:55+09:00",
-  "articles": [
-   {
-    "title": "채용정보 상세",
-    "source": "m.work24.go.kr",
-    "date": "2026-10-23",
-    "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxOOWxRNVgzLXdFMmNLVkdIclBSblVyTTlVdkFnSnZta21jVURwZEZVM3lzT2hWRURpMm44RE01djZHTFRzTzF6NmhBN0VXV3lfak10TXdvcERFSTZHWmwwZXZFV0Jnd3JKX1A4ME5xWnlhOHVoN1A0cm1DZmJZcWsyZXFLcWo4Snc2dXhXdmlWNXQ5aDllS21rdXhPZ1RVd0ptY0tCbWF0bDJsRTNCVGRTSnliY2tzTTlnTjZmd3ZhdzlRTTF0OE1fUXNMLVNITE9GQUhDeTM1dw?oc=5",
-    "source_url": "https://m.work24.go.kr",
-    "text": "채용정보 상세  채용정보 상세    고용24 "
-   }
-  ]
+  "fetched_at": "2026-11-08T19:15:35+09:00",
+  "articles": []
  },
  "안산신길2지구 B-1블록 공공분양주택(본청약)": {
-  "fetched_at": "2026-11-07T19:00:56+09:00",
+  "fetched_at": "2026-11-08T19:15:36+09:00",
   "articles": []
  },
  "광교 자연앤 센트레빌(A17BL) 공공분양주택": {
-  "fetched_at": "2026-11-07T19:00:56+09:00",
+  "fetched_at": "2026-11-08T19:15:37+09:00",
   "articles": []
  },
  "광교 자연앤 센트레빌(A17BL) 지분적립형 분양주택": {
-  "fetched_at": "2026-11-07T19:00:57+09:00",
+  "fetched_at": "2026-11-08T19:15:37+09:00",
   "articles": []
  },
  "평택 고덕 우미 린 더 프리미어": {
-  "fetched_at": "2026-11-07T19:00:58+09:00",
+  "fetched_at": "2026-11-08T19:15:38+09:00",
   "articles": [
    {
     "title": "(추천명단)(#평택)’평택 고덕 우미 린 더 프리미어’ 서울시 장애인 특별공급 기관추천 명단",
@@ -722,6 +696,14 @@
     "text": "월피동 | 우리동 소식  월피동 | 우리동 소식    안산시청 "
    },
    {
+    "title": "기타공고 상세 | 공고·입법예고 | 부천소식",
+    "source": "bucheon.go.kr",
+    "date": "2026-10-06",
+    "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxNek9aakRVeHF2Z3VpaXozYlhqeTVXTWFFcjhKZlRSTDdBaGdwZi1vQkZKYmkzcVVpa3NzZnphREh3Q25kTVN3UjI5a2k3UTlZLTFiX2lKN0FpdmctZkJJcnpsc1RJOUZvUUhONGp0VTY1RHIwbVRjWFFqX0dXZnRJUVpjZGZSckdfdzlDVGVjMG92N2FsVUY4T0l0dlJmazVDeU82Ml9rYkgwWWFTckhUTzBDTlB4Y0J4RG1ydnYyWkRUVDRCSE83ZjFrN2FBVU1STGMwU1hfdXo?oc=5",
+    "source_url": "https://www.bucheon.go.kr",
+    "text": "기타공고 상세 | 공고·입법예고 | 부천소식  기타공고 상세 | 공고·입법예고 | 부천소식    부천시청 "
+   },
+   {
     "title": "주택특별공급",
     "source": "mss.go.kr",
     "date": "2026-09-29",
@@ -732,7 +714,7 @@
   ]
  },
  "구리갈매역세권 B-1블록 신안인스빌 디센트": {
-  "fetched_at": "2026-11-07T19:00:59+09:00",
+  "fetched_at": "2026-11-08T19:15:39+09:00",
   "articles": [
    {
     "title": "(추천명단)(#구리)'구리갈매역세권 B-1블록 신안인스빌 디센트' 서울시 장애인 특별공급 기관추천 명단",
@@ -743,36 +725,12 @@
     "text": "(추천명단)(#구리)'구리갈매역세권 B-1블록 신안인스빌 디센트' 서울시 장애인 특별공급 기관추천 명단  (추천명단)(#구리)'구리갈매역세권 B-1블록 신안인스빌 디센트' 서울시 장애인 특별공급 기관추천 명단    분야별정보 "
    },
    {
-    "title": "주택특별공급",
-    "source": "mss.go.kr",
-    "date": "2026-11-03",
-    "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE1hWEtpbzJhVHhSLUtQM25jdWQwZkNLQ21QYUtXcFd4dzdpbUxRQWtidnZEWUNVVHA0b1JnM3VKUVlDaVlkZDY0cnkwYWpIT0dlTGxTVmVxUnJydldJTldTei1yV0tDTmtiUFNlMHRLVnU0YkJrcEV3ZFZDaXIxQ28?oc=5",
-    "source_url": "https://www.mss.go.kr",
-    "text": "주택특별공급  주택특별공급    중소벤처기업부 "
-   },
-   {
-    "title": "인천광역시 당하동 행정복지센터",
-    "source": "geomdan.go.kr",
-    "date": "2026-10-20",
-    "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxQVVFOenN1TmVfNHMzRTEwblVjbVE4UFRqMVA1T2RJTGlJdE1tMWlTMUNXSUFOMHpjMnU1WW5LRkRZWXlfRWd0T3Q0ZEptaG53LThRemJoZ3lnN3JmN0ROY19BMkc5WHBTR3Z4NlVqak1ZZ1NkSzdrRzV4Q2trNnJvYkxuTGZTVWhjanBjV3laTHU?oc=5",
-    "source_url": "https://www.geomdan.go.kr",
-    "text": "인천광역시 당하동 행정복지센터  인천광역시 당하동 행정복지센터    검단구청 "
-   },
-   {
     "title": "(민간분양) '엘리프 시흥 더 프라임' 장애인 기관추천 특별공급 신청 접수 알림",
     "source": "incheon.go.kr",
     "date": "2026-10-16",
     "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE4yVWZnOF9ka09jNWl3Nl9wUm9ZZUxXNEhtVmlIYnFxdUowcDZPejFsMG82U1poV2I2M0FmdXhrTFBVa1NkVUVrR3dITXJON1VvMjc2eG9pWG1NWTMxRzdv?oc=5",
     "source_url": "https://www.incheon.go.kr",
     "text": "(민간분양) '엘리프 시흥 더 프라임' 장애인 기관추천 특별공급 신청 접수 알림  (민간분양) '엘리프 시흥 더 프라임' 장애인 기관추천 특별공급 신청 접수 알림    인천광역시 "
-   },
-   {
-    "title": "동행정복지센터공지",
-    "source": "goyang.go.kr",
-    "date": "2026-10-13",
-    "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOOVI4ZE1HQTk5dXU3RjB4ekVyVXNFTlBmZUF4MFZGbDJ3RGIyRnJQaEpIQ09qQ2lpX3lXcHNKUkdrM2NLcjJ2RlRvb3JfM0ZLdkFFd2hXNWtXVTMxajc3MWhKX3NCSkFEMF9vV04xSWJRVGlfX2duODA3bHRsSWV1VGFaMDZmdGJQVXJISm50R3E1SDFCb3MxX2JrUmJYYXNVLUxWY0Q5VVVqM0YzOF9WQVd3RlIyT2pyeXJ1TnhB?oc=5",
-    "source_url": "https://www.goyang.go.kr",
-    "text": "동행정복지센터공지  동행정복지센터공지    고양시청 "
    },
    {
     "title": "공지사항",
@@ -797,17 +755,41 @@
     "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBiMnIzSHV0VDZLMzJmNE9hM1VpWWNNNWdmZVlHQXhkRUVzZWU4N3pYZXpKM04tNlUxWV9JSkFEZ3RNQ3p1dDBCVWg5d1lrbGE1eTVtM3lydXBNTTBq?oc=5",
     "source_url": "https://news.seoul.go.kr",
     "text": "(새소식2026-105)(#구리)'구리갈매역세권 B-1블록 신안인스빌 디센트' 서울시 장애인 특별공급 기관추천 안내  (새소식2026-105)(#구리)'구리갈매역세권 B-1블록 신안인스빌 디센트' 서울시 장애인 특별공급 기관추천 안내    분야별정보 "
+   },
+   {
+    "title": "주택특별공급",
+    "source": "mss.go.kr",
+    "date": "2026-10-01",
+    "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE5QUUs4TkhaNGtGaDJLZjNKcndYU2lMZjhOMGlEdmVNOUpmX3k2aF9kRE5iXzJCM1RIQU1ieThQQnZyNENiZGFFby1PcTdoMjJwcWw0aEpmWldqVnlNTUpwQ0pVVzN4U0NZZkoxaUpMOW1lMlVqNml2RzAxVFU2SU0?oc=5",
+    "source_url": "https://www.mss.go.kr",
+    "text": "주택특별공급  주택특별공급    중소벤처기업부 "
+   },
+   {
+    "title": "주택특별공급",
+    "source": "mss.go.kr",
+    "date": "2026-09-29",
+    "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTFBIa0VQVUdvRDJ0R3FtdjlkQ1BCZ280UmpNLVU0N1VvWURwTjRGR3dlT0VaUjRqUXJYMlJWQklsMEotOTk4LWFyY0FJN3V4a1JPUlZsaDN6SGw2eF8yRzJMY3RoNXBSakpXLV9GUkM0cjc3VXBQdjNPbkJKcnNDeGM?oc=5",
+    "source_url": "https://www.mss.go.kr",
+    "text": "주택특별공급  주택특별공급    중소벤처기업부 "
+   },
+   {
+    "title": "주택특별공급",
+    "source": "mss.go.kr",
+    "date": "2020-12-24",
+    "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE82MmdFMzdRV1E0MnZxMVI4Mm5QdXVJclZIQUtCb21Dbk91TFBXSW5iUHA4RVBTS2hUcjhHU1hzcnVJamNnWWVXYkkxdEs0Qk94Q0R5bHp3ekttTnVqV0x2cFN4NWdjMUs1aTd5Zw?oc=5",
+    "source_url": "https://www.mss.go.kr",
+    "text": "주택특별공급  주택특별공급    중소벤처기업부 "
    }
   ]
  },
  "중앙하이츠 구성 플랫폼시티": {
-  "fetched_at": "2026-11-07T19:01:00+09:00",
+  "fetched_at": "2026-11-08T19:15:40+09:00",
   "articles": [
    {
     "title": "주택특별공급",
     "source": "mss.go.kr",
     "date": "2026-11-03",
-    "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE1hWEtpbzJhVHhSLUtQM25jdWQwZkNLQ21QYUtXcFd4dzdpbUxRQWtidnZEWUNVVHA0b1JnM3VKUVlDaVlkZDY0cnkwYWpIT0dlTGxTVmVxUnJydldJTldTei1yV0tDTmtiUFNlMHRLVnU0YkJrcEV3ZFZDaXIxQ28?oc=5",
+    "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9aT19fSXdFbUE4V2s1R1BHa0ttTm8ybEFxeFUxbnhsM2FMSzFlRXZlel83bmJJWFUtZjBkdWliRGgtbmw3cVVNeUswRXZ6QkNCVnRiczMwelRENV9zb1dUYWVkUVBTTVdUTGROTHFnNHZmQmVicnRmVjJnT1RpY1k?oc=5",
     "source_url": "https://www.mss.go.kr",
     "text": "주택특별공급  주택특별공급    중소벤처기업부 "
    },
@@ -870,7 +852,7 @@
   ]
  },
  "엘리프 시흥 더프라임": {
-  "fetched_at": "2026-11-07T19:01:01+09:00",
+  "fetched_at": "2026-11-08T19:15:41+09:00",
   "articles": [
    {
     "title": "(추천명단)(#시흥)’엘리프 시흥 더프라임’ 서울시 장애인 특별공급 기관추천 명단",
@@ -879,6 +861,14 @@
     "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5OcmpYMVlBVUdvYkpjcGZhYmRxa3pZV3VhNnF6ckJYVDN2eVpIVkpXa0lTdHZhMmYtdkRiUWlWQks5ejRqbjZfcWMweHNva0o4YlEyQzBXb1cyUDlX?oc=5",
     "source_url": "https://news.seoul.go.kr",
     "text": "(추천명단)(#시흥)’엘리프 시흥 더프라임’ 서울시 장애인 특별공급 기관추천 명단  (추천명단)(#시흥)’엘리프 시흥 더프라임’ 서울시 장애인 특별공급 기관추천 명단    분야별정보 "
+   },
+   {
+    "title": "(일정·세대수 변경)(#시흥)'엘리프 시흥 더프라임' 서울시 장애인 특별공급 기관추천 2차 변경 안내",
+    "source": "서울시",
+    "date": "2026-11-04",
+    "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5CQkwxX1J5QmI4aVZKRFhpUzNkdEItODNYR3RkelBtajhlNXJ3SWtXaHNSMGllUnBzOUxSdlVuSnFzaGxpaVNPYnY3a1hRa3BpeEpHQzU4NDN4TllP?oc=5",
+    "source_url": "https://news.seoul.go.kr",
+    "text": "(일정·세대수 변경)(#시흥)'엘리프 시흥 더프라임' 서울시 장애인 특별공급 기관추천 2차 변경 안내  (일정·세대수 변경)(#시흥)'엘리프 시흥 더프라임' 서울시 장애인 특별공급 기관추천 2차 변경 안내    분야별정보 "
    },
    {
     "title": "주택특별공급",
@@ -927,19 +917,11 @@
     "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE1TQWZnM1FNV1ZCeXhrM210Y2ZDdm5GcUktUVlweGI2SkdJT2RhSXFBNXVJRWZuUHhMdU5XeC1mdGJpQlVqcjhNSWUxdGVURXRIVGtnTzVlQlBhOC0wbEl0ejdONHVYNmdBbGVfVWZ3VVZkVHVyM0lCcHhqdzhmMkE?oc=5",
     "source_url": "https://www.mss.go.kr",
     "text": "주택특별공급  주택특별공급    중소벤처기업부 "
-   },
-   {
-    "title": "주택특별공급",
-    "source": "mss.go.kr",
-    "date": "2020-12-24",
-    "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE82MmdFMzdRV1E0MnZxMVI4Mm5QdXVJclZIQUtCb21Dbk91TFBXSW5iUHA4RVBTS2hUcjhHU1hzcnVJamNnWWVXYkkxdEs0Qk94Q0R5bHp3ekttTnVqV0x2cFN4NWdjMUs1aTd5Zw?oc=5",
-    "source_url": "https://www.mss.go.kr",
-    "text": "주택특별공급  주택특별공급    중소벤처기업부 "
    }
   ]
  },
  "한화포레나 지제역": {
-  "fetched_at": "2026-11-07T19:01:01+09:00",
+  "fetched_at": "2026-11-08T19:15:42+09:00",
   "articles": [
    {
     "title": "(추천명단)(#평택)’한화포레나 지제역’ 서울시 장애인 특별공급 기관추천 명단",
@@ -953,7 +935,7 @@
     "title": "주택특별공급",
     "source": "mss.go.kr",
     "date": "2026-11-03",
-    "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE1hWEtpbzJhVHhSLUtQM25jdWQwZkNLQ21QYUtXcFd4dzdpbUxRQWtidnZEWUNVVHA0b1JnM3VKUVlDaVlkZDY0cnkwYWpIT0dlTGxTVmVxUnJydldJTldTei1yV0tDTmtiUFNlMHRLVnU0YkJrcEV3ZFZDaXIxQ28?oc=5",
+    "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9aT19fSXdFbUE4V2s1R1BHa0ttTm8ybEFxeFUxbnhsM2FMSzFlRXZlel83bmJJWFUtZjBkdWliRGgtbmw3cVVNeUswRXZ6QkNCVnRiczMwelRENV9zb1dUYWVkUVBTTVdUTGROTHFnNHZmQmVicnRmVjJnT1RpY1k?oc=5",
     "source_url": "https://www.mss.go.kr",
     "text": "주택특별공급  주택특별공급    중소벤처기업부 "
    },
@@ -1008,11 +990,20 @@
   ]
  },
  "빌리브센트하이(2차)": {
-  "fetched_at": "2026-11-07T19:01:02+09:00",
-  "articles": []
+  "fetched_at": "2026-11-08T19:15:42+09:00",
+  "articles": [
+   {
+    "title": "입찰정보",
+    "source": "k-apt.go.kr",
+    "date": "2026-11-07",
+    "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE83QXlwcFNURGtSN2RVRGJDSVZtZEJGQ0I5UnVxbGY4UWxmNHJMdXR1NWFzMGZxRnhRTHdubEV6Ui1yd1pyVVNEZkF3SHZMSEVaOHJhVUxQRWc4VzZPZWZuWnpRRjhQaUVFYkcwT2U0djhNUEk?oc=5",
+    "source_url": "https://www.k-apt.go.kr",
+    "text": "입찰정보  입찰정보    공동주택관리정보시스템(K-apt) "
+   }
+  ]
  },
  "봉담자이 프라이드시티": {
-  "fetched_at": "2026-11-07T19:01:03+09:00",
+  "fetched_at": "2026-11-08T19:15:43+09:00",
   "articles": [
    {
     "title": "작은도서관 - 통계보기",
@@ -1033,11 +1024,11 @@
   ]
  },
  "남양주왕숙 A-2블록 신혼희망타운(공공분양) 잔여세대 추가입주자모집공고": {
-  "fetched_at": "2026-11-07T19:01:04+09:00",
+  "fetched_at": "2026-11-08T19:15:44+09:00",
   "articles": []
  },
  "안산신길2 A-6블록 신혼희망타운(공공분양)(본청약)": {
-  "fetched_at": "2026-11-07T19:01:05+09:00",
+  "fetched_at": "2026-11-08T19:15:45+09:00",
   "articles": [
    {
     "title": "마이홈포털",
@@ -1078,6 +1069,14 @@
     "url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxNU0RINEswajJIc0pkSDNKOU9WWkZWZGFPcmVmR0dYNUtlZ3RvVy1xc0ZGRmhsY2RlUE9WMUpzWTRkZW9BeU9WLWpSNVUzWVJvdFVvX2FGcERDOXdTd0JLTUpWeGhWTWRzRWVqdHNvNGVzLUpLdHIyQ2hHUHdFME1rNGw2SmtOZDlIbWxERzFmTWd5NF8yX05LUmU2cHh4SFNlUTJYb2p3SmM1NXlZZnVuXy0wU09LSnZIQUVYd1E1S1JYVnowaTBEcEQxT20wcEE?oc=5",
     "source_url": "https://apply.lh.or.kr",
     "text": "공고문  공고문    LH청약플러스 "
+   },
+   {
+    "title": "임대/분양 정보",
+    "source": "서울시",
+    "date": "2026-10-07",
+    "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOT3pscjBZUUFnbWV6UWFHanQyOHh1SjQ0YW0xeVpRcWFWWjBzaHpjWlQzRHlyd2ZhT2JKeGxscmxuTDR1bHlIZHV5b0VxSC1OQzNRMjZBck1ZRDA2QUpfUmtjX2dQbFd3emgzajhBWXZyVnRFVTAzcW14Tjlmb19Uemh4OGN2R1hsb2hjSHpmOE5hNnlETmtwUWQ4WWQtR1N1QW00ZnBIM1RScWlxTnphMGVfNUFqbFVidWc?oc=5",
+    "source_url": "https://housing.seoul.go.kr",
+    "text": "임대/분양 정보  임대/분양 정보    서울주거포털 "
    },
    {
     "title": "마이홈 자가진단",
