@@ -122,7 +122,7 @@ class MarketTest(unittest.TestCase):
         self.assertEqual(m["expected"], 88000)
         self.assertEqual(m["margin_pct"], 10.0)
         self.assertEqual(m["score"], 14.0)
-        self.assertEqual(m["confidence"], "보통")
+        self.assertEqual(m["confidence"], "참고용")   # 거리 근거 없는 수동 비교값은 참고용(순위 제외)
         titles = [c["title"] for c in rules.conditions(n)]
         self.assertIn("가점 · 추첨 비율", titles)
         self.assertEqual(rules.regulation({"region": "경기", "sigungu": "수원시 영통구"})[0], "투기과열")
@@ -235,6 +235,8 @@ class SourcesTest(unittest.TestCase):
         g = guide.build_guide()
         urls = [x["url"] for x in g["sources"]] + [x["url"] for x in g["sites"]] + [x["url"] for x in g["elig_sources"]]
         urls += [v["url"] for f in g["facts"] for v in f["values"]]
+        urls += [t["law"][1] for t in g["terms"]["items"]]
+        self.assertTrue(all(t["cat"] in g["terms"]["categories"] for t in g["terms"]["items"]))
         self.assertTrue(urls)
         self.assertEqual([u for u in urls if not sources.is_official(u)], [])
 
@@ -261,3 +263,79 @@ class GeoSpreadTest(unittest.TestCase):
         self.assertNotEqual(a, geo._spread(37.5, 127.0, "seoul:2"))
         self.assertLess(geo._km(a[0], a[1], 37.5, 127.0), 0.3)
         self.assertEqual(geo._name_key("길훈 아파트(재건축)"), "길훈")
+
+
+class RestrictInvestTest(unittest.TestCase):
+    GK = {"name": "광교 자연앤 센트레빌(A17BL) 공공분양주택", "region": "경기", "sigungu": "수원시 영통구", "kind": "APT · 국민",
+          "source": "apt", "move_in": "202910",
+          "flags": {"overheat": "Y", "adjust": "Y", "price_cap": "Y", "redevelop": "N", "public_zone": "N", "large_site": "Y"}}
+
+    def test_gwanggyo_matches_notice(self):
+        # 공고문: 전매제한 3년, 거주의무 5년, 재당첨 10년
+        r = rules.restrictions(dict(self.GK, market={"price_rep": 94890, "expected": 93700}))
+        self.assertEqual((r["resale_years"], r["reside_min"], r["reside_max"], r["rewin_years"]), (3.0, 3.0, 5.0, 10))  # 법령 추정은 범위
+        self.assertFalse(r["confirmed"])
+        r = rules.restrictions(dict(self.GK, house_manage_no="2026000528"))       # data/notice_rules.csv 공고문 값
+        self.assertEqual((r["resale_years"], r["reside_min"], r["reside_max"], r["rewin_years"], r["confirmed"]), (3.0, 5.0, 5.0, 10, True))
+
+    def test_private_nonregulated(self):
+        r = rules.restrictions({"name": "Y", "region": "경기", "sigungu": "평택시", "kind": "APT · 민영", "source": "apt",
+                                "flags": {"overheat": "N", "adjust": "N", "price_cap": "N", "public_zone": "N", "large_site": "N"}})
+        self.assertEqual((r["resale_years"], r["reside_max"], r["rewin_years"]), (0.5, 0.0, 0))
+
+    def test_distance_comps_and_invest(self):
+        class FakeGeo:
+            POS = {"N": (37.2900, 127.0500), "가까운A": (37.2930, 127.0500), "가까운B": (37.2900, 127.0540),
+                   "가까운C": (37.2870, 127.0480), "먼D": (37.3300, 127.0500)}
+            def locate(self, key, address, region, sigungu, name=None, stage="all"):
+                k = "N" if not key.startswith("cx:") else name
+                lat, lng = self.POS[k]
+                return {"lat": lat, "lng": lng, "precision": "exact"}
+        n = dict(self.GK, id="apt:1", address="경기도 수원시 영통구 원천동 633", dong="원천동",
+                 bands={"84": {"median": 94890, "area_min": 84.6, "area_max": 84.8}}, price_min=93860, price_max=94930)
+        mk = lambda apt, by, price, k: [{"apt": apt, "dong": "원천동", "jibun": str(k), "build_year": by, "area": 84.7,
+                                         "price": price, "date": "2099-10-01", "deal": "중개거래"}] * 4
+        trades = (mk("가까운A", 2019, 180000, 1) + mk("가까운B", 2018, 150000, 2) + mk("가까운C", 2023, 95000, 3)
+                  + mk("먼D", 2020, 300000, 4)                      # 4.4km — 제외
+                  + [{"apt": "가까운A", "dong": "원천동", "jibun": "1", "build_year": 2019, "area": 84.7, "price": 50000,
+                      "date": "2099-10-01", "deal": "직거래"}])     # 직거래 — 제외
+        m = market.analyze(n, trades, [], [], {}, geo=FakeGeo())
+        self.assertEqual(m["method"], "distance")
+        self.assertEqual(m["expected"], 150000)                    # 1km 안 3개 단지 값(18억·15억·9.5억)의 중앙값
+        self.assertEqual(m["nearby"]["radius_km"], 1.0)
+        self.assertNotIn("먼D", [c["apt"] for c in m["nearby"]["complexes"]])
+        n["market"] = m
+        n["restrict"] = rules.restrictions(n)
+        iv = market.invest(n)
+        self.assertGreaterEqual(iv["lock_years"], 5.0)
+        self.assertAlmostEqual(iv["score"], round((iv["margin_pct"] + iv["momentum_adj"]) / iv["lock_years"], 1))
+        # 거리 근거가 없으면 순위 제외
+        m2 = market.analyze(n, trades, [], [], {})
+        self.assertNotEqual(m2["method"], "distance")
+        self.assertIsNone(market.invest(dict(n, market=m2)))
+
+
+class NotifyTest(unittest.TestCase):
+    def test_new_and_d1(self):
+        import os
+        from unittest import mock
+        from tracker import notify
+        from tracker.util import today_kst
+        tmr = (today_kst() + dt.timedelta(days=1)).isoformat()
+        s = {"id": "remndr:1:1", "source": "remndr", "source_label": "무순위·잔여", "name": "테스트 줍줍", "region": "서울",
+             "sigungu": "강남구", "units": 3, "price_min": 150000, "price_max": 180000, "url": "https://www.applyhome.co.kr/x",
+             "events": [{"label": "청약접수", "start": tmr, "end": tmr}]}
+        sent_texts = []
+        with tempfile.TemporaryDirectory() as d, mock.patch.object(notify, "STATE", Path(d) / "n.json"), \
+                mock.patch.dict(os.environ, {"GITHUB_ACTIONS": "true", "TELEGRAM_BOT_TOKEN": "t", "TELEGRAM_CHAT_ID": "c"}), \
+                mock.patch.object(notify.requests, "post") as post:
+            post.return_value.status_code = 200
+            post.side_effect = lambda url, json=None, **k: (sent_texts.append(json.get("text") or json.get("body")), post.return_value)[1]
+            self.assertEqual(notify.run([s], {"notify": {"github_issue": False}}, ["서울"]), [])   # 첫 실행: 기록만
+            s2 = dict(s, id="remndr:2:2", name="새 줍줍")
+            out = notify.run([s, s2], {"notify": {"github_issue": False}}, ["서울"])
+            self.assertEqual(out, ["new:새 줍줍", "d1:새 줍줍"])       # 새 공고 + 내일 접수 알림
+            self.assertIn("new:새 줍줍", out)
+            self.assertNotIn("new:테스트 줍줍", out)                   # 이미 본 공고는 다시 안 보냄
+            self.assertTrue(any("새 줍줍" in t and "applyhome" in t for t in sent_texts))
+            self.assertEqual(notify.run([s, s2], {"notify": {"github_issue": False}}, ["서울"]), [])   # 중복 없음

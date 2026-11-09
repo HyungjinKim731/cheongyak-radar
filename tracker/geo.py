@@ -2,7 +2,7 @@
 
 우선순위
   1) Kakao 로컬 API(KAKAO_REST_KEY) — 번지 단위, 가장 정확
-  2) VWorld(VWORLD_KEY) — 번지 단위
+  2) 네이버 클라우드 Maps(NAVER_MAP_ID·NAVER_MAP_SECRET) 또는 VWorld(VWORLD_KEY) — 번지 단위
   3) 키가 없으면 OpenStreetMap(Photon → Nominatim):
        · 단지 이름으로 OSM의 아파트 단지를 찾되, 같은 동 근처 + 이름 일치일 때만 '단지 위치'로 인정
        · 못 찾으면 '동' 중심(같은 동 안의 여러 곳은 겹치지 않게 살짝 벌려 놓음)
@@ -80,6 +80,12 @@ class Geocoder:
         self.cache: dict = read_json(cache_path, {})
         self.kakao = os.environ.get("KAKAO_REST_KEY", "").strip()
         self.vworld = os.environ.get("VWORLD_KEY", "").strip()
+        self.key_set = {"kakao": bool(self.kakao), "vworld": bool(self.vworld)}
+        self.hits = {"kakao": 0, "naver": 0, "vworld": 0}
+        self.key_error: dict[str, str] = {}
+        nid, nsec = os.environ.get("NAVER_MAP_ID", "").strip(), os.environ.get("NAVER_MAP_SECRET", "").strip()
+        self.naver = (nid, nsec) if nid and nsec else None
+        self.key_set["naver"] = bool(self.naver)
         self.s = session or requests.Session()
         # 주의: requests 기본 UA(python-requests)는 OSM이 403으로 막음 → 반드시 덮어씀
         self.s.headers["User-Agent"] = "cheongyak-tracker/1.0 (personal, non-commercial)"
@@ -91,22 +97,54 @@ class Geocoder:
         self._last_ph = 0.0
         self._ph_fail = 0
         self.disabled_photon = False
-        if self.kakao or self.vworld:
+        if self.kakao or self.naver or self.vworld:
             self.budget = max(max_new, 3000)      # 키 사용 시 무료 OSM 제한과 무관
         if self.cache.get("_v") != 2:             # 예전 캐시: 구 중심(centroid)으로만 찍힌 항목은 다시 찾음
             self.cache = {k: v for k, v in self.cache.items()
-                          if isinstance(v, dict) and v.get("provider") in ("kakao", "vworld")}
+                          if isinstance(v, dict) and v.get("provider") in ("kakao", "naver", "vworld")}
             self.cache["_v"] = 2
 
     def save(self) -> None:
         write_json(self.path, self.cache, compact=True)
 
     # ------------------------------------------------------------ providers
-    def _kakao(self, q: str, keyword: bool = False):
+    def _kakao(self, q: str, keyword: bool = False, name: str | None = None):
         url = "https://dapi.kakao.com/v2/local/search/" + ("keyword.json" if keyword else "address.json")
-        r = self.s.get(url, params={"query": q, "size": 1}, headers={"Authorization": f"KakaoAK {self.kakao}"}, timeout=10)
+        r = self.s.get(url, params={"query": q, "size": 5 if keyword else 1},
+                       headers={"Authorization": f"KakaoAK {self.kakao}"}, timeout=10)
+        if r.status_code in (401, 403):
+            log.warning("카카오 API 거절(%s) — REST API 키와 [카카오맵] 사용 설정 ON 을 확인하세요. 이번 실행은 무료 지도로 대신함", r.status_code)
+            try:
+                msg = str(r.json().get("message", ""))
+            except ValueError:
+                msg = ""
+            # 응답 문구에 키가 들어 있을 수 있어 그대로 저장하지 않고 원인만 요약(공개 data.json 에 실림)
+            why = ("카카오맵 사용 설정 꺼짐" if "OPEN_MAP_AND_LOCAL" in msg or "disabled" in msg
+                   else "키 값이 틀림(REST API 키인지 확인)" if "appKey" in msg or "KakaoAK" in msg else "권한 없음")
+            self.key_error["kakao"] = f"{r.status_code} {why}"
+            self.kakao = ""
+            return None
         docs = r.json().get("documents") or []
-        return (float(docs[0]["y"]), float(docs[0]["x"])) if docs else None
+        if not keyword:
+            return (float(docs[0]["y"]), float(docs[0]["x"])) if docs else None
+        # 단지 이름 검색: '아파트' 분류이고 이름이 맞는 결과만 인정(상가·학교 등 오인 방지)
+        key = _name_key(name or q.split()[-1])
+        for d in docs:
+            if "아파트" in (d.get("category_name") or "") and key and key in _name_key(d.get("place_name") or ""):
+                return float(d["y"]), float(d["x"])
+        return None
+
+    def _naver(self, q: str):
+        """네이버 클라우드 Maps Geocoding (주소 → 좌표). 키: NAVER_MAP_ID / NAVER_MAP_SECRET"""
+        r = self.s.get("https://maps.apigw.ntruss.com/map-geocode/v2/geocode", params={"query": q},
+                       headers={"x-ncp-apigw-api-key-id": self.naver[0], "x-ncp-apigw-api-key": self.naver[1]}, timeout=10)
+        if r.status_code in (401, 403, 429):
+            log.warning("네이버 지도 API 오류 %s — 콘솔에서 Geocoding 사용 선택·키를 확인하세요", r.status_code)
+            self.key_error["naver"] = str(r.status_code)
+            self.naver = None
+            return None
+        adds = r.json().get("addresses") or []
+        return (float(adds[0]["y"]), float(adds[0]["x"])) if adds else None
 
     def _vworld(self, q: str):
         for typ in ("PARCEL", "ROAD"):
@@ -249,8 +287,13 @@ class Geocoder:
         c = self.cache.get(key)
         if c and c.get("lat") and c.get("precision") == "exact":
             return c
-        if c and c.get("precision") == "dong" and (stage == "dong" or c.get("name_tried") or self.kakao or self.vworld):
-            return c
+        keyed = bool(self.kakao or self.naver or self.vworld)
+        if c and c.get("precision") == "dong":
+            # 키가 생기면 예전 무료 지도(동 단위) 결과도 한 번은 번지 단위로 다시 찾음
+            if keyed and c.get("provider") in ("osm", "centroid") and not c.get("key_tried"):
+                pass
+            elif stage == "dong" or c.get("name_tried") or keyed:
+                return c
         addr = _clean_addr(address or "")
         full = (addr if addr.startswith(("서울", "경기", "인천")) else f"{region or ''} {addr}".strip()) if addr else ""
         dong_q = _dong_level(full) if full else None
@@ -258,30 +301,43 @@ class Geocoder:
             dong_q = f"{region or ''} {sigungu} {dong_q}".strip()
 
         # 1) 키가 있으면 번지 단위
-        if self.kakao or self.vworld:
+        if keyed:
             queries = [(full, "exact", False)] if full else []
             if dong_q and dong_q != full:
                 queries.append((dong_q, "dong", False))
-            if name and self.kakao:
-                queries.insert(1, (f"{sigungu or region or ''} {name}".strip(), "exact", True))
+            if name and self.kakao:      # 번지 주소 다음, 동 중심보다 먼저 단지 이름으로 찾기
+                queries.insert(1 if full else 0, (f"{sigungu or region or ''} {name}".strip(), "exact", True))
             for q, prec, kw in queries:
                 if not self._spend():
                     break
                 try:
-                    hit = self._kakao(q, keyword=kw) if self.kakao else (self._vworld(q) if not kw else None)
+                    if self.kakao:
+                        hit, prov = self._kakao(q, keyword=kw, name=name), "kakao"
+                    elif kw:
+                        hit, prov = None, None
+                    elif self.naver:
+                        hit, prov = self._naver(q), "naver"
+                    elif self.vworld:
+                        hit, prov = self._vworld(q), "vworld"
+                    else:
+                        hit, prov = None, None
                 except Exception as e:
                     log.debug("지오코딩 실패 %s: %s", q, e)
                     hit = None
                 if hit:
+                    self.hits[prov] = self.hits.get(prov, 0) + 1
                     out = {"lat": round(hit[0], 6), "lng": round(hit[1], 6), "precision": prec,
-                           "provider": "kakao" if self.kakao else "vworld", "q": q}
+                           "provider": prov, "q": q}
                     if prec == "dong":
                         out["lat"], out["lng"] = _spread(out["lat"], out["lng"], key)
                     self.cache[key] = out
                     return out
 
-        # 2) 키 없음: 동 중심 → (2차) 단지 이름
-        else:
+        if keyed and c and c.get("precision") == "dong":       # 키로도 못 찾음 → 기존 동 단위 유지
+            c["key_tried"] = True
+            return c
+        # 2) 키 없음 또는 키로 못 찾음: 동 중심 → (2차) 단지 이름
+        if True:
             dp = self.dong_point(dong_q) if dong_q else None
             if dp:
                 tried = stage != "dong" and bool(name) and self.budget > 0
@@ -325,6 +381,21 @@ def _spread(lat: float, lng: float, key: str, radius_m: int = 250) -> tuple[floa
     ang = (h % 3600) / 3600 * 2 * math.pi
     r = (0.35 + 0.65 * ((h >> 12) % 1000) / 1000) * radius_m / 1000
     return round(lat + r * math.sin(ang) / 111.0, 6), round(lng + r * math.cos(ang) / 88.2, 6)
+
+
+def status(g: "Geocoder") -> dict:
+    """화면·로그용 지도 키 상태: none(키 없음) / ok(이번 실행에 성공) / rejected(키 거절) / unused(키는 있으나 찾을 게 없었음)"""
+    out = {}
+    for prov in ("kakao", "naver", "vworld"):
+        if not g.key_set.get(prov):
+            out[prov] = "none"
+        elif prov in g.key_error:
+            out[prov] = "rejected: " + g.key_error[prov]
+        elif g.hits.get(prov):
+            out[prov] = f"ok ({g.hits[prov]}건)"
+        else:
+            out[prov] = "unused"
+    return out
 
 
 def attach(items: list[dict], geo: Geocoder, addr_key: str = "address", stage: str = "all") -> None:

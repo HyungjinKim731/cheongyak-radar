@@ -7,11 +7,14 @@ on:
   push:
     paths:
       - "data/watchlist.csv"  # 관심목록을 고치면 바로 반영
+      - "data/notice_rules.csv"
+      - "tracker/**"           # 계산 방식이 바뀌면 바로 다시 계산
       - "data/raw/**"
       - "config.toml"
 
 permissions:
   contents: write
+  issues: write        # 줍줍 알림 이슈
 
 concurrency:
   group: update-data
@@ -22,6 +25,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}   # 대기 중이던 실행도 앞 실행이 올린 최신 커밋에서 시작
 
       - uses: actions/setup-python@v5
         with:
@@ -41,6 +46,11 @@ jobs:
           DATA_GO_KR_KEY: ${{ secrets.DATA_GO_KR_KEY }}
           KAKAO_REST_KEY: ${{ secrets.KAKAO_REST_KEY }}   # 없어도 됨(지도 정확도용)
           VWORLD_KEY: ${{ secrets.VWORLD_KEY }}           # 없어도 됨
+          NAVER_MAP_ID: ${{ secrets.NAVER_MAP_ID }}       # 없어도 됨(네이버 클라우드 Maps)
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}   # 없어도 됨(줍줍 텔레그램 알림)
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}               # 줍줍 알림 이슈 생성용(자동 제공)
+          NAVER_MAP_SECRET: ${{ secrets.NAVER_MAP_SECRET }}
         run: python -m tracker.run
 
       - name: 변경분 커밋

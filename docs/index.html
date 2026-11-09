@@ -121,6 +121,15 @@ details.x > summary::before { content: "▸ "; } details.x[open] > summary::befo
 .sched-bar { align-items: center }
 .sched-bar select { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 8px; padding: 5px 8px; font-size: .85rem; max-width: 100% }
 .seg { display: inline-flex; gap: 4px }
+.rsline { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; margin: 6px 0 2px }
+.rs { font-size: .76rem; border: 1px solid var(--line); border-radius: 6px; padding: 2px 7px; color: var(--muted); background: var(--bg) }
+.rs b { color: var(--ink) }
+.rs.w { border-color: var(--warn, #c77700); }
+.rs.w b { color: var(--warn, #c77700) }
+.inv { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 6px; margin: 4px 0 }
+.inv div { border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; min-width: 0 }
+.inv small { display: block; color: var(--muted); font-size: .72rem }
+.inv b { font-family: var(--f-mono); font-variant-numeric: tabular-nums }
 .bands { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px; margin: 8px 0 2px }
 .band { border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; font-size: .8rem; min-width: 0; background: var(--bg) }
 .band b { font-size: .9rem }
@@ -248,15 +257,18 @@ img { max-width: 100% }
         <button type="button" class="refresh" id="refresh" hidden>↻ 최신 정보</button>
         <a class="refresh" id="pf-link" href="portfolio/" hidden style="text-decoration:none;color:inherit">포트폴리오</a></div>
     </div>
+    <div id="focus-bar" class="filters" style="padding:4px 0 0"></div>
     <nav aria-label="보기">
       <a href="#ranking" data-view="ranking">추천 순위<small id="n-ranking"></small></a>
       <a href="#schedule" data-view="schedule">청약 일정<small id="n-schedule"></small></a>
+      <a href="#zupzup" data-view="zupzup">줍줍<small id="n-zupzup"></small></a>
       <a href="#upcoming" data-view="upcoming">곧 나올 분양<small id="n-upcoming"></small></a>
       <a href="#map" data-view="map">지도</a>
       <a href="#me" data-view="me">내 자격</a>
       <a href="#pipeline" data-view="pipeline">정비사업<small id="n-pipeline"></small></a>
       <a href="#changes" data-view="changes">변경 이력<small id="n-changes"></small></a>
       <a href="#guide" data-view="guide">초보 가이드</a>
+      <a href="#terms" data-view="terms">용어집</a>
     </nav>
   </div>
 </header>
@@ -282,7 +294,7 @@ img { max-width: 100% }
         <option value="price_desc">분양가 높은 순</option>
         <option value="pp_asc">3.3㎡당 가격 낮은 순</option>
         <option value="margin">시세 여유 큰 순</option>
-        <option value="score">가치 점수 높은 순</option>
+        <option value="score">투자 점수 높은 순</option>
         <option value="elig">내 자격 되는 것 먼저</option>
       </select>
       <div id="s-band" style="display:contents"></div>
@@ -308,6 +320,13 @@ img { max-width: 100% }
     <main id="pipe-list"></main>
   </section>
 
+  <section id="v-zupzup" hidden>
+    <div class="method" id="zup-head"></div>
+    <div class="filters" id="zup-f"></div>
+    <main id="zup-list"></main>
+    <div id="zup-guide"></div>
+  </section>
+
   <section id="v-upcoming" hidden>
     <main id="up-list"></main>
   </section>
@@ -325,6 +344,14 @@ img { max-width: 100% }
 
   <section id="v-changes" hidden>
     <main id="chg-list"></main>
+  </section>
+
+  <section id="v-terms" hidden>
+    <div class="method"><b>부동산·청약 용어집</b> 쉬운 설명을 먼저 쓰고, 자세한 내용과 <b>법령·정부 근거</b>를 붙였습니다. 단지마다 달라지는 값은 항상 입주자모집공고문이 최종 기준입니다.
+      <input id="t-q" type="search" placeholder="용어 검색 (예: 실거주, 가점, 관리처분)" aria-label="용어 검색"
+        style="display:block;width:100%;margin-top:10px;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);font-size:.95rem">
+      <div class="filters" id="t-cat" style="padding:8px 0 0"></div></div>
+    <main id="t-list"></main>
   </section>
 
   <section id="v-guide" hidden>
@@ -384,6 +411,36 @@ img { max-width: 100% }
     favs.has(id) ? favs.delete(id) : favs.add(id);
     saveFavs(); render();
   });
+
+  // ---------------------------------------------------------------- 보는 범위 (핵심지역 · 주변 시세 하한)
+  const FOCUS = () => D.focus || { core_only: true, min_expected_eok: 10, definition: "" };
+  const coreOk = (x) => !st.coreOnly || x.core !== false;
+  const priceOk = (s) => { const m = s.market || {}; return !st.minEok || !(m.method === "distance" && m.expected && m.expected < st.minEok * 1e4); };
+  const focusOk = (s) => coreOk(s) && priceOk(s);
+  function focusTag(s) {
+    if (!st.minEok) return "";
+    const m = s.market || {};
+    return m.method === "distance" ? "" : `<span class="unoff" title="실거래 거리 기반 시세가 없어 ${st.minEok}억 기준을 적용하지 못했습니다">시세 근거 없음</span>`;
+  }
+  function renderFocusBar() {
+    const f = FOCUS();
+    if (st.coreOnly == null) st.coreOnly = f.core_only;
+    if (st.minEok == null) st.minEok = f.min_expected_eok;
+    const box = $("#focus-bar"); box.innerHTML = "";
+    box.append(chip("🎯 핵심지역만", st.coreOnly, () => { st.coreOnly = !st.coreOnly; saveSt(); render(); }));
+    const sel = document.createElement("select");
+    sel.setAttribute("aria-label", "주변 시세 하한");
+    sel.style.cssText = "border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:5px 8px;font-size:.85rem";
+    [[0, "주변 시세 전체"], [10, "주변 시세 10억↑"], [15, "15억↑"], [20, "20억↑"]].forEach(([v, l]) => {
+      const o = document.createElement("option"); o.value = v; o.textContent = l; if (+st.minEok === v) o.selected = true; sel.append(o);
+    });
+    sel.addEventListener("change", () => { st.minEok = +sel.value; saveSt(); render(); });
+    box.append(sel);
+    const hid = D.schedules.filter((s) => nextEvent(s) && st.regions && st.regions.includes(s.region) && !focusOk(s)).length;
+    const info = document.createElement("span"); info.className = "meta";
+    info.innerHTML = `${hid ? `진행 중 공고 ${hid}건 숨김 · ` : ""}<a href="${esc(f.source || "#")}" target="_blank" rel="noopener" title="${esc(f.definition || "")}">핵심지역 기준</a>`;
+    box.append(info);
+  }
 
   // ---------------------------------------------------------------- 청약 일정
   const KIND = { apt: "APT", remndr: "무순위·잔여", opt: "임의공급" };
@@ -479,13 +536,25 @@ img { max-width: 100% }
   const pct = (v) => v == null ? "-" : `${v > 0 ? "+" : ""}${v}%`;
 
   function marketBlock(m) {
-    if (!m || (!m.expected && !m.newsale_margin_pct && !m.region_trend)) return `<p class="meta">비교할 시세 데이터가 아직 없습니다. data/comps.csv 에 주변 단지를 추가하거나 실거래가 API를 연결하세요.</p>`;
-    let h = `<dl class="cond">`;
+    if (!m || (!m.expected && !m.newsale_margin_pct && !m.region_trend && !(m.nearby && m.nearby.reason))) return `<p class="meta">비교할 시세 데이터가 아직 없습니다. data/comps.csv 에 주변 단지를 추가하거나 실거래가 API를 연결하세요.</p>`;
+    let h = "";
+    const nb = m.nearby;
+    if (m.method === "distance") {
+      h += `<p class="meta" style="margin:4px 0"><span class="off">실측 근거</span> 국토교통부 실거래가(해제·직거래 제외)로, 공고 위치에서 실제 거리 ${nb.radius_km}km 안의 10년 이내 단지만 비교했습니다. 단지별 전용㎡당 중앙값 × 이 공고 주택형 면적.</p>`;
+    } else {
+      h += `<p class="meta" style="margin:4px 0"><span class="unoff">참고용</span> ${esc((nb && nb.reason) || "거리 기반 비교 불가")} — 아래 값은 같은 동·시군구 거래로 낸 참고치이고, <b>추천 순위에는 넣지 않았습니다.</b></p>`;
+    }
+    if (nb && nb.complexes && nb.complexes.length) {
+      h += `<div class="ptable-wrap" style="margin:6px 0"><table class="pt" style="min-width:560px"><thead><tr><th>비교 단지</th><th class="num">준공</th><th class="num">거리</th><th class="num">거래</th><th class="num">${esc(m.band || "")}㎡ 환산</th><th class="num">거래가 범위</th><th>최근 거래</th></tr></thead><tbody>${
+        nb.complexes.map((c) => `<tr><td><b>${esc(c.apt)}</b><span class="sub">${esc(c.dong || "")} ${esc(c.jibun || "")}</span></td><td class="num">${c.build_year || "-"}</td><td class="num">${c.km}km</td><td class="num">${c.n}건</td><td class="num">${won(c.value)}</td><td class="num">${won(c.min)}~${won(c.max)}</td><td>${esc(c.last)}</td></tr>`).join("")
+      }</tbody></table></div><p class="meta">각 단지 거래는 <a class="off" href="https://rt.molit.go.kr/" target="_blank" rel="noopener">국토부 실거래가 공개시스템</a>에서 직접 확인할 수 있습니다.${nb.unlocated ? ` 위치를 번지까지 못 찾은 단지 ${nb.unlocated}곳은 거리 계산에서 뺐습니다.` : ""}</p>`;
+    }
+    h += `<dl class="cond">`;
     h += `<dt>분양가(${esc(m.band || "")}㎡)</dt><dd>${won(m.price_rep)}${m.land_equiv ? ` + 토지임대료 환산 ${won(m.land_equiv)} = 실질 ${won(m.price_effective)}` : ""}</dd>`;
-    if (m.expected) h += `<dt>기대 시세</dt><dd><b>${won(m.expected)}</b> <span class="meta">(${esc(m.expected_basis)})</span></dd><dt>시세 여유율</dt><dd><b>${pct(m.margin_pct)}</b></dd>`;
+    if (m.expected) h += `<dt>${m.method === "distance" ? "기대 시세" : "참고 시세"}</dt><dd><b>${won(m.expected)}</b>${nb && nb.ok !== false && nb.low ? ` <span class="meta">(단지별 ${won(nb.low)}~${won(nb.high)})</span>` : ""} <span class="meta">(${esc(m.expected_basis)})</span></dd><dt>시세 여유율</dt><dd><b>${pct(m.margin_pct)}</b></dd>`;
     if (m.newsale_margin_pct != null) h += `<dt>인근 분양가 대비</dt><dd>${pct(m.newsale_margin_pct)} <span class="meta">(+면 이 단지가 더 쌈)</span></dd>`;
     if (m.momentum_3m_pct != null) h += `<dt>최근 3개월</dt><dd>${pct(m.momentum_3m_pct)} <span class="meta">(${esc(m.momentum_basis)})</span></dd>`;
-    if (m.score != null) h += `<dt>가치 점수</dt><dd><b>${m.score}</b> · 신뢰도 ${esc(m.confidence)}</dd>`;
+    if (m.confidence) h += `<dt>신뢰도</dt><dd>${esc(m.confidence)}</dd>`;
     h += `</dl>`;
     (m.api_groups || []).forEach((g) => {
       const st = g.stats;
@@ -515,11 +584,27 @@ img { max-width: 100% }
     return `<div class="more-box">
       ${eligDetail(s)}
       ${cond ? `<details class="x"><summary>조건 쉽게 보기</summary><dl class="cond">${cond}</dl><p class="src">최종 기준은 입주자모집공고문입니다.</p></details>` : ""}
-      <details class="x"><summary>시세 분석 · 가치 점수</summary>${marketBlock(s.market)}</details>
+      <details class="x"><summary>시세 분석 · 비교 단지</summary>${marketBlock(s.market)}</details>
       ${cc ? `<details class="x"><summary>공식 수치 (청약홈 등 공식 출처별)</summary>${cc}</details>` : ""}
       ${nw ? `<details class="x"><summary>공식 발표 ${s.news.length}건 (정부·지자체·LH·SH·GH)</summary><ul class="news">${nw}</ul></details>` : ""}
     </div>`;
   }
+
+  // ---------------------------------------------------------------- 당첨 후 제한 (전매·실거주·재당첨)
+  const yTxt = (y) => !y ? "없음" : (y < 1 ? `${Math.round(y * 12)}개월` : `${+y.toFixed(1)}년`);
+  const resideTxt = (r) => !r.reside_max ? "없음" : (r.reside_min === r.reside_max ? yTxt(r.reside_max) : `${yTxt(r.reside_min)}~${yTxt(r.reside_max)}`);
+  function restrictLine(s) {
+    const r = s.restrict; if (!r) return "";
+    if (r.resale_years == null) return r.note ? `<div class="rsline"><span class="unoff">전매·실거주·재당첨</span> <span class="meta">${esc(r.note)}</span></div>` : "";
+    const tag = (label, val, warn, title) => `<span class="rs ${warn ? "w" : ""}" title="${esc(title)}">${label} <b>${val}</b></span>`;
+    return `<div class="rsline" aria-label="당첨 후 제한">
+      ${tag("전매", yTxt(r.resale_years), r.resale_years >= 1, r.resale_basis)}
+      ${tag("실거주", resideTxt(r), r.reside_max > 0, r.reside_basis)}
+      ${tag("재당첨", yTxt(r.rewin_years), r.rewin_years >= 7, "주택공급에 관한 규칙 제54조")}
+      ${r.confirmed ? `<a class="off" href="${esc(r.source_url)}" target="_blank" rel="noopener">공고문 확인</a>`
+        : `<a class="unoff" href="${esc(r.law.reside)}" target="_blank" rel="noopener" title="주택법·시행령 기준 추정. 최종은 입주자모집공고문">법령 기준 추정</a>`}</div>`;
+  }
+  const lockOf = (s) => (s.invest || {}).lock_years;
 
   // ---------------------------------------------------------------- 평형별 가격
   const PY = (b, k) => b && b.pyeong ? b.pyeong : Math.round((+k) * 1.33 / 3.3058);   // 공급면적 없으면 추정
@@ -542,7 +627,7 @@ img { max-width: 100% }
     price_desc: (a, b) => nz(Math.max(...midPrice(b)), -1) - nz(Math.max(...midPrice(a)), -1),
     pp_asc: (a, b) => nz(a.pyeong_price, 1) - nz(b.pyeong_price, 1),
     margin: (a, b) => nz((b.market || {}).margin_pct, -1) - nz((a.market || {}).margin_pct, -1),
-    score: (a, b) => nz((b.market || {}).score, -1) - nz((a.market || {}).score, -1),
+    score: (a, b) => nz((b.invest || {}).score, -1) - nz((a.invest || {}).score, -1),
     elig: (a, b) => nz(ELIG_ORDER[(elig(a) || {}).best], 1) - nz(ELIG_ORDER[(elig(b) || {}).best], 1),
   };
   function nz(v, dir) { return v == null || !isFinite(v) ? (dir > 0 ? 1e12 : -1e12) : v; }
@@ -556,8 +641,9 @@ img { max-width: 100% }
     ["pp", "3.3㎡당", (r) => r.b ? r.b.pyeong_price : r.s.pyeong_price, true],
     ["units", "세대", (r) => r.b ? r.b.units : r.s.units, true],
     ["date", "다음 일정", (r) => { const n = nextEvent(r.s); return n ? n.start : "9999"; }],
+    ["lock", "묶임(전매·실거주)", (r) => lockOf(r.s), true],
     ["margin", "시세 여유", (r) => (r.s.market || {}).margin_pct, true],
-    ["score", "가치 점수", (r) => (r.s.market || {}).score, true],
+    ["score", "투자 점수", (r) => (r.s.invest || {}).score, true],
     ["elig", "내 자격", (r) => ELIG_ORDER[(elig(r.s) || {}).best]],
   ];
   function priceTable(rows) {
@@ -587,12 +673,13 @@ img { max-width: 100% }
         <td class="num">${(b ? b.pyeong_price : s.pyeong_price) ? `${(b ? b.pyeong_price : s.pyeong_price).toLocaleString()}만` : "-"}</td>
         <td class="num">${(b ? b.units : s.units) ? (b ? b.units : s.units).toLocaleString() : "-"}</td>
         <td>${nx ? `${esc(nx.label)} ${md(nx.start)}(${wd(nx.start)})` : "종료"}</td>
+        <td>${s.restrict && s.restrict.resale_years != null ? `전매 ${yTxt(s.restrict.resale_years)} · 실거주 ${resideTxt(s.restrict)}` : "-"}</td>
         <td class="num">${m.margin_pct != null ? pct(m.margin_pct) : "-"}</td>
-        <td class="num">${m.score != null ? m.score : "-"}</td>
+        <td class="num">${(s.invest || {}).score != null ? s.invest.score : "-"}</td>
         <td>${e ? `<span class="agree ${ST_CLS[e.best]}">${ST_TXT[e.best]}</span>` : "-"}</td></tr>`;
     };
-    return `<p class="meta" style="margin:4px 2px 8px">열 제목을 누르면 그 기준으로 정렬됩니다(한 번 더 누르면 반대로). 평형 = 공급면적 기준, '시세 여유·가치 점수'는 단지 대표 평형 기준.</p>
-      <div class="ptable-wrap"><table class="pt"><thead><tr>${th}</tr></thead><tbody>${out.map(td).join("") || `<tr><td colspan="10">해당 평형이 없습니다.</td></tr>`}</tbody></table></div>`;
+    return `<p class="meta" style="margin:4px 2px 8px">열 제목을 누르면 그 기준으로 정렬됩니다(한 번 더 누르면 반대로). 평형 = 공급면적 기준, '시세 여유·투자 점수'는 단지 대표 평형 기준. 묶임 = 전매제한·실거주의무로 팔 수 없는 기간(추정).</p>
+      <div class="ptable-wrap"><table class="pt"><thead><tr>${th}</tr></thead><tbody>${out.map(td).join("") || `<tr><td colspan="11">해당 평형이 없습니다.</td></tr>`}</tbody></table></div>`;
   }
   document.addEventListener("click", (e) => {
     const t = e.target.closest("[data-tsort]");
@@ -627,6 +714,8 @@ img { max-width: 100% }
         ${s.price_cap === "Y" ? `<span>분양가상한제</span>` : ""}</div>
       <div class="tl">${evs || '<span class="ev">일정 미정</span>'}</div>
       ${bandsBlock(s)}
+      ${focusTag(s)}
+      ${restrictLine(s)}
       ${eligLine(s)}
       <div class="links">${s.url ? `<a href="${esc(s.url)}" target="_blank" rel="noopener">청약홈 공고 ↗</a>` : ""}
         ${s.lat ? `<a href="#map" data-map="${esc(s.id)}">지도</a>` : ""}
@@ -636,7 +725,7 @@ img { max-width: 100% }
   }
   function renderSched() {
     renderSchedFilters();
-    const rows = D.schedules.filter((s) => st.regions.includes(s.region) && st.kinds.includes(s.source)
+    const rows = D.schedules.filter((s) => st.regions.includes(s.region) && focusOk(s) && st.kinds.includes(s.source)
       && (!st.favOnly || favs.has(s.id)) && (!st.eligOnly || eligOk(s)));
     const live = rows.filter(nextEvent).sort((a, b) => nextEvent(a).start.localeCompare(nextEvent(b).start));
     const done = rows.filter((s) => !nextEvent(s)).sort((a, b) => (b.last_date || "").localeCompare(a.last_date || ""));
@@ -710,6 +799,7 @@ img { max-width: 100% }
     $("#only-watch").setAttribute("aria-pressed", st.watchOnly ? "true" : "false");
   }
   function passBase(p) {
+    if (st.coreOnly && p.core === false) return false;
     if (st.pRegions && !st.pRegions.includes(p.region)) return false;
     if (st.pTypes && p.type && !st.pTypes.includes(p.type)) return false;
     if (st.watchOnly && !(p.watched || favs.has(p.id))) return false;
@@ -785,32 +875,48 @@ img { max-width: 100% }
   }
 
   // ---------------------------------------------------------------- 추천 순위
+  const RANK_SORT = [["score", "투자 점수(연 환산)"], ["gain", "기대 차익(금액)"], ["margin", "시세 여유율"], ["lock", "묶이는 기간 짧은 순"]];
   function renderRanking() {
     const byId = Object.fromEntries(D.schedules.map((s) => [s.id, s]));
-    const rows = (D.ranking || []).filter((r) => byId[r.id] && st.regions.includes(byId[r.id].region) && (!st.eligOnly || eligOk(byId[r.id])));
+    let rows = (D.ranking || []).filter((r) => byId[r.id] && st.regions.includes(byId[r.id].region) && focusOk(byId[r.id]) && (!st.eligOnly || eligOk(byId[r.id])));
+    const key = st.rSort || "score";
+    const val = { score: (r) => r.score, gain: (r) => r.gain_manwon, margin: (r) => r.margin_pct, lock: (r) => r.lock_years == null ? null : -r.lock_years };
+    rows = [...rows].sort((a, b) => nz(val[key](b), -1) - nz(val[key](a), -1));
     const scored = rows.filter((r) => r.score != null);
-    const maxAbs = Math.max(10, ...scored.map((r) => Math.abs(r.score)).map((v) => Math.min(v, 60)));
-    $("#rank-method").innerHTML = `<div class="filters" style="padding:0 0 8px" id="rank-f"></div><b>점수 계산</b> 가치 점수 = 시세 여유율(기대 시세 ÷ 분양가 − 1) + 최근 3개월 지역 상승률(±5%p 제한).
-      주변 시세가 없으면 인근 분양가 대비 차이를 절반 가중치로 씁니다. 분양가는 주택형별 최고가 기준이라 보수적입니다.
-      신뢰도는 비교 거래 수와 최신성으로 정합니다. 투자 권유가 아니며, 전매제한·실거주의무 때문에 차익을 바로 실현하기 어려운 경우가 많습니다.`;
+    const maxAbs = Math.max(5, ...scored.map((r) => Math.min(Math.abs(r.score), 40)));
+    $("#rank-method").innerHTML = `<div class="filters" style="padding:0 0 8px" id="rank-f"></div>
+      <b>순위는 실측 근거가 있는 공고만</b> 매깁니다: 국토부 실거래가(해제·직거래 제외)로, 공고 위치에서 <b>실제 거리 1→2→3km 안의 10년 이내 단지 3곳 이상</b>을 찾아 단지별 중앙값의 중앙값을 기대 시세로 씁니다. 근거가 모자라면 '근거 부족'으로 아래에 둡니다.<br>
+      <b>투자 점수(연 %p)</b> = (시세 여유율 + 최근 3개월 상승률[±5%p 제한]) ÷ <b>묶이는 기간</b>(년).
+      묶이는 기간은 전매제한과 '입주까지 남은 기간 + 실거주의무' 중 긴 쪽입니다(분양권 단계 매도는 양도세가 매우 높아 입주 후 실현을 가정).
+      같은 차익이라도 오래 묶이면 점수가 낮아집니다. 시세는 국토부 실거래가, 제한 기간은 법령 기준 추정이며 최종은 공고문입니다. 투자 권유가 아닙니다.`;
     $("#rank-list").innerHTML = `<div class="list" style="margin-top:12px">${rows.map((r, i) => {
-      const s = byId[r.id], m = s.market || {};
-      const w = r.score == null ? 0 : Math.min(Math.abs(r.score), 60) / maxAbs * 50;
+      const s = byId[r.id], m = s.market || {}, iv = s.invest || {};
+      const w = r.score == null ? 0 : Math.min(Math.abs(r.score), 40) / maxAbs * 50;
       const bar = r.score == null ? "" : `<div class="bar"><i class="${r.score < 0 ? "neg" : ""}" style="${r.score < 0 ? `right:50%;width:${w}%` : `left:50%;width:${w}%`}"></i></div>`;
       const nx = nextEvent(s);
+      const cell = (label, v) => `<div><small>${label}</small><b>${v}</b></div>`;
       return `<article class="card rank"><div class="no">${r.score == null ? "–" : i + 1}</div><div style="display:grid;gap:6px;min-width:0">
-        <div class="row1"><div class="name">${esc(s.name)}</div>${r.score == null ? `<span class="dday done">데이터 부족</span>` : `<span class="score ${r.score < 0 ? "neg" : ""}">${r.score > 0 ? "+" : ""}${r.score}</span>`}</div>
+        <div class="row1"><div class="name">${esc(s.name)}</div>${r.score == null ? `<span class="dday done" title="${esc(r.reason || "")}">근거 부족</span>` : `<span class="score ${r.score < 0 ? "neg" : ""}" title="연 환산 %p">${r.score > 0 ? "+" : ""}${r.score}<small style="font-size:.6em">/년</small></span>`}</div>
         <div class="meta"><b>${esc([s.region, s.sigungu].filter(Boolean).join(" "))}</b><span>${esc(s.kind)}</span><span>${esc(s.regulation || "")}</span>
-          ${m.price_rep ? `<span>분양가 ${won(m.price_rep)}</span>` : ""}${m.expected ? `<span>기대 시세 <b>${won(m.expected)}</b></span>` : ""}
-          <span>신뢰도 ${esc(r.confidence)}</span>${nx ? `<span>${esc(nx.label)} ${md(nx.start)}</span>` : ""}</div>
+          <span>신뢰도 ${esc(r.confidence || "-")}</span>${nx ? `<span>${esc(nx.label)} ${md(nx.start)}</span>` : ""}</div>
         ${bar}
-        <div class="meta">${m.margin_pct != null ? `시세 여유율 ${pct(m.margin_pct)}` : (m.newsale_margin_pct != null ? `인근 분양가 대비 ${pct(m.newsale_margin_pct)}` : "")}${m.momentum_3m_pct != null ? ` · 최근 3개월 ${pct(m.momentum_3m_pct)}` : ""}</div>
+        ${r.score == null ? "" : `<div class="inv">
+          ${cell("분양가(대표)", won(m.price_rep))}${cell("기대 시세", won(m.expected))}
+          ${cell("기대 차익", iv.gain_manwon != null ? won(iv.gain_manwon) : "-")}${cell("시세 여유율", pct(iv.margin_pct))}
+          ${cell("최근 3개월", m.momentum_3m_pct != null ? pct(m.momentum_3m_pct) : "-")}${cell("묶이는 기간", `${iv.lock_years}년`)}
+          ${cell("계약금(10~20%)", iv.down_payment ? `${won(iv.down_payment[0])}~${won(iv.down_payment[1])}` : "-")}${cell("입주", esc(iv.move_in_basis || "-"))}</div>`}
+        ${r.score == null ? `<p class="meta">순위 제외: ${esc(r.reason || "주변 실거래 근거 부족")}</p>` : `<p class="meta">근거: ${esc(m.expected_basis || "")} — '시세 분석'을 펼치면 비교 단지·거리·거래 건수가 나옵니다.</p>`}
+        ${restrictLine(s)}
         ${eligLine(s)}
         ${extrasBlock(s)}
       </div></article>`;
     }).join("")}</div>` + (rows.length ? "" : `<p class="empty">지금 신청할 수 있는 공고가 없습니다.</p>`);
     $("#n-ranking").textContent = scored.length || "";
-    const rf = $("#rank-f"); if (rf) rf.append(chip("✓ 내 자격 되는 것만", st.eligOnly, () => { st.eligOnly = !st.eligOnly; saveSt(); render(); }));
+    const rf = $("#rank-f");
+    if (rf) {
+      RANK_SORT.forEach(([k, label]) => rf.append(chip(label, key === k, () => { st.rSort = k; saveSt(); renderRanking(); })));
+      rf.append(chip("✓ 내 자격 되는 것만", st.eligOnly, () => { st.eligOnly = !st.eligOnly; saveSt(); render(); }));
+    }
   }
 
   // ---------------------------------------------------------------- 초보 가이드
@@ -825,6 +931,84 @@ img { max-width: 100% }
     return keys.filter((k) => F[k]).map((k) => { const f = F[k];
       return `<div style="margin-top:8px"><b style="font-size:.86rem">${esc(f.label)}</b> ${statLine(f.stats, f.unit, f.values)}${f.note ? `<div class="meta">${esc(f.note)}</div>` : ""}</div>${valuesTable(f.values, f.unit)}`; }).join("");
   }
+  // ---------------------------------------------------------------- 줍줍 (무순위·잔여세대·임의공급)
+  const ZUP_LAW = "https://www.law.go.kr/LSW/lsRvsDocInfoR.do?lsiSeq=271555";
+  function renderZup() {
+    const all = D.schedules.filter((s) => (s.source === "remndr" || s.source === "opt") && st.regions.includes(s.region) && focusOk(s));
+    const open = all.filter(nextEvent).sort((a, b) => nextEvent(a).start.localeCompare(nextEvent(b).start));
+    const past = all.filter((s) => !nextEvent(s)).sort((a, b) => (b.last_date || "").localeCompare(a.last_date || "")).slice(0, 12);
+    const acceptOpen = open.filter((s) => s.events.some((e) => e.label !== "당첨자 발표" && e.label !== "계약" && e.end >= TODAY));
+    $("#n-zupzup").textContent = acceptOpen.length || "";
+    $("#zup-head").innerHTML = `<b>줍줍 = 무순위·잔여세대·임의공급·계약취소주택.</b> 1·2순위가 끝난 뒤 남은 집을 다시 신청받는 것으로, <b>청약통장 없이</b> 신청할 수 있습니다.
+      2025년 6월 10일 개정부터 <b>성년 + 무주택세대구성원</b>만 신청할 수 있고, 거주 요건은 시장·군수·구청장이 공고마다 추가할 수 있습니다.
+      일정은 청약홈 공식 데이터로 하루 4번 갱신됩니다. <a class="off" href="${ZUP_LAW}" target="_blank" rel="noopener">근거</a>`;
+    const f = $("#zup-f"); f.innerHTML = "";
+    f.append(chip("✓ 내 자격 되는 것만", st.eligOnly, () => { st.eligOnly = !st.eligOnly; saveSt(); render(); }));
+    const card = (s, done) => {
+      const acc = s.events.find((e) => e.label === "청약접수" || e.label === "접수") || s.events[0];
+      const ann = s.events.find((e) => e.label === "당첨자 발표"), con = s.events.find((e) => e.label === "계약");
+      const d = acc ? dayDiff(acc.start) : null;
+      const badge = done ? `<span class="dday done">종료</span>` : (acc && acc.end < TODAY ? `<span class="dday">발표·계약</span>`
+        : `<span class="dday ${d != null && d <= 1 ? "hot" : ""}">접수<br>${d > 0 ? `D-${d}` : d === 0 ? "오늘" : "진행 중"}</span>`);
+      const m = s.market || {};
+      return `<article class="card"><div class="row1"><div class="name">${esc(s.name)}</div><div class="side">${badge}${starBtn(s.id, s.name)}</div></div>
+        <div class="meta"><b>${esc([s.region, s.sigungu].filter(Boolean).join(" "))}</b><span>${esc(KIND[s.source])}</span><span>${esc(s.regulation || "")}</span><span>${s.units || "-"}세대</span>${s.move_in ? `<span>입주 ${esc(String(s.move_in).slice(0, 4))}.${esc(String(s.move_in).slice(4, 6))}</span>` : ""}</div>
+        <div class="tl">${acc ? `<span class="ev"><b>접수</b> ${md(acc.start)}(${wd(acc.start)})${acc.end !== acc.start ? `~${md(acc.end)}` : ""}</span>` : ""}
+          ${ann ? `<span class="ev"><b>발표</b> ${md(ann.start)}</span>` : ""}${con ? `<span class="ev"><b>계약</b> ${md(con.start)}${con.end !== con.start ? `~${md(con.end)}` : ""}</span>` : ""}</div>
+        ${bandsBlock(s)}
+        ${m.method === "distance" && m.margin_pct != null ? `<div class="meta">주변 실거래 대비 <b>${pct(m.margin_pct)}</b> <span>(${esc(m.expected_basis)})</span></div>` : ""}
+        ${restrictLine(s)}
+        ${eligLine(s)}
+        <div class="links"><a class="off" href="${esc(s.url)}" target="_blank" rel="noopener">공고 원문(청약홈)</a>
+          <a href="https://www.applyhome.co.kr/" target="_blank" rel="noopener">청약홈에서 신청 ↗</a>
+          ${s.homepage ? `<a href="${esc(s.homepage)}" target="_blank" rel="noopener" title="청약홈 공고에 적힌 사업주체 홈페이지">분양 홈페이지 ↗</a>` : ""}</div>
+        ${extrasBlock(s)}</article>`;
+    };
+    const rows = (arr) => arr.filter((s) => !st.eligOnly || eligOk(s));
+    let html = `<div class="group-h"><span>접수 예정·진행 중</span><span>${rows(acceptOpen).length}건</span></div>`;
+    html += rows(acceptOpen).length ? `<div class="list">${rows(acceptOpen).map((s) => card(s, false)).join("")}</div>` : `<p class="empty">지금 접수할 수 있는 줍줍이 없습니다. 새 공고가 뜨면 알림을 받도록 아래 '알림 받기'를 설정해 두세요.</p>`;
+    const after = open.filter((s) => !acceptOpen.includes(s));
+    if (rows(after).length) html += `<div class="group-h"><span>접수 끝 · 발표·계약 남음</span><span>${rows(after).length}건</span></div><div class="list">${rows(after).map((s) => card(s, false)).join("")}</div>`;
+    if (past.length) html += `<details class="x" style="margin-top:10px"><summary>최근 끝난 줍줍 ${past.length}건 (어떤 게 나오는지 참고)</summary><div class="list">${past.map((s) => card(s, true)).join("")}</div></details>`;
+    $("#zup-list").innerHTML = html;
+    $("#zup-guide").innerHTML = `<div class="card" style="margin-top:14px"><h2 style="margin-top:0">신청 방법</h2>
+      <ol style="line-height:1.8;padding-left:20px;margin:6px 0">
+        <li><b>공고 확인</b>: 위 카드의 '공고 원문(청약홈)'에서 거주 요건·자격·계약금 일정을 꼭 확인합니다. 거주 요건은 공고마다 다릅니다.</li>
+        <li><b>자격 점검</b>: 성년이고 세대 전원이 무주택이어야 합니다(오피스텔은 건축물대장 용도가 업무시설이면 주택 아님). 청약통장은 필요 없습니다.</li>
+        <li><b>신청</b>: 접수일에 청약홈(PC 또는 '청약홈' 앱)에 공동·금융인증서로 로그인해 무순위·잔여세대 청약 메뉴에서 신청합니다. 임의공급은 공고에 따라 사업주체 홈페이지·견본주택에서 받기도 합니다.</li>
+        <li><b>발표·계약</b>: 추첨으로 뽑고, 당첨되면 보통 며칠 안에 계약금(분양가의 10~20%)을 내야 합니다. <b>현금을 미리 준비</b>하세요.</li>
+      </ol>
+      <h2>주의할 점</h2>
+      <ul style="line-height:1.8;padding-left:20px;margin:6px 0">
+        <li>당첨되면 <b>당첨 이력</b>이 남습니다. 규제지역·분양가상한제 단지면 <b>재당첨 제한</b>이 붙고, 원래 단지의 전매제한·실거주의무도 그대로 따라옵니다(카드의 '전매·실거주·재당첨' 줄).</li>
+        <li>당첨 후 계약을 포기해도 당첨자로 관리됩니다. 살 수 있는 자금과 실거주 계획이 있을 때만 넣으세요.</li>
+        <li>공공(LH·SH·GH)의 잔여세대는 각 기관 청약 사이트에서 따로 공고하기도 합니다: <a class="off" href="https://apply.lh.or.kr/" target="_blank" rel="noopener">LH 청약플러스</a> · <a class="off" href="https://www.i-sh.co.kr/" target="_blank" rel="noopener">SH</a> · <a class="off" href="https://www.gh.or.kr/" target="_blank" rel="noopener">GH</a></li>
+      </ul>
+      <h2>알림 받기</h2>
+      <p class="meta" style="line-height:1.7">이 사이트를 GitHub로 운영하면, 새 줍줍 공고가 뜰 때와 접수 하루 전에 자동으로 알림을 보냅니다(서울·경기).
+        ① <b>GitHub 앱</b>: 저장소에 '줍줍' 이슈가 만들어지고 GitHub 앱 푸시·메일이 옵니다(설정 불필요, 앱에서 알림 허용만).
+        ② <b>텔레그램</b>: 저장소 Secret에 TELEGRAM_BOT_TOKEN·TELEGRAM_CHAT_ID를 넣으면 휴대폰으로 바로 옵니다. 설정 방법은 README '줍줍 알림'.</p>
+      <p class="src">근거: <a class="off" href="${ZUP_LAW}" target="_blank" rel="noopener">주택공급에 관한 규칙 개정(2025.6.10)</a> · 최종 기준은 각 입주자모집공고문.</p></div>`;
+  }
+
+  function renderTerms() {
+    const T = (D.guide && D.guide.terms) || { categories: [], items: [] };
+    const cat = st.tCat || "전체";
+    const cats = $("#t-cat"); cats.innerHTML = "";
+    ["전체", ...T.categories].forEach((c) => cats.append(chip(c, cat === c, () => { st.tCat = c; saveSt(); renderTerms(); })));
+    const q = ($("#t-q").value || "").trim();
+    const items = T.items.filter((t) => (cat === "전체" || t.cat === cat) && (!q || (t.term + t.easy + t.detail).includes(q)));
+    const groups = (cat === "전체" ? T.categories : [cat]).map((c) => [c, items.filter((t) => t.cat === c)]).filter(([, v]) => v.length);
+    $("#t-list").innerHTML = groups.map(([c, v]) => `<div class="group-h"><span>${esc(c)}</span><span>${v.length}개</span></div>
+      <div class="list">${v.map((t) => `<article class="card" id="term-${esc(t.term)}">
+        <div class="name">${esc(t.term)}</div>
+        <p style="margin:6px 0 4px;font-size:.98rem"><b>${esc(t.easy)}</b></p>
+        <p class="meta" style="margin:0 0 6px;line-height:1.6">${esc(t.detail)}</p>
+        <div class="links"><a class="off" href="${esc(t.law[1])}" target="_blank" rel="noopener">근거</a> <span class="meta">${esc(t.law[0])}</span></div>
+      </article>`).join("")}</div>`).join("") || `<p class="empty">'${esc(q)}'에 맞는 용어가 없습니다.</p>`;
+  }
+  $("#t-q").addEventListener("input", () => renderTerms());
+
   function renderGuide() {
     const g = D.guide; if (!g) { $("#guide").innerHTML = ""; return; }
     let h = `<p class="meta">규칙 확인일 ${esc(g.checked)} · <b>근거와 링크는 정부·지자체·공공기관(국가법령정보센터, 국토교통부·정책브리핑, 청약홈, LH·SH·GH, 서울시) 발표만</b> 씁니다. 언론·블로그·민간 앱은 근거로 쓰지 않습니다. 실제 신청 전에는 단지별 입주자모집공고문이 최종 기준입니다.</p>`;
@@ -837,7 +1021,7 @@ img { max-width: 100% }
       g.special.map((x) => `<tr><td><b>${esc(x.name)}</b></td><td>${esc(x.who)}</td><td>${esc(x.tip)}</td></tr>`).join("")}</tbody></table></div>
       <p class="meta">특별공급은 평생 1번만 당첨될 수 있습니다. 소득 기준 세부 금액은 해마다 바뀌니 공고문을 보세요. <a href="${esc(g.special_source.url)}" target="_blank" rel="noopener">출처: ${esc(g.special_source.name)}</a></p>`;
     h += `<h2>숫자별 공식 근거</h2>${factsHtml(g.facts.map((f) => f.key))}`;
-    h += `<h2>용어 풀이</h2><dl class="cond">${g.glossary.map(([t, d]) => `<dt>${esc(t)}</dt><dd>${esc(d)}</dd>`).join("")}</dl>`;
+    h += `<h2>용어 풀이</h2><p class="meta">어려운 말은 <a href="#terms">용어집</a> 탭에 근거와 함께 정리돼 있습니다.</p><dl class="cond">${g.glossary.map(([t, d]) => `<dt>${esc(t)}</dt><dd>${esc(d)}</dd>`).join("")}</dl>`;
     h += `<h2>쓰는 공식 사이트·앱</h2><p class="meta">모두 정부·지자체·공공기관 운영입니다. ‘자동’은 이 도구가 매일 직접 가져오는 곳, ‘링크’는 사람이 열어서 확인하는 곳입니다. ‘Claude 접근’은 이 도구를 만들 때 Claude 작업 환경에서 열어 본 결과입니다.</p>
       <div class="tbl-wrap"><table class="t"><thead><tr><th>이름</th><th>용도</th><th>이 도구</th><th>Claude 접근</th><th>앱</th></tr></thead><tbody>${
       g.sites.map((x) => `<tr><td><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.name)}</a></td><td>${esc(x.use)}</td><td>${esc(x.auto)}</td><td>${esc(x.claude)}</td><td>${esc(x.app || "-")}</td></tr>`).join("")}</tbody></table></div>`;
@@ -854,7 +1038,7 @@ img { max-width: 100% }
   }
   function renderUpcoming() {
     const U = D.upcoming || { planned: [], candidates: [], news: [] };
-    const inRegion = (x) => !x.region || st.regions.includes(x.region);
+    const inRegion = (x) => (!x.region || st.regions.includes(x.region)) && coreOk(x) && (!x.events || priceOk(x));
     // 1) 공고 났고 접수 전
     const pre = D.schedules.filter((s) => inRegion(s) && s.events.length && s.events.every((e) => e.start > TODAY))
       .sort((a, b) => a.events[0].start.localeCompare(b.events[0].start));
@@ -948,7 +1132,7 @@ img { max-width: 100% }
   }
   function mapPoints() {
     const U = D.upcoming || {};
-    const inR = (x) => !x.region || st.regions.includes(x.region);
+    const inR = (x) => (!x.region || st.regions.includes(x.region)) && coreOk(x) && (!x.events || priceOk(x));
     const open = D.schedules.filter((s) => s.lat && nextEvent(s) && inR(s));
     const candIds = new Set((U.candidates || []).map((c) => c.id)), planIds = new Set((U.planned || []).map((p) => p.id));
     return {
@@ -991,7 +1175,10 @@ img { max-width: 100% }
       if (on[k]) g.addTo(MAP);
     });
     const total = cnt.exact + cnt.dong + cnt.area;
-    $("#map-note").textContent = `표시 ${total}곳 — 단지·번지 ${cnt.exact} · 동 단위 ${cnt.dong} · 구 중심(대략) ${cnt.area}.`
+    const gs = D.geo_status || {}, kk = gs.kakao || "none";
+    const kakaoTxt = kk.startsWith("ok") ? `카카오 키 정상 (${kk.slice(3)})` : kk.startsWith("rejected") ? `⚠ 카카오 키 거절됨 (${kk.slice(10)}) — REST API 키·[카카오맵] 사용 설정 확인`
+      : kk === "unused" ? "카카오 키 설정됨 (이번 갱신엔 새로 찾을 곳 없음)" : "카카오 키 없음";
+    $("#map-note").textContent = `[${kakaoTxt}] 표시 ${total}곳 — 단지·번지 ${cnt.exact} · 동 단위 ${cnt.dong} · 구 중심(대략) ${cnt.area}.`
       + (cnt.dong + cnt.area ? " 무료 지도 검색은 번지까지 못 찾는 곳이 많습니다. .env 에 KAKAO_REST_KEY(무료)를 넣으면 거의 전부 번지 위치로 바뀝니다." : "")
       + (cnt.area ? " 구 중심 항목은 다음 갱신 때 이어서 찾습니다." : "");
     setTimeout(() => MAP.invalidateSize(), 50);
@@ -1034,7 +1221,7 @@ img { max-width: 100% }
     const all = [...now.public, ...now.private_seoul, ...now.private_gg, ...now.etc];
     const cnt = (x) => all.filter((r) => r.status === x).length;
     const sc = E.score(PROF, TODAY), sc2 = E.score(after, later > TODAY ? later : TODAY);
-    const open = D.schedules.filter((s) => nextEvent(s) && st.regions.includes(s.region) && eligOk(s));
+    const open = D.schedules.filter((s) => nextEvent(s) && st.regions.includes(s.region) && focusOk(s) && eligOk(s));
     let h = `<div class="panel"><div class="kpis">
       <div class="kpi ok"><b>${cnt("ok")}</b><span>지금 넣을 수 있는 유형</span></div>
       <div class="kpi mid"><b>${cnt("maybe")}</b><span>정보 더 필요(확인)</span></div>
@@ -1145,7 +1332,7 @@ img { max-width: 100% }
   document.addEventListener("visibilitychange", () => { if (!document.hidden && D) checkServer(true); });
 
   // ---------------------------------------------------------------- 라우팅
-  const VIEWS = ["ranking", "schedule", "upcoming", "map", "me", "pipeline", "changes", "guide"];
+  const VIEWS = ["ranking", "schedule", "zupzup", "upcoming", "map", "me", "pipeline", "changes", "guide", "terms"];
   function route() {
     const v = VIEWS.includes(location.hash.slice(1)) ? location.hash.slice(1) : "ranking";
     VIEWS.forEach((x) => { $("#v-" + x).hidden = x !== v; });
@@ -1158,7 +1345,9 @@ img { max-width: 100% }
 
   function render() {
     ELC = new Map();
-    renderSched(); renderRanking(); renderUpcoming(); renderMe(); renderPipe(); renderChanges(); renderGuide();
+    if (!st.regions) st.regions = [...D.regions];
+    renderFocusBar();
+    renderSched(); renderRanking(); renderUpcoming(); renderMe(); renderPipe(); renderChanges(); renderGuide(); renderTerms(); renderZup();
     if (!$("#v-map").hidden) renderMap(); else { const lb = $("#map-layers"); if (lb && !lb.childElementCount) renderMap(); }
   }
 

@@ -1,7 +1,7 @@
 """주변 시세(연식별)·최근 상승폭 분석과 청약 후보 순위.
 
 데이터
-  1) 국토교통부 아파트 매매 실거래가 상세 API (data.go.kr 15126469, 같은 키로 활용신청)
+  1) 국토교통부 아파트 매매 실거래가 상세 API (data.go.kr 15126468, 같은 키로 활용신청)
      https://apis.data.go.kr/1613000/RTMSDataSvcAptTradeDev/getRTMSDataSvcAptTradeDev
   2) data/comps.csv         직접 찾은 비교 단지(국토부 실거래가 공개시스템 등 공식 url만 사용)
   3) data/region_trends.csv 한국부동산원 등 공식 통계로 확인한 지역별 상승률과 출처 (공식 url만 사용)
@@ -134,7 +134,9 @@ class TradeClient:
         path = self.cache_dir / f"{lawd}_{ym}.json"
         recent = ym >= (today_kst().replace(day=1) - dt.timedelta(days=40)).strftime("%Y%m")
         if path.exists() and not recent:
-            return read_json(path, [])
+            cached = read_json(path, [])
+            if isinstance(cached, dict) and cached.get("v") == 2:   # 예전 캐시(지번 없음)는 다시 받음
+                return cached["rows"]
         rows: list[dict] = []
         page = 1
         while True:
@@ -154,10 +156,12 @@ class TradeClient:
             if not price or not area:
                 continue
             out.append({"apt": clean(it.get("aptNm")), "dong": clean(it.get("umdNm")),
+                        "jibun": clean(it.get("jibun")), "seq": clean(it.get("aptSeq")),
+                        "deal": clean(it.get("dealingGbn")),          # 중개거래 / 직거래
                         "build_year": to_int(it.get("buildYear")), "area": area, "price": price,
                         "date": f"{it.get('dealYear')}-{int(it.get('dealMonth') or 0):02d}-{int(it.get('dealDay') or 0):02d}",
                         "floor": to_int(it.get("floor"))})
-        write_json(path, out, compact=True)
+        write_json(path, {"v": 2, "rows": out}, compact=True)
         return out
 
     def recent(self, sigungu: str, months: int = 13) -> list[dict]:
@@ -270,7 +274,63 @@ MARKET_KINDS = {"실거래", "KB시세", "AI추정", "시세범위", "시세"}
 
 
 # ---------------------------------------------------------------- 공고별 분석
-def analyze(notice: dict, trades: list[dict] | None, comps: list[dict], trends: list[dict], cfg: dict) -> dict:
+RADII_KM = (1.0, 2.0, 3.0)      # 가까운 곳부터 넓혀 가며 비교 단지를 찾음
+MIN_COMPLEXES = 3
+
+
+def nearby(notice: dict, trades: list[dict], geo, band_area: float, this_year: int) -> dict:
+    """공고 위치에서 실제 거리로 가까운 '10년 이내' 아파트 단지들의 최근 실거래로 기대 시세를 낸다.
+
+    - 국토부 실거래가(공식)만 사용, 해제 거래·직거래 제외
+    - 같은 면적대(전용 ±8㎡)의 전용㎡당 가격 × 공고 주택형 전용면적으로 환산
+    - 단지마다 중앙값을 낸 뒤, 반경 1km → 2km → 3km 순으로 넓혀 단지 3곳 이상이 되는 첫 반경의 '단지 중앙값들의 중앙값'
+    - 공고와 비교 단지 모두 번지·단지 단위 좌표가 있어야 함(동 단위 좌표는 거리 계산에 쓰지 않음)
+    반환 {ok, reason, …}
+    """
+    from . import geo as geo_mod
+    loc = geo.locate(notice["id"], notice.get("address"), notice.get("region"), notice.get("sigungu"), None)
+    if not loc or loc.get("precision") != "exact":
+        return {"ok": False, "reason": "공고 위치를 번지 단위로 못 찾음(카카오 키 필요)"}
+    today = today_kst()
+    out_n = 0
+    for months in (6, 12):
+        cutoff = (today - dt.timedelta(days=months * 31)).isoformat()
+        pool = [t for t in trades if t["date"] >= cutoff and abs(t["area"] - band_area) <= 8
+                and (t.get("build_year") or 0) >= this_year - 10 and t.get("deal") != "직거래"]
+        if len({(t.get("dong"), t.get("apt")) for t in pool}) >= MIN_COMPLEXES:
+            break
+    cx: dict[tuple, list] = {}
+    for t in pool:
+        cx.setdefault((t.get("dong"), t.get("jibun") or "", t.get("apt")), []).append(t)
+    rows = []
+    for (dong, jibun, apt), ts in cx.items():
+        addr = f"{notice.get('sigungu') or ''} {dong or ''} {jibun}".strip()
+        g = geo.locate(f"cx:{notice.get('sigungu')}:{dong}:{jibun or apt}", addr if jibun else None,
+                       notice.get("region"), notice.get("sigungu"), apt)
+        if not g or g.get("precision") != "exact":
+            out_n += 1
+            continue
+        km = geo_mod._km(loc["lat"], loc["lng"], g["lat"], g["lng"])
+        per_m2 = statistics.median([t["price"] / t["area"] for t in ts])
+        rows.append({"apt": apt, "dong": dong, "jibun": jibun, "build_year": ts[0].get("build_year"),
+                     "km": round(km, 2), "n": len(ts), "value": round(per_m2 * band_area),
+                     "min": min(t["price"] for t in ts), "max": max(t["price"] for t in ts),
+                     "last": max(t["date"] for t in ts), "lat": g["lat"], "lng": g["lng"]})
+    rows.sort(key=lambda r: r["km"])
+    for radius in RADII_KM:
+        near = [r for r in rows if r["km"] <= radius]
+        if len(near) >= MIN_COMPLEXES:
+            vals = [r["value"] for r in near]
+            return {"ok": True, "radius_km": radius, "months": months, "complexes": near,
+                    "expected": round(statistics.median(vals)), "low": min(vals), "high": max(vals),
+                    "trades": sum(r["n"] for r in near), "unlocated": out_n,
+                    "basis": f"반경 {radius:g}km 안 10년 이내 {len(near)}개 단지, 최근 {months}개월 실거래 {sum(r['n'] for r in near)}건"}
+    return {"ok": False, "reason": f"반경 3km 안에 위치를 확인한 10년 이내 비교 단지가 {len([r for r in rows if r['km'] <= 3])}곳뿐",
+            "complexes": rows[:8], "unlocated": out_n}
+
+
+def analyze(notice: dict, trades: list[dict] | None, comps: list[dict], trends: list[dict], cfg: dict,
+            geo=None) -> dict:
     this_year = today_kst().year
     bands = notice.get("bands") or {}
     band = "84" if "84" in bands else ("59" if "59" in bands else (next(iter(bands), None)))
@@ -302,10 +362,12 @@ def analyze(notice: dict, trades: list[dict] | None, comps: list[dict], trends: 
         b = float(band)
         cutoff = (today_kst() - dt.timedelta(days=365)).isoformat()
         same = [t for t in trades if abs(t["area"] - b) <= 6 and t["date"] >= cutoff]
+        out["scope"] = "시군구"
         if notice.get("dong"):
             local = [t for t in same if t["dong"] == notice["dong"]]
             if len(local) >= 10:
                 same = local
+                out["scope"] = notice["dong"]
         for t in same:
             groups.setdefault(age_group(t["build_year"], this_year), []).append(t)
         out["api_groups"] = [{"group": g, "stats": describe([t["price"] for t in groups[g]]),
@@ -322,10 +384,42 @@ def analyze(notice: dict, trades: list[dict] | None, comps: list[dict], trends: 
     out["manual_newsale"] = {"values": sale_vals, "stats": summarize(sale_vals, tolerance=0.1) if sale_vals else None}
 
     # 기대 시세
+    # 0) 거리 기반 비교(정확한 근거) — 이 값이 있을 때만 추천 순위에 들어감
+    out["method"] = None
+    if geo is not None and trades and band:
+        b = bands.get(band) or {}
+        band_area = ((b.get("area_min") or float(band)) + (b.get("area_max") or float(band))) / 2
+        nb = nearby(notice, trades, geo, band_area, this_year)
+        out["nearby"] = {k: v for k, v in nb.items() if k != "ok"}
+        if nb["ok"]:
+            out["method"] = "distance"
+
+    # (참고용) 같은 동/시군구 연식별 비교. 한 단지 쏠림을 막으려 '단지별 중앙값'의 중앙값.
     expected, basis = None, None
     new_g = groups.get("신축(5년 이내)") or []
-    if len(new_g) >= 3:
-        expected, basis = statistics.median([t["price"] for t in new_g]), f"실거래 신축 {len(new_g)}건 중앙값"
+    semi_g = groups.get("준신축(6~10년)") or []
+
+    def by_complex(ts):
+        cx: dict[str, list] = {}
+        for t in ts:
+            cx.setdefault(t.get("apt") or "?", []).append(t["price"])
+        return {k: statistics.median(v) for k, v in cx.items()}
+
+    new_cx, ten_cx = by_complex(new_g), by_complex(new_g + semi_g)
+    out["complexes"] = [{"apt": k, "median": round(v), "n": sum(1 for t in new_g + semi_g if (t.get("apt") or "?") == k)}
+                        for k, v in sorted(ten_cx.items(), key=lambda kv: -kv[1])][:12]
+    n_cx = 0
+    scope = out.get("scope", "시군구")
+    if len(new_cx) >= 3:
+        expected, n_cx = statistics.median(new_cx.values()), len(new_cx)
+        basis = f"{scope} 신축(5년 이내) {n_cx}개 단지 중앙값 (거래 {len(new_g)}건)"
+    elif len(ten_cx) >= 2:
+        expected, n_cx = statistics.median(ten_cx.values()), len(ten_cx)
+        basis = f"{scope} 10년 이내 {n_cx}개 단지 중앙값 (신축 단지가 {len(new_cx)}곳뿐이라 준신축 포함)"
+    elif len(new_g) >= 3:
+        expected, n_cx = statistics.median([t["price"] for t in new_g]), 1
+        basis = f"{scope} 신축 1개 단지 {len(new_g)}건 중앙값"
+        out["notes"].append("비교 신축이 한 단지뿐이라 대표성이 낮음")
     elif market_vals:
         expected = statistics.median([c["value"] for c in market_vals])
         basis = f"비교 단지 {len(market_vals)}곳 중앙값"
@@ -334,6 +428,11 @@ def analyze(notice: dict, trades: list[dict] | None, comps: list[dict], trends: 
     elif groups.get("준신축(6~10년)"):
         g = groups["준신축(6~10년)"]
         expected, basis = statistics.median([t["price"] for t in g]), f"실거래 준신축 {len(g)}건 중앙값(신축 부족)"
+    if out["method"] == "distance":
+        expected, basis = out["nearby"]["expected"], out["nearby"]["basis"]
+    elif expected:
+        out["method"] = "reference"
+        out["notes"].append("거리 기반 비교가 안 돼 같은 동·시군구 참고값만 표시 — 추천 순위에서는 제외")
     out["expected"] = round(expected) if expected else None
     out["expected_basis"] = basis
     out["margin_pct"] = round((expected / cost - 1) * 100, 1) if expected and cost else None
@@ -377,20 +476,28 @@ def analyze(notice: dict, trades: list[dict] | None, comps: list[dict], trends: 
         out["notes"].append("주변 시세가 없어 인근 분양가 비교값을 절반 가중치로 사용")
     if margin is not None:
         out["score"] = round(margin + max(-5.0, min(5.0, momentum or 0.0)), 1)
-    n_used = len(new_g) if len(new_g) >= 3 else len(market_vals) or len(sale_vals)
+    n_used = n_cx if n_cx else (len(market_vals) or len(sale_vals))
     year_ago = (today_kst() - dt.timedelta(days=365)).isoformat()
     stale_ratio = (sum((c.get("date") or "") < year_ago for c in market_vals) / len(market_vals)
                    if market_vals and len(new_g) < 3 else 0.0)
     if out.get("score") is None:
         out["confidence"] = "데이터 부족"
-    elif n_used >= 5 and stale_ratio < 0.5:
+    elif out["method"] == "distance":
+        nbh = out["nearby"]
+        out["confidence"] = ("높음" if nbh["radius_km"] <= 1.0 and len(nbh["complexes"]) >= 4 and nbh["trades"] >= 15
+                             else "보통" if nbh["radius_km"] <= 2.0 else "낮음")
+    elif out["method"] == "reference":
+        out["confidence"] = "참고용"
+    elif n_used >= 4 and stale_ratio < 0.5 and out.get("scope", "시군구") != "시군구":
         out["confidence"] = "높음"
-    elif n_used >= 3:
+    elif n_used >= 2:
         out["confidence"] = "보통"
     else:
         out["confidence"] = "낮음"
     if stale_ratio >= 0.5:
         out["notes"].append(f"비교 거래 {round(stale_ratio * 100)}%가 1년 이상 지난 값")
+    if out.get("scope") == "시군구" and n_cx:
+        out["notes"].append("같은 동 거래가 적어 시·군·구 전체와 비교 — 입지 차이로 오차가 클 수 있음")
     if price_rep and band and band in bands:
         out["notes"].append("분양가는 주택형별 최고가(공고 기준) 중앙값이라 저층·비선호 타입은 더 쌉니다")
     return out
@@ -402,22 +509,67 @@ def _comp_value(c: dict) -> dict:
             "note": c.get("note")}
 
 
+DEFAULT_YEARS_TO_MOVE_IN = 2.5   # 입주예정월이 없을 때 가정(일반적인 착공 후 분양 → 입주 기간)
+
+
+def invest(s: dict) -> dict | None:
+    """투자 관점 지표. 차익을 실제로 손에 쥘 수 있을 때까지 묶이는 기간으로 나눠 '연 환산'으로 비교한다.
+
+    투자 점수(연 %p) = (시세 여유율 + 최근 3개월 상승률[±5%p 제한]) ÷ 묶이는 기간(년, 최소 1)
+    묶이는 기간 = max(전매제한, 입주까지 남은 기간 + 실거주의무)   ← 실거주의무가 없으면 max(전매제한, 입주까지)
+    분양권 상태 매도는 양도세가 매우 높아 입주 시점 이후 실현을 기본 가정으로 둔다.
+    """
+    m = s.get("market") or {}
+    r = s.get("restrict") or {}
+    if m.get("method") != "distance":       # 실측(거리 기반) 근거가 없으면 순위에 넣지 않음
+        return None
+    margin = m.get("margin_pct")
+    if margin is None:
+        return None
+    today = today_kst()
+    ytm, ytm_basis = DEFAULT_YEARS_TO_MOVE_IN, "입주예정월 없음 → 2.5년 가정"
+    mv = re.sub(r"\D", "", str(s.get("move_in") or ""))
+    if len(mv) >= 6:
+        y, mo = int(mv[:4]), int(mv[4:6])
+        ytm = max(0.0, (y - today.year) + (mo - today.month) / 12)
+        ytm_basis = f"입주예정 {y}.{mo:02d}"
+    resale = r.get("resale_years") or 0.0
+    reside = r.get("reside_max") or 0.0
+    lock = max(resale, ytm + reside) if reside else max(resale, ytm)
+    lock = round(max(lock, 1.0), 1)
+    mom = max(-5.0, min(5.0, m.get("momentum_3m_pct") or 0.0))
+    out = {
+        "margin_pct": round(margin, 1), "momentum_adj": round(mom, 1),
+        "lock_years": lock, "years_to_move_in": round(ytm, 1), "move_in_basis": ytm_basis,
+        "resale_years": resale, "reside_years": reside,
+        "score": round((margin + mom) / lock, 1),
+    }
+    if m.get("expected") and m.get("price_rep"):
+        out["gain_manwon"] = round(m["expected"] - m["price_rep"])
+        out["down_payment"] = [round(m["price_rep"] * 0.1), round(m["price_rep"] * 0.2)]
+    return out
+
+
 def rank(schedules: list[dict]) -> list[dict]:
-    """아직 신청할 수 있는 공고만 가치 점수 순으로."""
+    """아직 신청할 수 있는 공고만 투자 점수(연 환산) 순으로."""
     today = today_kst().isoformat()
     open_ = [s for s in schedules if any(e["end"] >= today and e["label"] not in ("당첨자 발표", "계약")
                                          for e in s.get("events", []))]
-    scored = [s for s in open_ if s.get("market", {}).get("score") is not None]
-    rest = [s for s in open_ if s not in scored]
-    conf = {"높음": 0, "보통": 1, "낮음": 2}
-    scored.sort(key=lambda s: -s["market"]["score"])
-    return ([{"id": s["id"], "name": s["name"], "score": s["market"]["score"], "confidence": s["market"]["confidence"],
-              "margin_pct": s["market"].get("margin_pct"), "momentum_3m_pct": s["market"].get("momentum_3m_pct")}
+    for s in open_:
+        s["invest"] = invest(s)
+    scored = [s for s in open_ if s.get("invest")]
+    rest = [s for s in open_ if not s.get("invest")]
+    scored.sort(key=lambda s: (-s["invest"]["score"], -(s["invest"].get("gain_manwon") or 0)))
+    return ([{"id": s["id"], "name": s["name"], "score": s["invest"]["score"], "confidence": s["market"].get("confidence"),
+              "margin_pct": s["invest"]["margin_pct"], "momentum_3m_pct": s["market"].get("momentum_3m_pct"),
+              "gain_manwon": s["invest"].get("gain_manwon"), "lock_years": s["invest"]["lock_years"],
+              "value_score": s["market"].get("score")}
              for s in scored]
-            + [{"id": s["id"], "name": s["name"], "score": None, "confidence": "데이터 부족"} for s in rest])
+            + [{"id": s["id"], "name": s["name"], "score": None, "confidence": "데이터 부족",
+                "reason": ((s.get("market") or {}).get("nearby") or {}).get("reason") or "주변 실거래 근거 부족"} for s in rest])
 
 
-def enrich(schedules: list[dict], key: str | None, cfg: dict, warnings: list[str]) -> None:
+def enrich(schedules: list[dict], key: str | None, cfg: dict, warnings: list[str], geo=None) -> None:
     comps = load_csv(ROOT / "data" / "comps.csv")
     trends = load_csv(ROOT / "data" / "region_trends.csv")
     client = TradeClient(key) if key and cfg.get("fetch_trades", True) else None
@@ -436,4 +588,4 @@ def enrich(schedules: list[dict], key: str | None, cfg: dict, warnings: list[str
                     api_failed = True
                     warnings.append(f"실거래가 API 실패({e}) — data.go.kr에서 '아파트 매매 실거래가 상세 자료' 활용신청을 확인하세요.")
             trades = trade_cache.get(s["sigungu"])
-        s["market"] = analyze(s, trades, comps, trends, cfg)
+        s["market"] = analyze(s, trades, comps, trends, cfg, geo)

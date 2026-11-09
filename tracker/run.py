@@ -17,7 +17,7 @@ import os
 import sys
 import tomllib
 
-from . import sources
+from . import notify, sources
 from . import applyhome, geo, guide, market, news, pipeline, rules, upcoming
 from .util import ROOT, now_kst_iso, read_json, today_kst, write_json
 
@@ -112,7 +112,18 @@ def enrich_schedules(schedules: list[dict], cfg: dict, args, warnings: list[str]
                 s["competition"] = c
         write_json(STATE / "competition_cache.json", cache)
     mcfg = cfg.get("market", {})
-    market.enrich(schedules, None if args.demo else key, mcfg, warnings)
+    gcfg = cfg.get("geo", {})
+    g = geo.Geocoder(STATE / "geocode.json", max_new=0 if args.no_geo else gcfg.get("max_new_per_run", 150),
+                     nominatim_delay=gcfg.get("nominatim_delay", 1.1), max_seconds=gcfg.get("comps_max_seconds", 300))
+    try:
+        market.enrich(schedules, None if args.demo else key, mcfg, warnings, geo=g)
+    finally:
+        g.save()
+        _merge_geo_status(geo.status(g))
+    if not any(g.key_set.values()):
+        warnings.append("지도 키(KAKAO_REST_KEY 등)가 없어 주변 단지까지의 실제 거리를 잴 수 없습니다 — 추천 순위는 거리 근거가 있는 공고만 매깁니다.")
+    for prov, msg in g.key_error.items():
+        warnings.append(f"{prov} 지도 키가 거절됐습니다({msg}). 카카오는 REST API 키인지, 앱의 [카카오맵] 사용 설정이 ON인지 확인하세요.")
     if not args.no_news and cfg.get("news", {}).get("enabled", True):
         ncache = read_json(STATE / "news_cache.json", {})
         news.enrich(schedules, ncache, warnings)
@@ -122,11 +133,22 @@ def enrich_schedules(schedules: list[dict], cfg: dict, args, warnings: list[str]
         for s in schedules:
             s.setdefault("news", []); s["crosscheck"] = news.cross_check(s, {})
     for s in schedules:
+        s["restrict"] = rules.restrictions(s)
         s["conditions"] = rules.conditions(s)
         s["regulation"] = rules.regulation(s)[0]
 
 
 # ------------------------------------------------------------------ 지도 좌표
+GEO_STATUS: dict[str, str] = {}
+
+
+def _merge_geo_status(st: dict) -> None:
+    rank = lambda v: 3 if v.startswith("rejected") else 2 if v.startswith("ok") else 1 if v == "unused" else 0
+    for k, v in st.items():
+        if rank(v) >= rank(GEO_STATUS.get(k, "none")):
+            GEO_STATUS[k] = v
+
+
 def locate_all(schedules: list[dict], pipe: list[dict], cfg: dict, args) -> None:
     gcfg = cfg.get("geo", {})
     g = geo.Geocoder(STATE / "geocode.json", max_new=0 if args.no_geo else gcfg.get("max_new_per_run", 150),
@@ -143,6 +165,7 @@ def locate_all(schedules: list[dict], pipe: list[dict], cfg: dict, args) -> None
         geo.attach(order, g)
     finally:
         g.save()
+        _merge_geo_status(geo.status(g))
     from collections import Counter
     cnt = Counter(x.get("geo") for x in schedules + pipe)
     log.info("지도 좌표: 단지·번지 %d / 동 %d / 구 중심 %d (남은 조회 %d)",
@@ -231,6 +254,7 @@ def main(argv: list[str] | None = None) -> int:
 
     try:
         schedules, sample = collect_schedules(cfg, args, prev, warnings)
+        rules.learn_from(schedules)
     except applyhome.ApiError as e:
         log.error("청약홈 API 인증/요청 오류: %s", e)
         warnings.append(f"청약홈 API 오류: {e} — 인증키(Decoding 키)와 활용신청 승인 여부를 확인하세요.")
@@ -249,6 +273,10 @@ def main(argv: list[str] | None = None) -> int:
     changes_path = STATE / ("changes_demo.json" if args.demo else "changes.json")
     prev_snap = read_json(snap_path, None)
     new_changes = detect_changes(prev_snap, schedules, pipe)
+    try:
+        notify.run(schedules, cfg, cfg["general"].get("regions", []))
+    except Exception as e:                       # 알림 실패가 갱신을 막지 않도록
+        log.warning("알림 실패: %s", e)
     changes = (new_changes + read_json(changes_path, []))[:500]
     write_json(snap_path, snapshot(schedules, pipe))
     write_json(changes_path, changes)
@@ -267,9 +295,18 @@ def main(argv: list[str] | None = None) -> int:
         "ranking": market.rank(schedules),
         "guide": guide.build_guide(),
         "upcoming": up,
+        "geo_status": GEO_STATUS,
         "official_sources": {"seoul_pipeline": cfg.get("seoul_pipeline", {}).get("dataset_page"),
                              "policy": "정부·지자체·공공기관(청약홈·LH·SH·GH·한국부동산원) 발표만 근거로 링크합니다."},
     }
+    fcfg = cfg.get("focus", {})
+    for x in schedules + pipe + up.get("planned", []) + up.get("candidates", []):
+        x["core"] = rules.is_core(x, fcfg)
+    data["focus"] = {"core_only": fcfg.get("core_only", True), "min_expected_eok": fcfg.get("min_expected_eok", 10),
+                     "definition": "핵심지역 = 정부 지정 규제지역(투기과열지구·조정대상지역, 10·15 대책 서울 전역 + 경기 12곳)"
+                                   + (f" + {', '.join(fcfg['include'])}" if fcfg.get("include") else "")
+                                   + (f" − {', '.join(fcfg['exclude'])}" if fcfg.get("exclude") else ""),
+                     "source": "https://www.korea.kr/news/policyNewsView.do?newsId=148952155"}
     dropped: list[str] = []
     data = sources.sanitize(data, dropped=dropped)       # 비공식 링크·근거 제거 (최종 관문)
     if dropped:

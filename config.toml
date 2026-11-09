@@ -52,3 +52,18 @@ inf_id = "OA-22856"
 [pipeline]
 # 웹에서 기본으로 보여줄 최소 단계 (구역지정 < 추진위 < 조합설립 < 건축심의 < 사업시행 < 관리처분 < 착공)
 default_min_stage = "사업시행"
+
+[notify]
+# 줍줍(무순위·잔여세대·임의공급) 새 공고·접수 하루 전 알림. 기본은 GitHub Actions 에서만 보냄.
+enabled = true
+github_issue = true    # 저장소에 이슈를 만들어 GitHub 앱 푸시·메일로 알림 (설정 불필요)
+remind_d1 = true       # 접수 하루 전 한 번 더
+local = false          # PC(serve.py)에서도 보내려면 true (.env 에 TELEGRAM_* 필요)
+# site_url = "https://아이디.github.io/cheongyak-radar/"   # 비우면 자동
+
+[focus]
+# 기본으로 보여 줄 범위 (화면에서 언제든 바꿀 수 있음). 줍줍 알림도 이 기준을 따름.
+core_only = true          # 핵심지역만 = 정부 지정 규제지역(투기과열·조정, 10·15 대책: 서울 전역 + 경기 12곳)
+min_expected_eok = 10     # 주변 시세(실거래 기반 기대 시세)가 이 금액(억) 미만인 공고는 숨김. 0 이면 끔
+include = []              # 핵심지역에 더할 시·군·구 (예: ["화성시 동탄"])
+exclude = []              # 핵심지역에서 뺄 시·군·구 (예: ["의왕시"])
