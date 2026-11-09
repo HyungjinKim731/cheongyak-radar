@@ -10,7 +10,7 @@
   기대 시세    = 같은 면적대 비교 거래의 중앙값 (실거래 API 신축 ≥3건이면 그것, 아니면 수동 비교값)
   시세 여유율  = (기대 시세 − 분양가) ÷ 분양가
   분양가 비교  = (주변 최근 분양가 중앙값 − 분양가) ÷ 분양가   (약한 근거, 가중치 0.5)
-  가치 점수    = 여유율(%) + 최근 3개월 지역 상승률(±5%p로 제한)
+  투자 점수    = 시세 여유율 ÷ 묶이는 기간 (invest 참고). 최근 3개월 상승률은 참고 표시만
 """
 from __future__ import annotations
 
@@ -276,6 +276,9 @@ MARKET_KINDS = {"실거래", "KB시세", "AI추정", "시세범위", "시세"}
 # ---------------------------------------------------------------- 공고별 분석
 RADII_KM = (1.0, 2.0, 3.0)      # 가까운 곳부터 넓혀 가며 비교 단지를 찾음
 MIN_COMPLEXES = 3
+MIN_TRADES_PER_COMPLEX = 2      # 거래 1건뿐인 단지는 비교에서 뺌
+MIN_TRADES_TOTAL = 8            # 비교 거래가 이보다 적으면 근거 부족
+MAX_SPREAD = 0.5                # 비교 단지 값의 퍼짐(범위 또는 사분위범위 ÷ 중앙값)이 이보다 크면 신뢰도 '낮음'(순위 제외)
 
 
 def nearby(notice: dict, trades: list[dict], geo, band_area: float, this_year: int) -> dict:
@@ -289,8 +292,13 @@ def nearby(notice: dict, trades: list[dict], geo, band_area: float, this_year: i
     """
     from . import geo as geo_mod
     loc = geo.locate(notice["id"], notice.get("address"), notice.get("region"), notice.get("sigungu"), None)
+    if loc and loc.get("precision") == "dong" and hasattr(geo, "keyword_near"):
+        # 번지 없는 택지지구 블록 공고: 동 중심 근처에서 단지 이름으로 다시 찾음
+        kw = geo.keyword_near(notice["id"], notice.get("name") or "", loc["lat"], loc["lng"])
+        if kw:
+            loc = kw
     if not loc or loc.get("precision") != "exact":
-        return {"ok": False, "reason": "공고 위치를 번지 단위로 못 찾음(카카오 키 필요)"}
+        return {"ok": False, "reason": "공고 위치를 번지·단지 단위로 못 찾음 (택지지구 블록 공고는 주소에 번지가 없는 경우가 많음)"}
     today = today_kst()
     out_n = 0
     for months in (6, 12):
@@ -317,16 +325,26 @@ def nearby(notice: dict, trades: list[dict], geo, band_area: float, this_year: i
                      "min": min(t["price"] for t in ts), "max": max(t["price"] for t in ts),
                      "last": max(t["date"] for t in ts), "lat": g["lat"], "lng": g["lng"]})
     rows.sort(key=lambda r: r["km"])
+    thin = [r for r in rows if r["n"] < MIN_TRADES_PER_COMPLEX]          # 거래 1건짜리 단지는 대표성 없음
+    rows = [r for r in rows if r["n"] >= MIN_TRADES_PER_COMPLEX]
     for radius in RADII_KM:
         near = [r for r in rows if r["km"] <= radius]
-        if len(near) >= MIN_COMPLEXES:
-            vals = [r["value"] for r in near]
+        if len(near) >= MIN_COMPLEXES and sum(r["n"] for r in near) >= MIN_TRADES_TOTAL:
+            vals = sorted(r["value"] for r in near)
+            med = statistics.median(vals)
+            if len(vals) >= 5:
+                q = statistics.quantiles(vals, n=4)
+                spread = (q[2] - q[0]) / med
+            else:
+                spread = (vals[-1] - vals[0]) / med
             return {"ok": True, "radius_km": radius, "months": months, "complexes": near,
-                    "expected": round(statistics.median(vals)), "low": min(vals), "high": max(vals),
-                    "trades": sum(r["n"] for r in near), "unlocated": out_n,
+                    "expected": round(med), "low": vals[0], "high": vals[-1], "spread": round(spread, 2),
+                    "trades": sum(r["n"] for r in near), "unlocated": out_n, "thin": len(thin),
                     "basis": f"반경 {radius:g}km 안 10년 이내 {len(near)}개 단지, 최근 {months}개월 실거래 {sum(r['n'] for r in near)}건"}
-    return {"ok": False, "reason": f"반경 3km 안에 위치를 확인한 10년 이내 비교 단지가 {len([r for r in rows if r['km'] <= 3])}곳뿐",
-            "complexes": rows[:8], "unlocated": out_n}
+    n3 = [r for r in rows if r["km"] <= 3]
+    return {"ok": False, "reason": f"반경 3km 안 10년 이내 비교 단지(거래 2건 이상)가 {len(n3)}곳·거래 {sum(r['n'] for r in n3)}건뿐 — "
+                                   f"단지 {MIN_COMPLEXES}곳·거래 {MIN_TRADES_TOTAL}건 이상 필요",
+            "complexes": rows[:8], "unlocated": out_n, "thin": len(thin)}
 
 
 def analyze(notice: dict, trades: list[dict] | None, comps: list[dict], trends: list[dict], cfg: dict,
@@ -484,8 +502,12 @@ def analyze(notice: dict, trades: list[dict] | None, comps: list[dict], trends: 
         out["confidence"] = "데이터 부족"
     elif out["method"] == "distance":
         nbh = out["nearby"]
-        out["confidence"] = ("높음" if nbh["radius_km"] <= 1.0 and len(nbh["complexes"]) >= 4 and nbh["trades"] >= 15
-                             else "보통" if nbh["radius_km"] <= 2.0 else "낮음")
+        if nbh.get("spread", 0) > MAX_SPREAD:
+            out["confidence"] = "낮음"
+            out["notes"].append(f"비교 단지 값의 퍼짐이 {nbh['spread'] * 100:.0f}%로 커서(단지 규모·브랜드 차이 가능) 순위에서 뺌")
+        else:
+            out["confidence"] = ("높음" if nbh["radius_km"] <= 1.0 and len(nbh["complexes"]) >= 4 and nbh["trades"] >= 15
+                                 else "보통" if nbh["radius_km"] <= 2.0 else "낮음")
     elif out["method"] == "reference":
         out["confidence"] = "참고용"
     elif n_used >= 4 and stale_ratio < 0.5 and out.get("scope", "시군구") != "시군구":
@@ -512,16 +534,27 @@ def _comp_value(c: dict) -> dict:
 DEFAULT_YEARS_TO_MOVE_IN = 2.5   # 입주예정월이 없을 때 가정(일반적인 착공 후 분양 → 입주 기간)
 
 
-def invest(s: dict) -> dict | None:
-    """투자 관점 지표. 차익을 실제로 손에 쥘 수 있을 때까지 묶이는 기간으로 나눠 '연 환산'으로 비교한다.
+TAX_HOLD_YEARS = 2.0   # 주택은 취득(잔금) 후 2년 안에 팔면 양도세율 60~70%(소득세법 제104조) → 최소 2년 보유 가정
 
-    투자 점수(연 %p) = (시세 여유율 + 최근 3개월 상승률[±5%p 제한]) ÷ 묶이는 기간(년, 최소 1)
-    묶이는 기간 = max(전매제한, 입주까지 남은 기간 + 실거주의무)   ← 실거주의무가 없으면 max(전매제한, 입주까지)
-    분양권 상태 매도는 양도세가 매우 높아 입주 시점 이후 실현을 기본 가정으로 둔다.
+
+def invest(s: dict) -> dict | None:
+    """투자 관점 지표 — 차익을 '세금 폭탄 없이' 손에 쥘 수 있을 때까지 묶이는 기간으로 비교한다.
+
+    보유 기간  = max(실거주의무, 2년)                       ← 입주(잔금) 뒤 최소 보유. 2년 미만 매도는 양도세 60~70%
+    묶이는 기간 = max(전매제한, 입주까지 남은 기간 + 보유 기간)  ← 전매제한은 당첨일부터, 보유는 입주부터 셈
+    투자 점수   = 시세 여유율 ÷ 묶이는 기간   (시세 여유율이 0 이하이면 나누지 않고 그대로 — 손실을 기간으로 희석하지 않음)
+    최근 상승률은 점수에 넣지 않고 참고로만 표시(동네 거래 구성에 따라 출렁여 신뢰도가 낮음).
     """
     m = s.get("market") or {}
     r = s.get("restrict") or {}
+    s.pop("invest_reason", None)
     if m.get("method") != "distance":       # 실측(거리 기반) 근거가 없으면 순위에 넣지 않음
+        return None
+    if any(k in (s.get("name") or "") for k in ("토지임대부", "지분적립")):
+        s["invest_reason"] = "토지임대부·지분적립형은 땅·지분을 다 갖지 않아 주변 아파트 시세와 같은 선에서 비교할 수 없음"
+        return None
+    if m.get("confidence") not in ("높음", "보통"):
+        s["invest_reason"] = "비교 근거가 약함(신뢰도 낮음): " + "; ".join(n for n in m.get("notes", []) if "퍼짐" in n or "반경" in n)[:120]
         return None
     margin = m.get("margin_pct")
     if margin is None:
@@ -535,14 +568,15 @@ def invest(s: dict) -> dict | None:
         ytm_basis = f"입주예정 {y}.{mo:02d}"
     resale = r.get("resale_years") or 0.0
     reside = r.get("reside_max") or 0.0
-    lock = max(resale, ytm + reside) if reside else max(resale, ytm)
-    lock = round(max(lock, 1.0), 1)
-    mom = max(-5.0, min(5.0, m.get("momentum_3m_pct") or 0.0))
+    hold = max(reside, TAX_HOLD_YEARS)
+    lock = round(max(resale, ytm + hold), 1)
     out = {
-        "margin_pct": round(margin, 1), "momentum_adj": round(mom, 1),
+        "margin_pct": round(margin, 1),
         "lock_years": lock, "years_to_move_in": round(ytm, 1), "move_in_basis": ytm_basis,
-        "resale_years": resale, "reside_years": reside,
-        "score": round((margin + mom) / lock, 1),
+        "resale_years": resale, "reside_years": reside, "hold_years": hold,
+        "lock_formula": f"max(전매 {resale:g}년, 입주까지 {ytm:.1f}년 + 보유 {hold:g}년{'(실거주의무)' if reside >= TAX_HOLD_YEARS else '(양도세 2년)'})",
+        "score": round(margin / lock, 1) if margin > 0 else round(margin, 1),
+        "momentum_3m_pct": m.get("momentum_3m_pct"),
     }
     if m.get("expected") and m.get("price_rep"):
         out["gain_manwon"] = round(m["expected"] - m["price_rep"])
@@ -566,7 +600,8 @@ def rank(schedules: list[dict]) -> list[dict]:
               "value_score": s["market"].get("score")}
              for s in scored]
             + [{"id": s["id"], "name": s["name"], "score": None, "confidence": "데이터 부족",
-                "reason": ((s.get("market") or {}).get("nearby") or {}).get("reason") or "주변 실거래 근거 부족"} for s in rest])
+                "reason": s.get("invest_reason") or ((s.get("market") or {}).get("nearby") or {}).get("reason")
+                          or "주변 실거래 근거 부족"} for s in rest])
 
 
 def enrich(schedules: list[dict], key: str | None, cfg: dict, warnings: list[str], geo=None) -> None:

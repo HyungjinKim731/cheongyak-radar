@@ -295,20 +295,37 @@ class RestrictInvestTest(unittest.TestCase):
                  bands={"84": {"median": 94890, "area_min": 84.6, "area_max": 84.8}}, price_min=93860, price_max=94930)
         mk = lambda apt, by, price, k: [{"apt": apt, "dong": "원천동", "jibun": str(k), "build_year": by, "area": 84.7,
                                          "price": price, "date": "2099-10-01", "deal": "중개거래"}] * 4
-        trades = (mk("가까운A", 2019, 180000, 1) + mk("가까운B", 2018, 150000, 2) + mk("가까운C", 2023, 95000, 3)
+        trades = (mk("가까운A", 2019, 165000, 1) + mk("가까운B", 2018, 150000, 2) + mk("가까운C", 2023, 135000, 3)
                   + mk("먼D", 2020, 300000, 4)                      # 4.4km — 제외
                   + [{"apt": "가까운A", "dong": "원천동", "jibun": "1", "build_year": 2019, "area": 84.7, "price": 50000,
                       "date": "2099-10-01", "deal": "직거래"}])     # 직거래 — 제외
         m = market.analyze(n, trades, [], [], {}, geo=FakeGeo())
         self.assertEqual(m["method"], "distance")
-        self.assertEqual(m["expected"], 150000)                    # 1km 안 3개 단지 값(18억·15억·9.5억)의 중앙값
+        self.assertEqual(m["expected"], 150000)                    # 1km 안 3개 단지 값(16.5억·15억·13.5억)의 중앙값
+        self.assertEqual(m["confidence"], "보통")
         self.assertEqual(m["nearby"]["radius_km"], 1.0)
         self.assertNotIn("먼D", [c["apt"] for c in m["nearby"]["complexes"]])
         n["market"] = m
         n["restrict"] = rules.restrictions(n)
         iv = market.invest(n)
-        self.assertGreaterEqual(iv["lock_years"], 5.0)
-        self.assertAlmostEqual(iv["score"], round((iv["margin_pct"] + iv["momentum_adj"]) / iv["lock_years"], 1))
+        self.assertAlmostEqual(iv["lock_years"], round(max(3.0, iv["years_to_move_in"] + 5.0), 1))   # 입주까지 + 실거주 5년
+        self.assertAlmostEqual(iv["score"], round(iv["margin_pct"] / iv["lock_years"], 1))
+        # 손실이면 기간으로 나누지 않음
+        neg = market.invest(dict(n, market=dict(m, margin_pct=-20.0)))
+        self.assertEqual(neg["score"], -20.0)
+        # 실거주의무가 없으면 양도세 기준 최소 2년 보유
+        nr = market.invest(dict(n, restrict=dict(n["restrict"], reside_max=0.0, resale_years=0.5)))
+        self.assertAlmostEqual(nr["lock_years"], round(nr["years_to_move_in"] + 2.0, 1))
+        # 단지 간 값 차이가 크면(퍼짐 > 50%) 신뢰도 낮음 → 순위 제외
+        wide = mk("가까운A", 2019, 200000, 1) + mk("가까운B", 2018, 150000, 2) + mk("가까운C", 2023, 90000, 3)
+        mw = market.analyze(n, wide, [], [], {}, geo=FakeGeo())
+        self.assertEqual(mw["confidence"], "낮음")
+        self.assertIsNone(market.invest(dict(n, market=mw)))
+        # 거래 1건짜리 단지만 있으면 근거 부족
+        one = [dict(t) for t in (mk("가까운A", 2019, 165000, 1)[:1] + mk("가까운B", 2018, 150000, 2)[:1] + mk("가까운C", 2023, 135000, 3)[:1])]
+        self.assertNotEqual(market.analyze(n, one, [], [], {}, geo=FakeGeo())["method"], "distance")
+        # 토지임대부는 순위 제외
+        self.assertIsNone(market.invest(dict(n, name="고덕강일 토지임대부", market=m)))
         # 거리 근거가 없으면 순위 제외
         m2 = market.analyze(n, trades, [], [], {})
         self.assertNotEqual(m2["method"], "distance")
@@ -339,3 +356,22 @@ class NotifyTest(unittest.TestCase):
             self.assertNotIn("new:테스트 줍줍", out)                   # 이미 본 공고는 다시 안 보냄
             self.assertTrue(any("새 줍줍" in t and "applyhome" in t for t in sent_texts))
             self.assertEqual(notify.run([s, s2], {"notify": {"github_issue": False}}, ["서울"]), [])   # 중복 없음
+
+
+class HistoryMatchTest(unittest.TestCase):
+    def test_sold_by_address(self):
+        from tracker import upcoming
+        hist = {"a": {"name": "아크로 드 서초", "sigungu": "서초구", "address": "서울특별시 서초구 서초동 1333번지 일원",
+                      "notice_date": "2026-03-27", "url": "u"}}
+        self.assertEqual(upcoming.match_history({"name": "서초신동아", "sigungu": "서초구", "address": "서초구 서초동1333"}, hist)["name"],
+                         "아크로 드 서초")                          # 조합명과 분양 브랜드가 달라도 지번으로 짝지음
+        self.assertIsNone(upcoming.match_history({"name": "방배신동아", "sigungu": "서초구", "address": "서초구 방배동988-1"}, hist))
+        p = {"id": "seoul:1301", "source": "seoul_xlsx", "name": "서초신동아", "region": "서울", "sigungu": "서초구",
+             "address": "서초구 서초동1333", "stage": "착공", "milestones": {"d_start": today_iso()}}
+        self.assertEqual(upcoming.candidates([p], [], set(), history=hist), [])
+        self.assertEqual(p["sold"]["name"], "아크로 드 서초")
+
+
+def today_iso():
+    from tracker.util import today_kst
+    return today_kst().isoformat()

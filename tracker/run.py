@@ -72,9 +72,38 @@ def collect_schedules(cfg: dict, args, prev: dict, warnings: list[str]) -> tuple
     if not sample:
         write_json(STATE / "price_cache.json", _trim_cache(cache, {i["id"] for i in items}))
 
+    if not sample:
+        try:
+            update_history(client, items, g["regions"], cfg)
+        except applyhome.ApiError:
+            raise
+        except Exception as e:
+            warnings.append(f"과거 공고 이력 갱신 실패: {e}")
     cutoff = (today_kst() - dt.timedelta(days=g["keep_past_days"])).isoformat()
     keep = [i for i in items if (i["last_date"] or i["notice_date"] or "9999") >= cutoff]
     return keep, sample
+
+
+HISTORY = STATE / "notice_history.json"
+
+
+def update_history(client, items: list[dict], regions: list[str], cfg: dict) -> None:
+    """과거 APT 공고 이력(기본 4년) — '이미 분양한 정비구역'을 주소로 가려내는 데 씀.
+    처음 한 번은 길게 받고, 그다음부턴 마지막 공고일 30일 전부터만 받음."""
+    hist = read_json(HISTORY, {"items": {}})
+    years = cfg.get("pipeline", {}).get("history_years", 4)
+    last = max((v.get("notice_date") or "" for v in hist["items"].values()), default="")
+    since = (dt.date.fromisoformat(last) - dt.timedelta(days=30)) if last else today_kst() - dt.timedelta(days=365 * years)
+    rows = client.fetch_rows(applyhome.SOURCES["apt"], since)
+    for r in rows:
+        n = applyhome.normalize(r, applyhome.SOURCES["apt"])
+        if n and (not regions or n["region"] in regions):
+            hist["items"][n["id"]] = {k: n.get(k) for k in ("name", "region", "sigungu", "address", "notice_date", "url")}
+    for n in items:
+        if n.get("source") == "apt":
+            hist["items"][n["id"]] = {k: n.get(k) for k in ("name", "region", "sigungu", "address", "notice_date", "url")}
+    write_json(HISTORY, hist, compact=True)
+    log.info("과거 공고 이력 %d건 (이번에 %s 이후 %d건 확인)", len(hist["items"]), since, len(rows))
 
 
 def _trim_cache(cache: dict, live_ids: set[str]) -> dict:

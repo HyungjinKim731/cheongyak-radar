@@ -62,7 +62,19 @@ def centroid(region: str | None, sigungu: str | None) -> tuple[float, float] | N
 
 
 def _clean_addr(addr: str) -> str:
-    s = re.sub(r"\(.*?\)", " ", addr or "")
+    addr = addr or ""
+    # 괄호 안에 실제 지번 주소가 있으면 그것을 씀: '…A2BL (경기도 파주시 서패동 432번지 일원)', '…(중리동 518번지)'
+    inner = [x for x in re.findall(r"\(([^()]*)\)", addr) if re.search(r"[동리가]\s*\d", x)]
+    if inner:
+        head = re.match(r"\s*((?:서울|경기|인천)\S*\s+[가-힣]+(?:시|군|(?<!지)구)(?:\s+[가-힣]+(?<!지)구)?)(?=\s)", addr)
+        cand = inner[0]
+        if head and not cand.startswith(("서울", "경기", "인천")) and not re.match(r"\S+[시군]\s", cand):
+            cand = f"{head.group(1)} {cand}"
+        elif re.match(r"\S+[시군]\s", cand) and head:
+            cand = f"{head.group(1).split()[0]} {cand}"
+        addr = cand
+    s = re.sub(r"\(.*?\)", " ", addr)
+    s = re.sub(r",\s*[가-힣]+[동리](?=\s|$)", " ", s)                 # '금곡동, 당수동' → 첫 동만
     s = re.sub(r"(일원|일대|외\s*\d+필지|번지)", " ", s)
     s = re.sub(r"([가-힣]+[동리가])(\d)", r"\1 \2", s)        # '수송동146-12' → '수송동 146-12'
     return re.sub(r"\s+", " ", s).strip()
@@ -279,6 +291,38 @@ class Geocoder:
                 return lat, lng
         return None
 
+    def keyword_near(self, key: str, name: str, lat: float, lng: float, max_km: float = 3.0) -> dict | None:
+        """번지가 없는 택지지구 '○○블록' 공고용: 단지 이름으로 카카오 장소 검색 → 동 중심 3km 안 + 이름 일치만 인정."""
+        ck = "kw:" + key
+        c = self.cache.get(ck)
+        if c is not None:
+            return c or None
+        if not self.kakao or not self._spend():
+            return None
+        base = re.sub(r"\(.*?\)", " ", name or "")
+        base = re.sub(r"(본청약|사전청약|공공분양주택|공공분양|신혼희망타운|민간참여|\d+차)", " ", base).strip()
+        try:
+            r = self.s.get("https://dapi.kakao.com/v2/local/search/keyword.json",
+                           params={"query": base, "x": lng, "y": lat, "radius": int(max_km * 1000), "sort": "distance", "size": 10},
+                           headers={"Authorization": f"KakaoAK {self.kakao}"}, timeout=10)
+            docs = r.json().get("documents") or [] if r.status_code == 200 else []
+        except (requests.RequestException, ValueError):
+            return None
+        k = _name_key(base)
+        out = False
+        for d in docs:
+            pk = _name_key(d.get("place_name") or "")
+            cat = d.get("category_name") or ""
+            same = k and (k in pk or (len(pk) >= 4 and pk in k))
+            if same and any(w in cat for w in ("아파트", "주거", "분양", "부동산", "모델하우스", "주택")):
+                if _km(float(d["y"]), float(d["x"]), lat, lng) <= max_km:
+                    out = {"lat": round(float(d["y"]), 6), "lng": round(float(d["x"]), 6), "precision": "exact",
+                           "provider": "kakao", "q": d.get("place_name")}
+                    self.hits["kakao"] = self.hits.get("kakao", 0) + 1
+                    break
+        self.cache[ck] = out
+        return out or None
+
     # ------------------------------------------------------------ public
     def locate(self, key: str, address: str | None, region: str | None, sigungu: str | None,
                name: str | None = None, stage: str = "all") -> dict | None:
@@ -301,6 +345,7 @@ class Geocoder:
             dong_q = f"{region or ''} {sigungu} {dong_q}".strip()
 
         # 1) 키가 있으면 번지 단위
+        tried_keyed = False
         if keyed:
             queries = [(full, "exact", False)] if full else []
             if dong_q and dong_q != full:
@@ -324,6 +369,7 @@ class Geocoder:
                 except Exception as e:
                     log.debug("지오코딩 실패 %s: %s", q, e)
                     hit = None
+                tried_keyed = True
                 if hit:
                     self.hits[prov] = self.hits.get(prov, 0) + 1
                     out = {"lat": round(hit[0], 6), "lng": round(hit[1], 6), "precision": prec,
@@ -334,7 +380,8 @@ class Geocoder:
                     return out
 
         if keyed and c and c.get("precision") == "dong":       # 키로도 못 찾음 → 기존 동 단위 유지
-            c["key_tried"] = True
+            if tried_keyed:                                    # 시간·예산 부족으로 못 해 본 경우는 다음에 다시
+                c["key_tried"] = True
             return c
         # 2) 키 없음 또는 키로 못 찾음: 동 중심 → (2차) 단지 이름
         if True:

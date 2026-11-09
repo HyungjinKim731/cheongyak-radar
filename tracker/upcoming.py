@@ -37,6 +37,24 @@ def match_notice(name: str, schedules: list[dict]) -> dict | None:
     return None
 
 
+def _jibun_key(addr: str | None) -> tuple | None:
+    """'서초구 서초동1333' / '서울특별시 서초구 서초동 1333번지 일원' → ('서초동', '1333')  (본번만)"""
+    m = re.search(r"([가-힣]+[동리가])\s*(?:산\s*)?(\d+)", addr or "")
+    return (m.group(1), m.group(2)) if m else None
+
+
+def match_history(p: dict, history: dict) -> dict | None:
+    """정비구역을 과거 청약홈 APT 공고와 주소(같은 시군구·같은 동·같은 본번) 또는 이름으로 짝지음."""
+    jk = _jibun_key(p.get("address"))
+    for h in history.values():
+        if p.get("sigungu") and h.get("sigungu") and p["sigungu"] != h["sigungu"]:
+            continue
+        if jk and _jibun_key(h.get("address")) == jk:
+            return h
+    hit = match_notice(p.get("name") or "", [{"name": h.get("name") or "", **h} for h in history.values()])
+    return hit
+
+
 def expected_key(text: str | None) -> str:
     """'2026년 11월' → '2026-11', '2026년' → '2026-12', 없으면 '9999'."""
     t = text or ""
@@ -69,8 +87,10 @@ def planned(pipeline: list[dict], schedules: list[dict]) -> list[dict]:
     return out
 
 
-def candidates(pipeline: list[dict], schedules: list[dict], planned_ids: set[str], limit: int = 60) -> list[dict]:
+def candidates(pipeline: list[dict], schedules: list[dict], planned_ids: set[str], limit: int = 60,
+               history: dict | None = None) -> list[dict]:
     today = today_kst()
+    history = history or {}
     cut = (today - dt.timedelta(days=730)).isoformat()
     out = []
     for p in pipeline:
@@ -80,6 +100,10 @@ def candidates(pipeline: list[dict], schedules: list[dict], planned_ids: set[str
         start = ms.get("d_start")
         if p.get("stage") == "관리처분" or (p.get("stage") == "착공" and start and start >= cut):
             if match_notice(p["name"], schedules):
+                continue
+            sold = match_history(p, history)
+            if sold:      # 이미 일반분양 공고가 나간 구역 → 후보에서 빼고 정비사업 목록에 표시
+                p["sold"] = {"name": sold.get("name"), "notice_date": sold.get("notice_date"), "url": sold.get("url")}
                 continue
             mg = ms.get("d_mgmt2") or ms.get("d_mgmt")
             if p["stage"] == "착공":
@@ -119,5 +143,12 @@ def news_feed(session: requests.Session | None = None) -> list[dict]:
 def build(pipeline: list[dict], schedules: list[dict], with_news: bool = True) -> dict:
     pl = planned(pipeline, schedules)
     ids = {p["id"] for p in pl}
-    return {"planned": pl, "candidates": candidates(pipeline, schedules, ids),
+    from .util import ROOT, read_json
+    hist = read_json(ROOT / "data" / "state" / "notice_history.json", {"items": {}}).get("items", {})
+    for p in pl:                      # 관심목록 '분양 예정'도 과거 공고와 짝지어 이미 분양했으면 표시
+        if not p.get("notice_id"):
+            h = match_history(p, hist)
+            if h:
+                p["sold"] = {"name": h.get("name"), "notice_date": h.get("notice_date"), "url": h.get("url")}
+    return {"planned": pl, "candidates": candidates(pipeline, schedules, ids, history=hist),
             "news": news_feed() if with_news else []}
