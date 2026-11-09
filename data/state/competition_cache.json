@@ -1754,5 +1754,106 @@
   "score_max": null,
   "score_avg": null,
   "available": true
+ },
+ "apt:2026000528:2026000528": {
+  "types": [],
+  "rank1_supply": null,
+  "rank1_req": null,
+  "rank1_avg": null,
+  "rank1_max": null,
+  "score_min": null,
+  "score_max": null,
+  "score_avg": null,
+  "available": false
+ },
+ "apt:2026000527:2026000527": {
+  "types": [],
+  "rank1_supply": null,
+  "rank1_req": null,
+  "rank1_avg": null,
+  "rank1_max": null,
+  "score_min": null,
+  "score_max": null,
+  "score_avg": null,
+  "available": false
+ },
+ "apt:2026000515:2026000515": {
+  "types": [],
+  "rank1_supply": null,
+  "rank1_req": null,
+  "rank1_avg": null,
+  "rank1_max": null,
+  "score_min": null,
+  "score_max": null,
+  "score_avg": null,
+  "available": false
+ },
+ "apt:2026000472:2026000472": {
+  "types": [],
+  "rank1_supply": null,
+  "rank1_req": null,
+  "rank1_avg": null,
+  "rank1_max": null,
+  "score_min": null,
+  "score_max": null,
+  "score_avg": null,
+  "available": false
+ },
+ "apt:2026000535:2026000535": {
+  "types": [],
+  "rank1_supply": null,
+  "rank1_req": null,
+  "rank1_avg": null,
+  "rank1_max": null,
+  "score_min": null,
+  "score_max": null,
+  "score_avg": null,
+  "available": false
+ },
+ "apt:2026000525:2026000525": {
+  "types": [],
+  "rank1_supply": null,
+  "rank1_req": null,
+  "rank1_avg": null,
+  "rank1_max": null,
+  "score_min": null,
+  "score_max": null,
+  "score_avg": null,
+  "available": false
+ },
+ "apt:2026000499:2026000499": {
+  "types": [],
+  "rank1_supply": null,
+  "rank1_req": null,
+  "rank1_avg": null,
+  "rank1_max": null,
+  "score_min": null,
+  "score_max": null,
+  "score_avg": null,
+  "available": false
+ },
+ "remndr:2026910281:2026910281": {
+  "types": [
+   {
+    "type": "084.9760B",
+    "supply": 4,
+    "req": 0,
+    "rates": {}
+   },
+   {
+    "type": "098.9850B",
+    "supply": 1,
+    "req": 0,
+    "rates": {}
+   }
+  ],
+  "rank1_supply": 5,
+  "rank1_req": null,
+  "rank1_avg": null,
+  "rank1_max": null,
+  "score_min": null,
+  "score_max": null,
+  "score_avg": null,
+  "available": true
  }
 }
