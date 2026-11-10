@@ -3,1390 +3,172 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>청약·정비 레이더</title>
-<meta name="claude:viewport-fit-sides" content="cover">
-<meta name="theme-color" content="#0e6b5b" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#17211e" media="(prefers-color-scheme: dark)">
+<title>ASAR Partners</title>
+<meta name="description" content="Applied Statistical Asset Research. 응용통계로 자산의 불확실성을 좁힙니다">
+<meta name="theme-color" content="#0c2f29">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="청약레이더">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-title" content="ASAR">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@700;800&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@500;800;900&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<script>
+// 예전 주소(…/#zupzup 등)로 들어오면 청약 레이더로 넘김
+(() => { const h = location.hash.slice(1).split("=")[0]; if (["ranking", "schedule", "zupzup", "upcoming", "map", "me", "pipeline", "changes", "guide", "terms"].includes(h)) location.replace("radar/" + location.hash); })();
+</script>
 <style>
-/* Layout: 한 열짜리 작업 화면. 상단 고정 헤더+탭, 필터 칩 줄, 그 아래 카드 목록. 날짜와 D-day가 주인공. */
+/* ASAR Partners 첫 화면: 위쪽은 어두운 관제 화면(레이더 스코프), 아래쪽은 밝은 종이 위의 목차.
+   스코프의 점 하나하나가 실제 접수 예정 공고 — 가운데에 가까울수록 접수일이 가깝다. */
 :root {
-  --bg: #f3f6f5; --surface: #ffffff; --fg: #15201d; --muted: #5d6b67; --line: #d9e1de;
-  --accent: #0e6b5b; --accent-soft: #dcefea; --hot: #b4361f; --hot-soft: #f8e3dd;
-  --warn: #8a5a00; --warn-soft: #f6ecd2; --past: #a3aeaa;
-  --plan: #5b4a9e; --plan-soft: #e9e5f6;
+  --pine: #0c2f29; --pine-2: #123c34; --grid: #2b5a50; --mint: #7fd8c2; --amber: #f0b04a;
+  --paper: #f2f4ef; --ink: #14201c; --muted: #5f6d68; --line: #d3dbd5; --teal: #0e6b5b;
   --f-display: "Gothic A1", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   --f-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
-  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
-  --r: 10px;
+  --f-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
 }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --bg: #0f1614; --surface: #17211e; --fg: #e4ece9; --muted: #95a5a0; --line: #2a3733;
-  --accent: #4fc2a9; --accent-soft: #173a33; --hot: #f08a70; --hot-soft: #3d221b;
-  --warn: #e3b75a; --warn-soft: #3a2f17; --past: #5c6b67; --plan: #b3a5ea; --plan-soft: #2a2545; color-scheme: dark } }
-:root[data-theme="dark"] {
-  --bg: #0f1614; --surface: #17211e; --fg: #e4ece9; --muted: #95a5a0; --line: #2a3733;
-  --accent: #4fc2a9; --accent-soft: #173a33; --hot: #f08a70; --hot-soft: #3d221b;
-  --warn: #e3b75a; --warn-soft: #3a2f17; --past: #5c6b67; --plan: #b3a5ea; --plan-soft: #2a2545; color-scheme: dark }
-
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --paper: #0f1614; --ink: #e6ede9; --muted: #93a39d; --line: #26332f; --teal: #5fcdb4 } }
+:root[data-theme="dark"] { --paper: #0f1614; --ink: #e6ede9; --muted: #93a39d; --line: #26332f; --teal: #5fcdb4 }
 * { box-sizing: border-box }
-body { background: var(--bg); color: var(--fg); font: 15px/1.55 var(--f-body); margin: 0 }
-body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface) }
-a { color: var(--accent) }
-button { font: inherit; color: inherit }
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
-.wrap { max-width: 860px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)) }
+html { -webkit-text-size-adjust: 100% }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.6 var(--f-body) }
+a { color: inherit }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 22px }
 
-header { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 1000; background: var(--surface); border-bottom: 1px solid var(--line) }
-.head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding-block: 14px 6px; flex-wrap: wrap }
-h1 { font: 800 1.35rem/1.2 var(--f-display); margin: 0; letter-spacing: -0.01em }
-h1 span { color: var(--accent) }
-.stamp { font: 500 .78rem var(--f-mono); color: var(--muted) }
-nav { display: flex; gap: 4px; overflow-x: auto }
-nav a { padding: 8px 12px 10px; text-decoration: none; color: var(--muted); font-weight: 600; border-bottom: 2px solid transparent; white-space: nowrap }
-nav a[aria-current="page"] { color: var(--fg); border-color: var(--accent) }
-nav a small { font: 500 .72rem var(--f-mono); margin-left: 4px; color: var(--muted) }
+/* ── 관제 화면 */
+.tower { background: var(--pine); color: #e9f3ef; padding: calc(env(safe-area-inset-top) + 30px) 0 34px; overflow: hidden }
+.tower .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 440px); gap: 30px; align-items: center }
+h1 { font: 900 clamp(2.5rem, 7.5vw, 4.4rem)/1.02 var(--f-display); letter-spacing: -.035em; margin: 0 0 14px }
+.full { font: 500 .95rem var(--f-mono); color: var(--mint); margin: -6px 0 14px; letter-spacing: .01em }
+.lede { font-size: 1.04rem; max-width: 30em; color: #bcd3cb; margin: 0 0 24px }
+.next { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--grid) }
+.next li { display: grid; grid-template-columns: 62px minmax(0, 1fr) auto; gap: 12px; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--grid) }
+.next .d { font: 500 .95rem var(--f-mono); color: var(--amber) }
+.next .n { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500 }
+.next .k { font-size: .78rem; color: #9fbab1; white-space: nowrap }
+.next a { text-decoration: none }
+.next a:hover .n, .next a:focus-visible .n { text-decoration: underline }
+.next-h { font-size: .84rem; color: #9fbab1; margin: 0 0 8px }
+.scope { width: 100%; height: auto; display: block }
+.scope text { font: 500 10px var(--f-mono); fill: #86a79d }
+.scope .ring { fill: none; stroke: var(--grid) }
+.scope .blip { cursor: pointer; transition: r .15s }
+.scope a:focus-visible .blip, .scope a:hover .blip { stroke: #fff; stroke-width: 2 }
+.sweep { transform-origin: 220px 220px; animation: sweep 2.6s cubic-bezier(.3, .1, .2, 1) 1 both }
+@keyframes sweep { from { transform: rotate(-90deg); opacity: .9 } to { transform: rotate(270deg); opacity: 0 } }
+.blips { animation: appear .9s ease 1.1s both }
+@keyframes appear { from { opacity: 0 } to { opacity: 1 } }
+@media (prefers-reduced-motion: reduce) { .sweep { display: none } .blips { animation: none } }
+.key { display: flex; gap: 16px; flex-wrap: wrap; font-size: .78rem; color: #9fbab1; margin-top: 6px }
+.key i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 5px; vertical-align: 0 }
 
-.banner { margin-top: 12px; padding: 10px 12px; border-radius: var(--r); background: var(--warn-soft); color: var(--warn); font-size: .88rem }
-.banner ul { margin: 4px 0 0; padding-left: 18px }
-
-.filters { display: flex; flex-wrap: wrap; gap: 8px; padding-block: 14px 4px; align-items: center }
-.chip { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 5px 12px; font-size: .85rem; cursor: pointer }
-.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--surface) }
-.sep { width: 1px; height: 20px; background: var(--line) }
-input[type="search"], select { font: inherit; font-size: .88rem; padding: 6px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--fg); min-width: 0 }
-input[type="search"] { flex: 1 1 160px }
-
-main { padding-block: 6px 48px }
-.group-h { font: 700 .8rem var(--f-body); color: var(--muted); letter-spacing: .04em; margin: 22px 0 8px; display: flex; justify-content: space-between }
-.list { display: grid; gap: 10px }
-
-.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px 14px 12px; display: grid; gap: 8px; min-width: 0 }
-.row1 { display: flex; gap: 10px; align-items: flex-start; justify-content: space-between }
-.name { font-weight: 600; font-size: 1.02rem; line-height: 1.35; min-width: 0; overflow-wrap: anywhere }
-.meta { color: var(--muted); font-size: .84rem; display: flex; flex-wrap: wrap; gap: 4px 10px }
-.meta b { color: var(--fg); font-weight: 600 }
-.dday { flex: none; font: 500 .8rem var(--f-mono); padding: 3px 8px; border-radius: 6px; background: var(--accent-soft); color: var(--accent); text-align: right; font-variant-numeric: tabular-nums }
-.dday.hot { background: var(--hot-soft); color: var(--hot) }
-.dday.done { background: transparent; color: var(--past); border: 1px solid var(--line) }
-.star { flex: none; border: 0; background: none; cursor: pointer; font-size: 1.1rem; line-height: 1; padding: 2px 2px; color: var(--past) }
-.star[aria-pressed="true"] { color: var(--warn) }
-
-.tl { display: flex; flex-wrap: wrap; gap: 6px }
-.ev { font-size: .8rem; border: 1px solid var(--line); border-radius: 6px; padding: 2px 8px; display: inline-flex; gap: 6px; font-variant-numeric: tabular-nums }
-.ev time { font-family: var(--f-mono); font-size: .76rem }
-.ev.past { color: var(--past); border-style: dashed }
-.ev.next { border-color: var(--accent); color: var(--accent); font-weight: 600 }
-.links { display: flex; gap: 14px; font-size: .84rem }
-
-/* 정비사업 단계 막대 */
-.ladder { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 3px; margin-top: 14px }
-.ladder button { border: 0; background: var(--surface); border-top: 3px solid var(--line); padding: 6px 2px 4px; cursor: pointer; display: grid; gap: 1px; text-align: center; min-width: 0 }
-.ladder button.on { border-top-color: var(--accent); background: var(--accent-soft) }
-.ladder b { font: 500 .95rem var(--f-mono); font-variant-numeric: tabular-nums }
-.ladder span { font-size: .68rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
-.stage { flex: none; font-size: .78rem; font-weight: 600; padding: 2px 8px; border-radius: 6px; background: var(--accent-soft); color: var(--accent) }
-.stage.s7, .stage.s8 { background: var(--hot-soft); color: var(--hot) }
-.steps { display: flex; gap: 2px }
-.steps i { height: 4px; flex: 1; border-radius: 2px; background: var(--line) }
-.steps i.on { background: var(--accent) }
-.memo { font-size: .84rem; background: var(--bg); border-radius: 6px; padding: 6px 8px; overflow-wrap: anywhere }
-.more { justify-self: center; margin-top: 8px; padding: 8px 18px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); cursor: pointer }
-.empty { color: var(--muted); padding: 28px 0; text-align: center }
-
-.chg { display: grid; grid-template-columns: 84px 1fr; gap: 2px 12px; padding: 10px 0; border-bottom: 1px solid var(--line) }
-.chg time { font: 500 .76rem var(--f-mono); color: var(--muted); padding-top: 2px }
-.chg .k { font-size: .72rem; font-weight: 600; color: var(--accent) }
-.chg .d { grid-column: 2; color: var(--muted); font-size: .84rem }
-footer { color: var(--muted); font-size: .78rem; padding-block: 0 32px }
-@media (max-width: 480px) { .ladder span { font-size: .6rem } .chg { grid-template-columns: 64px 1fr } }
-@media (prefers-reduced-motion: no-preference) { .card { transition: border-color .15s } .card:hover { border-color: var(--accent) } }
-.more-box { border-top: 1px dashed var(--line); padding-top: 6px; display: grid; gap: 4px }
-details.x > summary { cursor: pointer; font-size: .86rem; font-weight: 600; color: var(--accent); list-style: none; padding: 4px 0 }
-details.x > summary::-webkit-details-marker { display: none }
-details.x > summary::before { content: "▸ "; } details.x[open] > summary::before { content: "▾ "; }
-.cond { display: grid; grid-template-columns: 96px 1fr; gap: 4px 10px; font-size: .86rem; padding: 6px 0 }
-.cond dt { font-weight: 600; color: var(--muted) } .cond dd { margin: 0; min-width: 0 }
-.cond dd.warn { color: var(--hot) }
-.tbl-wrap { overflow-x: auto; margin: 6px 0 }
-.sched-bar { align-items: center }
-.sched-bar select { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 8px; padding: 5px 8px; font-size: .85rem; max-width: 100% }
-.seg { display: inline-flex; gap: 4px }
-.rsline { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; margin: 6px 0 2px }
-.rs { font-size: .76rem; border: 1px solid var(--line); border-radius: 6px; padding: 2px 7px; color: var(--muted); background: var(--bg) }
-.rs b { color: var(--ink) }
-.rs.w { border-color: var(--warn, #c77700); }
-.rs.w b { color: var(--warn, #c77700) }
-.inv { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 6px; margin: 4px 0 }
-.inv div { border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; min-width: 0 }
-.inv small { display: block; color: var(--muted); font-size: .72rem }
-.inv b { font-family: var(--f-mono); font-variant-numeric: tabular-nums }
-.bands { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px; margin: 8px 0 2px }
-.band { border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; font-size: .8rem; min-width: 0; background: var(--bg) }
-.band b { font-size: .9rem }
-.band .bp { font-family: var(--f-mono); font-variant-numeric: tabular-nums }
-.ptable-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--line); border-radius: 10px; background: var(--surface) }
-table.pt { border-collapse: separate; border-spacing: 0; font-size: .82rem; width: 100%; min-width: 760px }
-table.pt th, table.pt td { border-bottom: 1px solid var(--line); padding: 7px 8px; text-align: left; white-space: nowrap; vertical-align: middle }
-table.pt th { position: sticky; top: 0; background: var(--bg); color: var(--muted); font-weight: 600; z-index: 1 }
-table.pt th button { all: unset; cursor: pointer; display: inline-flex; gap: 3px; align-items: center }
-table.pt th button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
-table.pt th[aria-sort] { color: var(--ink) }
-table.pt td.num { text-align: right; font-family: var(--f-mono); font-variant-numeric: tabular-nums }
-table.pt th.num { text-align: right }
-table.pt td:first-child, table.pt th:first-child { position: sticky; left: 0; background: var(--surface); z-index: 2; min-width: 128px; max-width: 168px; white-space: normal; box-shadow: 1px 0 0 var(--line) }
-table.pt th:first-child { background: var(--bg); z-index: 3 }
-table.pt tr.grp td { border-top: 2px solid var(--line) }
-table.pt .sub { color: var(--muted); font-size: .74rem; display: block }
-table.t { border-collapse: collapse; font-size: .82rem; width: 100%; min-width: 420px }
-table.t th, table.t td { border-bottom: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top }
-table.t th { font-weight: 600; color: var(--muted); background: var(--bg) }
-table.t td.num { text-align: right; font-variant-numeric: tabular-nums; font-family: var(--f-mono); font-size: .78rem; white-space: nowrap }
-.agree { font-size: .72rem; font-weight: 600; padding: 1px 6px; border-radius: 5px; white-space: nowrap }
-.agree.ok { background: var(--accent-soft); color: var(--accent) }
-.agree.mid { background: var(--warn-soft); color: var(--warn) }
-.agree.bad { background: var(--hot-soft); color: var(--hot) }
-.statline { font: 500 .76rem var(--f-mono); color: var(--muted); font-variant-numeric: tabular-nums }
-.news li { font-size: .84rem; margin: 3px 0 } .news { margin: 4px 0; padding-left: 18px }
-.rank { display: grid; grid-template-columns: 34px 1fr; gap: 10px; align-items: start }
-.rank .no { font: 800 1.4rem/1 var(--f-display); color: var(--accent); text-align: center; padding-top: 2px }
-.score { font: 500 .86rem var(--f-mono); padding: 3px 8px; border-radius: 6px; background: var(--accent-soft); color: var(--accent); white-space: nowrap }
-.score.neg { background: var(--hot-soft); color: var(--hot) }
-.bar { height: 8px; border-radius: 4px; background: var(--line); position: relative; overflow: hidden }
-.bar i { position: absolute; top: 0; bottom: 0; background: var(--accent) }
-.bar i.neg { background: var(--hot) }
-.prose { max-width: 68ch; font-size: .92rem } .prose h2 { font: 700 1.05rem var(--f-display); margin: 26px 0 8px }
-.prose ol { padding-left: 20px } .prose li { margin: 6px 0 }
-.src { font-size: .78rem; color: var(--muted) } .src a { color: var(--muted) }
-.method { font-size: .84rem; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 10px 12px; margin-top: 12px }
-/* 모바일 보정: 펼친 표가 카드·페이지를 넓히지 않게, 탭 대상은 손가락 크기로 */
-.list, .more-box, .card { grid-template-columns: minmax(0, 1fr) }
-.rank { grid-template-columns: 34px minmax(0, 1fr) }
-details.x, .more-box > *, .card > * { min-width: 0 }
-.row1 > .name { flex: 1 1 auto }
-.side { display: flex; gap: 2px; align-items: flex-start; flex: none }
-.star { min-width: 40px; min-height: 40px; margin: -8px -8px -8px 0; font-size: 1.25rem }
-details.x > summary { padding: 8px 0; min-height: 40px; display: flex; align-items: center }
-details > summary.meta { padding: 8px 0; min-height: 36px }
-.tbl-wrap { -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain }
-table.t td a { overflow-wrap: anywhere }
-nav { scrollbar-width: none; -webkit-mask-image: linear-gradient(90deg, #000 88%, transparent); mask-image: linear-gradient(90deg, #000 88%, transparent) }
-nav::-webkit-scrollbar { display: none }
-nav a { min-height: 44px; display: inline-flex; align-items: center }
-@media (max-width: 480px) {
-  body { font-size: 14.5px }
-  h1 { font-size: 1.2rem }
-  nav a { padding: 8px 9px 10px; font-size: .92rem }
-  .dday { font-size: .74rem; padding: 3px 6px }
-  table.t { min-width: 360px; font-size: .78rem }
-  .cond { grid-template-columns: 82px minmax(0, 1fr) }
-  .rank { grid-template-columns: 24px minmax(0, 1fr); gap: 6px }
-  .rank .no { font-size: 1.15rem }
-  .filters { gap: 6px }
-  .chip { padding: 7px 12px }
+/* ── 목차 */
+.menu { padding: 26px 0 10px }
+.menu a, .menu .soon { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 20px; align-items: end; padding: 22px 0; border-bottom: 1px solid var(--line); text-decoration: none }
+.menu h2 { font: 800 clamp(1.5rem, 4.6vw, 2.2rem)/1.15 var(--f-display); letter-spacing: -.025em; margin: 0 }
+.menu h2 small { font: 500 .95rem var(--f-body); color: var(--muted); letter-spacing: 0; margin-left: 10px; white-space: nowrap }
+.menu p { margin: 4px 0 0; color: var(--muted); max-width: 36em; font-size: .95rem }
+.menu .fig { text-align: right; font: 500 .9rem var(--f-mono); color: var(--teal); white-space: nowrap }
+.menu .fig b { display: block; font: 800 1.5rem var(--f-display); letter-spacing: -.02em; color: var(--ink) }
+.menu a:hover h2, .menu a:focus-visible h2 { color: var(--teal) }
+.menu a:focus-visible { outline: 2px solid var(--teal); outline-offset: 4px }
+.menu .soon { opacity: .55 }
+.menu .soon .fig { color: var(--muted) }
+footer { padding: 18px 0 calc(env(safe-area-inset-bottom) + 36px); color: var(--muted); font-size: .82rem }
+footer a { color: var(--teal) }
+@media (max-width: 760px) {
+  .tower .wrap { grid-template-columns: minmax(0, 1fr) }
+  .scope-box { order: -1; max-width: 340px; margin: 0 auto -4px }
+  .tower { padding-top: calc(env(safe-area-inset-top) + 14px) }
+  .menu a, .menu .soon { grid-template-columns: minmax(0, 1fr); align-items: start }
+  .menu .fig { text-align: left; display: flex; gap: 10px; align-items: baseline }
+  .menu .fig b { display: inline; font-size: 1.2rem }
 }
-/* 내 자격 · 예정 · 지도 · 새로고침 */
-.agree.later { background: var(--plan-soft); color: var(--plan) }
-.elig { display: flex; gap: 6px; align-items: baseline; flex-wrap: wrap; font-size: .84rem; min-width: 0 }
-.elig .meta { display: inline; overflow-wrap: anywhere }
-.res { display: grid; gap: 2px; padding: 8px 0; border-bottom: 1px solid var(--line) }
-.res:last-child { border-bottom: 0 }
-.res .h { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; font-weight: 600; font-size: .9rem }
-.res ul { margin: 2px 0 0; padding-left: 18px; font-size: .82rem; color: var(--muted) }
-.refresh { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 12px; font-size: .8rem; cursor: pointer; min-height: 36px; white-space: nowrap }
-.refresh[aria-busy="true"] { color: var(--accent); border-color: var(--accent) }
-.refresh[aria-busy="true"]::before { content: ""; display: inline-block; width: 10px; height: 10px; margin-right: 6px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: spin .8s linear infinite; vertical-align: -1px }
-@keyframes spin { to { transform: rotate(360deg) } }
-@media (prefers-reduced-motion: reduce) { .refresh[aria-busy="true"]::before { animation: none } }
-.head-r { display: flex; gap: 8px; align-items: center; flex-wrap: wrap }
-.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); background: var(--fg); color: var(--bg); padding: 10px 16px; border-radius: 10px; font-size: .86rem; z-index: 20; max-width: calc(100% - 32px) }
-.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px; display: grid; gap: 10px; min-width: 0 }
-.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px }
-.kpi { border: 1px solid var(--line); border-radius: 8px; padding: 10px }
-.kpi b { display: block; font: 700 1.4rem/1.1 var(--f-display); font-variant-numeric: tabular-nums }
-.kpi span { font-size: .78rem; color: var(--muted) }
-.kpi.ok b { color: var(--accent) } .kpi.mid b { color: var(--warn) } .kpi.later b { color: var(--plan) }
-.form { display: grid; gap: 4px }
-.form fieldset { border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px 12px; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px 12px; min-width: 0 }
-.form legend { font-weight: 700; font-size: .86rem; padding: 0 4px }
-.fld { display: grid; gap: 3px; font-size: .82rem; color: var(--muted); min-width: 0 }
-.fld input:not([type="checkbox"]), .fld select { font: inherit; font-size: .95rem; color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; min-height: 40px; width: 100%; min-width: 0 }
-.fld.chk { grid-template-columns: auto 1fr; align-items: center; gap: 8px; min-height: 40px }
-.fld.chk input { width: 20px; height: 20px; accent-color: var(--accent) }
-.fld.unk input { border-style: dashed; border-color: var(--warn) }
-.btns { display: flex; gap: 8px; flex-wrap: wrap }
-.btn { border: 1px solid var(--accent); background: var(--accent); color: var(--surface); border-radius: 8px; padding: 9px 14px; font-weight: 600; cursor: pointer; min-height: 40px }
-.btn.ghost { background: var(--surface); color: var(--accent) }
-.ttree { width: 100%; border-collapse: collapse; font-size: .84rem; min-width: 520px }
-.ttree th, .ttree td { border-bottom: 1px solid var(--line); padding: 7px 8px; text-align: left; vertical-align: top }
-.ttree th { background: var(--bg); color: var(--muted); font-weight: 600 }
-.ttree tr.grp td { background: var(--bg); font-weight: 700; color: var(--fg) }
-.ttree td.why { color: var(--muted); font-size: .8rem }
-.up-card .row1 .name { font-size: .98rem }
-.off { display: inline-block; font-size: .7rem; font-weight: 700; padding: 1px 6px; border-radius: 5px; background: var(--accent); color: var(--surface); vertical-align: 1px; margin-right: 3px }
-.unoff { display: inline-block; font-size: .7rem; font-weight: 600; padding: 1px 6px; border-radius: 5px; border: 1px dashed var(--muted); color: var(--muted); vertical-align: 1px }
-.badge-plan { background: var(--plan-soft); color: var(--plan); font-size: .76rem; font-weight: 600; padding: 2px 8px; border-radius: 6px; white-space: nowrap }
-#map { position: relative; z-index: 0; isolation: isolate; height: min(70vh, 640px); min-height: 360px; border-radius: var(--r); border: 1px solid var(--line); background: var(--bg) }
-.leaflet-container { font: inherit }
-.leaflet-popup-content { font-size: .84rem; line-height: 1.45; margin: 10px 12px }
-.leaflet-popup-content b { font-size: .92rem }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .leaflet-tile-pane { filter: brightness(.72) contrast(1.08) saturate(.85) } }
-:root[data-theme="dark"] .leaflet-tile-pane { filter: brightness(.72) contrast(1.08) saturate(.85) }
-.legend { display: flex; flex-wrap: wrap; gap: 6px 12px; font-size: .8rem; color: var(--muted) }
-.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 4px; vertical-align: -1px }
-img { max-width: 100% }
-[hidden] { display: none !important }
-:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px) }
 </style>
 </head>
 <body>
-<header>
+<section class="tower">
   <div class="wrap">
-    <div class="head">
-      <h1>청약·정비 <span>레이더</span></h1>
-      <div class="head-r"><div class="stamp" id="stamp">불러오는 중…</div>
-        <button type="button" class="refresh" id="refresh" hidden>↻ 최신 정보</button>
-        <a class="refresh" id="learn-link" href="#guide" style="text-decoration:none;color:inherit" title="청약 초보 가이드와 부동산 용어집">📖 가이드·용어집</a>
-        <a class="refresh" id="pf-link" href="portfolio/" hidden style="text-decoration:none;color:inherit">포트폴리오</a></div>
+    <div>
+      <h1>ASAR Partners</h1>
+      <p class="full">Applied Statistical Asset Research</p>
+      <p class="lede" id="lede">응용통계로 자산의 불확실성을 좁힙니다. 청약과 실거래를 공식 자료로 매일 네 번 살핍니다.</p>
+      <p class="next-h" id="next-h">가까운 접수 일정</p>
+      <ol class="next" id="next"><li><span class="d">…</span><span class="n">불러오는 중</span><span class="k"></span></li></ol>
     </div>
-    <div id="focus-bar" class="filters" style="padding:4px 0 0"></div>
-    <nav aria-label="보기">
-      <a href="#ranking" data-view="ranking">추천 순위<small id="n-ranking"></small></a>
-      <a href="#schedule" data-view="schedule">청약 일정<small id="n-schedule"></small></a>
-      <a href="#zupzup" data-view="zupzup">줍줍<small id="n-zupzup"></small></a>
-      <a href="#upcoming" data-view="upcoming">곧 나올 분양<small id="n-upcoming"></small></a>
-      <a href="#map" data-view="map">지도</a>
-      <a href="#me" data-view="me">내 자격</a>
-      <a href="#pipeline" data-view="pipeline">정비사업<small id="n-pipeline"></small></a>
-      <a href="#changes" data-view="changes">변경 이력<small id="n-changes"></small></a>
-    </nav>
-    <nav aria-label="배우기" id="learn-nav" hidden>
-      <a href="#ranking" data-back="1">← 레이더로</a>
-      <a href="#guide" data-view="guide">초보 가이드</a>
-      <a href="#terms" data-view="terms">용어집</a>
-    </nav>
+    <div class="scope-box">
+      <svg class="scope" id="scope" viewBox="0 0 440 440" role="img" aria-label="접수 예정 공고를 접수일까지 남은 날로 표시한 레이더"></svg>
+      <div class="key"><span><i style="background:var(--mint)"></i>청약</span><span><i style="background:var(--amber)"></i>줍줍</span><span><i style="background:#9fbab1;opacity:.6"></i>기준 밖</span><span>가운데에 가까울수록 접수일이 가깝습니다</span></div>
+    </div>
   </div>
-</header>
+</section>
 
-<div class="wrap">
-  <div id="banner"></div>
+<main class="wrap">
+  <nav class="menu" aria-label="메뉴">
+    <a href="radar/"><div><h2>Offerings <small>청약 레이더</small></h2><p>서울·경기 핵심지역 청약과 줍줍 일정, 실거래 근거로 매긴 투자 점수, 내 자격 판정, 재건축·재개발 단계.</p></div><div class="fig" id="fig-radar"></div></a>
+    <a href="market/"><div><h2>Comps <small>실거래가 분석 지도</small></h2><p>서울과 분당·과천·광교·동탄 아파트 실거래를 지도에서. 단지별 준공 이후 가격 흐름과 구·동 통계, 예정 호재 위치.</p></div><div class="fig" id="fig-market"></div></a>
+    <a href="lab/"><div><h2>Quant Lab <small>분석실</small></h2><p>변수를 골라 직접 돌려 보는 통계 도구. 헤도닉 회귀, 거리에 따른 가격 경사, 반경 통계, 그룹 비교.</p></div><div class="fig" id="fig-lab"></div></a>
+    <a href="scenario/"><div><h2>Scenario <small>시나리오 예측</small></h2><p>지역·단지의 1~5년 뒤 가격 범위, 그 예측의 과거 적중 기록, 재건축 단계 효과, 교통 호재 소식. 금리·주식 시나리오는 준비 중.</p></div><div class="fig" id="fig-scn"></div></a>
+    <div class="soon"><div><h2>Portfolio <small>자산 운용</small></h2><p>순자산, 현금 흐름, 청약 자금 시뮬레이션. 내 기기에서만 열리는 비공개 영역으로 준비하고 있습니다.</p></div><div class="fig">준비 중</div></div>
+    <a href="radar/#guide"><div><h2>Handbook <small>가이드와 용어집</small></h2><p>청약 순서, 1순위 조건, 전매제한·실거주의무 같은 용어를 법령 근거와 함께.</p></div><div class="fig" id="fig-guide"></div></a>
+  </nav>
+</main>
+<footer class="wrap"><span id="stamp"></span> 데이터는 청약홈, 국토교통부 실거래가, 서울시 정비사업 현황 등 공식 자료만 씁니다. 개인 연구용이며 금융회사가 아니고, 투자 권유가 아닙니다.</footer>
 
-  <section id="v-ranking" hidden>
-    <div class="method" id="rank-method"></div>
-    <main id="rank-list"></main>
-  </section>
-
-  <section id="v-schedule" hidden>
-    <div class="filters" id="f-sched"></div>
-    <div class="filters sched-bar">
-      <div class="seg" role="group" aria-label="보기 방식">
-        <button type="button" class="chip" data-sview="card">카드</button>
-        <button type="button" class="chip" data-sview="table">평형별 가격표</button>
-      </div>
-      <select id="s-sort" aria-label="정렬">
-        <option value="date">정렬: 일정 빠른 순</option>
-        <option value="price_asc">분양가 낮은 순</option>
-        <option value="price_desc">분양가 높은 순</option>
-        <option value="pp_asc">3.3㎡당 가격 낮은 순</option>
-        <option value="margin">시세 여유 큰 순</option>
-        <option value="score">투자 점수 높은 순</option>
-        <option value="elig">내 자격 되는 것 먼저</option>
-      </select>
-      <div id="s-band" style="display:contents"></div>
-    </div>
-    <main id="sched-list"></main>
-  </section>
-
-  <section id="v-pipeline" hidden>
-    <div class="ladder" id="ladder" role="group" aria-label="최소 단계"></div>
-    <div class="filters">
-      <div id="f-pipe-region" style="display:contents"></div>
-      <span class="sep"></span>
-      <div id="f-pipe-type" style="display:contents"></div>
-      <span class="sep"></span>
-      <button class="chip" id="only-watch" aria-pressed="false">★ 관심만</button>
-      <input type="search" id="q" placeholder="구역명·동·구 검색" aria-label="검색">
-      <select id="sort" aria-label="정렬">
-        <option value="stage">단계 높은 순</option>
-        <option value="hh">세대수 많은 순</option>
-        <option value="recent">최근 진행 순</option>
-      </select>
-    </div>
-    <main id="pipe-list"></main>
-  </section>
-
-  <section id="v-zupzup" hidden>
-    <div class="method" id="zup-head"></div>
-    <div class="filters" id="zup-f"></div>
-    <main id="zup-list"></main>
-    <div id="zup-guide"></div>
-  </section>
-
-  <section id="v-upcoming" hidden>
-    <main id="up-list"></main>
-  </section>
-
-  <section id="v-map" hidden>
-    <div class="filters" id="map-layers"></div>
-    <div class="legend" id="map-legend"></div>
-    <div id="map" role="region" aria-label="청약·분양 예정 지도" style="margin-top:8px"></div>
-    <p class="meta" id="map-note" style="margin-top:6px"></p>
-  </section>
-
-  <section id="v-me" hidden>
-    <main id="me"></main>
-  </section>
-
-  <section id="v-changes" hidden>
-    <main id="chg-list"></main>
-  </section>
-
-  <section id="v-terms" hidden>
-    <div class="method"><b>부동산·청약 용어집</b> 쉬운 설명을 먼저 쓰고, 자세한 내용과 <b>법령·정부 근거</b>를 붙였습니다. 단지마다 달라지는 값은 항상 입주자모집공고문이 최종 기준입니다.
-      <input id="t-q" type="search" placeholder="용어 검색 (예: 실거주, 가점, 관리처분)" aria-label="용어 검색"
-        style="display:block;width:100%;margin-top:10px;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);font-size:.95rem">
-      <div class="filters" id="t-cat" style="padding:8px 0 0"></div></div>
-    <main id="t-list"></main>
-  </section>
-
-  <section id="v-guide" hidden>
-    <main id="guide" class="prose"></main>
-  </section>
-
-  <footer>
-    청약 일정: 한국부동산원 청약홈 분양정보(공공데이터포털). 정비사업: 서울 열린데이터광장 ‘서울시 정비사업 추진현황’(분기 갱신) + 직접 관리하는 관심목록.
-    일정은 정정공고로 바뀔 수 있으니 신청 전 청약홈 원문을 확인하세요.
-  </footer>
-</div>
-
-<script src="app/elig.js"></script>
 <script>
-(function () {
-  "use strict";
+(() => {
   const $ = (s) => document.querySelector(s);
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-  const store = {
-    get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
-    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
-  };
+  const today = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+  const days = (d) => Math.round((Date.parse(d) - Date.parse(today)) / 864e5);
+  const eok = (m) => m == null ? "-" : `${(m / 10000).toFixed(1)}억`;
+  const hash = (s) => { let h = 2166136261; for (const c of s) h = Math.imul(h ^ c.charCodeAt(0), 16777619); return (h >>> 0) / 4294967296; };
 
-  // 오늘(KST)
-  const kstToday = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
-  const TODAY = kstToday();
-  const dayDiff = (iso) => Math.round((Date.parse(iso) - Date.parse(TODAY)) / 86400e3);
-  const md = (iso) => iso ? `${+iso.slice(5, 7)}.${+iso.slice(8, 10)}` : "";
-  const wd = (iso) => "일월화수목금토"[new Date(iso + "T00:00:00").getDay()];
-  const eok = (man) => man == null ? null : (man >= 10000 ? (Math.round(man / 1000) / 10) + "억" : man.toLocaleString() + "만");
-  const priceTxt = (s) => s.price_min == null ? "" : (s.price_min === s.price_max ? eok(s.price_min) : `${eok(s.price_min)}~${eok(s.price_max)}`);
-
-  let D = null;
-  const favs = new Set(store.get("favs", []));
-  const saveFavs = () => store.set("favs", [...favs]);
-  const st = Object.assign({ regions: null, kinds: ["apt", "remndr", "opt"], favOnly: false,
-                             pRegions: null, pTypes: null, minStage: null, watchOnly: false, q: "", sort: "stage", limit: 60,
-                             sView: "card", sSort: "date", tSort: { key: "date", dir: 1 }, tBand: "all" },
-                           store.get("filters", {}));
-  const saveSt = () => { const { q, limit, ...rest } = st; store.set("filters", rest); };
-
-  function chip(label, pressed, onClick) {
-    const b = document.createElement("button");
-    b.className = "chip"; b.type = "button"; b.textContent = label;
-    b.setAttribute("aria-pressed", pressed ? "true" : "false");
-    b.addEventListener("click", onClick);
-    return b;
-  }
-  function starBtn(id, label) {
-    const on = favs.has(id);
-    return `<button class="star" type="button" data-fav="${esc(id)}" aria-pressed="${on}" aria-label="${esc(label)} 관심 표시">${on ? "★" : "☆"}</button>`;
-  }
-  document.addEventListener("click", (e) => {
-    const b = e.target.closest("[data-fav]");
-    if (!b) return;
-    const id = b.dataset.fav;
-    favs.has(id) ? favs.delete(id) : favs.add(id);
-    saveFavs(); render();
-  });
-
-  // ---------------------------------------------------------------- 보는 범위 (핵심지역 · 주변 시세 하한)
-  const FOCUS = () => D.focus || { core_only: true, min_expected_eok: 10, definition: "" };
-  const coreOk = (x) => !st.coreOnly || x.core !== false;
-  const priceOk = (s) => { const m = s.market || {}; return !st.minEok || !(m.method === "distance" && m.expected && m.expected < st.minEok * 1e4); };
-  const focusOk = (s) => coreOk(s) && priceOk(s);
-  function focusTag(s) {
-    if (!st.minEok) return "";
-    const m = s.market || {};
-    return m.method === "distance" ? "" : `<span class="unoff" title="실거래 거리 기반 시세가 없어 ${st.minEok}억 기준을 적용하지 못했습니다">시세 근거 없음</span>`;
-  }
-  function renderFocusBar() {
-    const f = FOCUS();
-    if (st.coreOnly == null) st.coreOnly = f.core_only;
-    if (st.minEok == null) st.minEok = f.min_expected_eok;
-    const box = $("#focus-bar"); box.innerHTML = "";
-    box.append(chip("🎯 핵심지역만", st.coreOnly, () => { st.coreOnly = !st.coreOnly; saveSt(); render(); }));
-    const sel = document.createElement("select");
-    sel.setAttribute("aria-label", "주변 시세 하한");
-    sel.style.cssText = "border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:5px 8px;font-size:.85rem";
-    [[0, "주변 시세 전체"], [10, "주변 시세 10억↑"], [15, "15억↑"], [20, "20억↑"]].forEach(([v, l]) => {
-      const o = document.createElement("option"); o.value = v; o.textContent = l; if (+st.minEok === v) o.selected = true; sel.append(o);
-    });
-    sel.addEventListener("change", () => { st.minEok = +sel.value; saveSt(); render(); });
-    box.append(sel);
-    const hid = D.schedules.filter((s) => nextEvent(s) && st.regions && st.regions.includes(s.region) && !focusOk(s)).length;
-    const info = document.createElement("span"); info.className = "meta";
-    info.innerHTML = `${hid ? `진행 중 공고 ${hid}건 숨김 · ` : ""}<a href="${esc(f.source || "#")}" target="_blank" rel="noopener" title="${esc(f.definition || "")}">핵심지역 기준</a>`;
-    box.append(info);
-  }
-
-  // ---------------------------------------------------------------- 청약 일정
-  const KIND = { apt: "APT", remndr: "무순위·잔여", opt: "임의공급" };
-  function nextEvent(s) {
-    return s.events.find((e) => e.end >= TODAY) || null;
-  }
-  function renderSchedFilters() {
-    const box = $("#f-sched"); box.innerHTML = "";
-    const regs = D.regions;
-    if (!st.regions) st.regions = [...regs];
-    regs.forEach((r) => box.append(chip(r, st.regions.includes(r), () => {
-      st.regions = st.regions.includes(r) ? st.regions.filter((x) => x !== r) : [...st.regions, r];
-      saveSt(); render();
-    })));
-    box.append(Object.assign(document.createElement("span"), { className: "sep" }));
-    Object.entries(KIND).forEach(([k, label]) => box.append(chip(label, st.kinds.includes(k), () => {
-      st.kinds = st.kinds.includes(k) ? st.kinds.filter((x) => x !== k) : [...st.kinds, k];
-      saveSt(); render();
-    })));
-    box.append(Object.assign(document.createElement("span"), { className: "sep" }));
-    box.append(chip("★ 관심만", st.favOnly, () => { st.favOnly = !st.favOnly; saveSt(); render(); }));
-    box.append(chip("✓ 내 자격 되는 것", st.eligOnly, () => { st.eligOnly = !st.eligOnly; saveSt(); render(); }));
-  }
-  // ---------------------------------------------------------------- 내 정보(프로필)·자격
-  const BLANK = { name: "", birth: "", marital: "single", marriage_date: "", household_head: true, household_size: 1, with_parents: false,
-    homes_owned: 0, officetel: 0, ever_owned_home: false, won_5y: false, special_won: false, sido: "서울", sigungu: "", residence_since: "",
-    acct_years: null, acct_payments: null, acct_balance: null, income_self: null, income_includes_bonus: false, spouse_income: null, tax_years: null,
-    realestate: 0, lease_deposit: 0, financial_assets: null, car: null, debts: null, parent_assets: null, children: 0, newborn: 0, parent65_years: 0,
-    spouse_homeless: true, spouse_ever_owned: false, spouse_acct_years: null, spouse_realestate: 0 };
-  let PROF = { ...BLANK }, PROF_SRC = "빈 기본값", SERVER_PROFILE = null;
-  async function loadProfile() {
-    if (window.__PROFILE__) SERVER_PROFILE = window.__PROFILE__;
-    else {
-      try { const r = await fetch("profile.json", { cache: "no-store" }); if (r.ok) SERVER_PROFILE = await r.json(); } catch (e) {}
-    }
-    const saved = store.get("profile", null);
-    if (saved) { PROF = { ...BLANK, ...saved }; PROF_SRC = "이 기기에 저장한 값"; }
-    else if (SERVER_PROFILE) { PROF = { ...BLANK, ...SERVER_PROFILE }; PROF_SRC = "PC의 profile.local.json"; }
-    else { PROF = { ...BLANK }; PROF_SRC = "빈 기본값 — 내 자격 탭에서 입력하세요"; }
-  }
-  const EP = () => (D.guide && D.guide.elig) || null;
-  let ELC = new Map();
-  function elig(s) {
-    if (!window.Elig || !EP()) return null;
-    if (!ELC.has(s.id)) { try { ELC.set(s.id, window.Elig.forNotice(PROF, s, EP(), TODAY)); } catch (e) { ELC.set(s.id, null); } }
-    return ELC.get(s.id);
-  }
-  const ST_CLS = { ok: "ok", maybe: "mid", later: "later", no: "bad" };
-  const ST_TXT = { ok: "넣을 수 있음", maybe: "확인 필요", later: "나중에 가능", no: "자격 없음" };
-  function eligLine(s) {
-    const e = elig(s); if (!e) return "";
-    return `<div class="elig"><span class="agree ${ST_CLS[e.best]}">내 자격 · ${ST_TXT[e.best]}</span> <span class="meta">${esc(e.label)}</span></div>`;
-  }
-  function resultsHtml(rs) {
-    return rs.map((r) => `<div class="res"><div class="h"><span class="agree ${ST_CLS[r.status]}">${ST_TXT[r.status]}</span>${esc(r.label)}${r.route ? ` <span class="meta">${esc(r.route)}</span>` : ""}</div>
-      <ul>${r.reasons.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>`).join("");
-  }
-  function eligDetail(s) {
-    const e = elig(s); if (!e) return "";
-    return `<details class="x"><summary>내 자격 자세히</summary>${resultsHtml(e.results)}
-      <p class="src">내 정보는 <a href="#me">내 자격</a> 탭에서 바꿀 수 있습니다. 최종 기준은 입주자모집공고문.</p></details>`;
-  }
-  const eligOk = (s) => { const e = elig(s); return !e || e.best === "ok" || e.best === "maybe"; };
-
-  // ---------------------------------------------------------------- 공통: 통계량·출처
-  const AG = { "일치": "ok", "대체로 일치": "mid", "불일치": "bad", "단일 출처": "mid" };
-  const num = (v, unit) => v == null ? "-" : (unit === "만원" ? won(v) : (+v).toLocaleString(undefined, { maximumFractionDigits: 2 }));
-  function statLine(st, unit, vals) {
-    if (!st || !st.n) return "";
-    if (st.n === 1 && vals && vals[0] && vals[0].official) return `<span class="off">공식</span> <span class="statline">${num(st.min, unit)}${unit === "만원" ? "" : esc(unit)}</span>`;
-    const u = unit === "만원" ? "" : unit;
-    const parts = [`출처 ${st.n}곳`];
-    if (st.n_numeric > 1) parts.push(`중앙값 ${num(st.median, unit)}${u}`, `평균 ${num(st.mean, unit)}`, `범위 ${num(st.min, unit)}~${num(st.max, unit)}`, `편차 ${st.spread_pct}%`);
-    else if (st.n_numeric === 1) parts.push(`값 ${num(st.min, unit)}${u}`);
-    return `<span class="agree ${AG[st.agreement] || "mid"}">${esc(st.agreement)}</span> <span class="statline">${parts.join(" · ")}</span>`;
-  }
-  function valuesTable(values, unit) {
-    return `<div class="tbl-wrap"><table class="t"><thead><tr><th>출처</th><th>값</th><th>날짜</th><th>메모</th></tr></thead><tbody>${
-      values.map((v) => `<tr><td>${v.url ? `<a href="${esc(v.url)}" target="_blank" rel="noopener">${esc(v.source)}</a>` : esc(v.source)}</td>
-        <td class="num">${num(v.value, unit)}${unit === "만원" ? "" : esc(unit)}</td><td>${esc(v.date || "")}</td><td>${esc(v.note || v.kind || "")}</td></tr>`).join("")
-    }</tbody></table></div>`;
-  }
-  const FACT = () => Object.fromEntries(((D.guide || {}).facts || []).map((f) => [f.key, f]));
-  function factBadges(keys) {
-    const F = FACT();
-    return (keys || []).filter((k) => F[k]).map((k) => {
-      const st = F[k].stats;
-      const v0 = F[k].values[0] || {};
-      return `<a class="off" href="${esc(v0.url)}" target="_blank" rel="noopener" title="${esc(v0.source)}${v0.note ? " · " + esc(v0.note) : ""}">공식 근거</a>`;
-    }).join(" ");
-  }
-  const won = (man) => man == null ? "-" : (Math.abs(man) >= 10000 ? (man / 10000).toFixed(2).replace(/\.?0+$/, "") + "억" : Math.round(man).toLocaleString() + "만");
-  const pct = (v) => v == null ? "-" : `${v > 0 ? "+" : ""}${v}%`;
-
-  function marketBlock(m) {
-    if (!m || (!m.expected && !m.newsale_margin_pct && !m.region_trend && !(m.nearby && m.nearby.reason))) return `<p class="meta">비교할 시세 데이터가 아직 없습니다. data/comps.csv 에 주변 단지를 추가하거나 실거래가 API를 연결하세요.</p>`;
-    let h = "";
-    const nb = m.nearby;
-    if (m.method === "distance") {
-      h += `<p class="meta" style="margin:4px 0"><span class="off">실측 근거</span> 국토교통부 실거래가(해제·직거래 제외)로, 공고 위치에서 실제 거리 ${nb.radius_km}km 안의 10년 이내 단지만 비교했습니다. 단지별 전용㎡당 중앙값 × 이 공고 주택형 면적.</p>`;
-    } else {
-      h += `<p class="meta" style="margin:4px 0"><span class="unoff">참고용</span> ${esc((nb && nb.reason) || "거리 기반 비교 불가")} — 아래 값은 같은 동·시군구 거래로 낸 참고치이고, <b>추천 순위에는 넣지 않았습니다.</b></p>`;
-    }
-    if (nb && nb.complexes && nb.complexes.length) {
-      h += `<div class="ptable-wrap" style="margin:6px 0"><table class="pt" style="min-width:560px"><thead><tr><th>비교 단지</th><th class="num">준공</th><th class="num">거리</th><th class="num">거래</th><th class="num">${esc(m.band || "")}㎡ 환산</th><th class="num">거래가 범위</th><th>최근 거래</th></tr></thead><tbody>${
-        nb.complexes.map((c) => `<tr><td><b>${esc(c.apt)}</b><span class="sub">${esc(c.dong || "")} ${esc(c.jibun || "")}</span></td><td class="num">${c.build_year || "-"}</td><td class="num">${c.km}km</td><td class="num">${c.n}건</td><td class="num">${won(c.value)}</td><td class="num">${won(c.min)}~${won(c.max)}</td><td>${esc(c.last)}</td></tr>`).join("")
-      }</tbody></table></div><p class="meta">각 단지 거래는 <a class="off" href="https://rt.molit.go.kr/" target="_blank" rel="noopener">국토부 실거래가 공개시스템</a>에서 직접 확인할 수 있습니다.${nb.unlocated ? ` 위치를 번지까지 못 찾은 단지 ${nb.unlocated}곳은 거리 계산에서 뺐습니다.` : ""}</p>`;
-    }
-    h += `<dl class="cond">`;
-    h += `<dt>분양가(${esc(m.band || "")}㎡)</dt><dd>${won(m.price_rep)}${m.land_equiv ? ` + 토지임대료 환산 ${won(m.land_equiv)} = 실질 ${won(m.price_effective)}` : ""}</dd>`;
-    if (m.expected) h += `<dt>${m.method === "distance" ? "기대 시세" : "참고 시세"}</dt><dd><b>${won(m.expected)}</b>${nb && nb.ok !== false && nb.low ? ` <span class="meta">(단지별 ${won(nb.low)}~${won(nb.high)})</span>` : ""} <span class="meta">(${esc(m.expected_basis)})</span></dd><dt>시세 여유율</dt><dd><b>${pct(m.margin_pct)}</b></dd>`;
-    if (m.newsale_margin_pct != null) h += `<dt>인근 분양가 대비</dt><dd>${pct(m.newsale_margin_pct)} <span class="meta">(+면 이 단지가 더 쌈)</span></dd>`;
-    if (m.momentum_3m_pct != null) h += `<dt>최근 3개월</dt><dd>${pct(m.momentum_3m_pct)} <span class="meta">(${esc(m.momentum_basis)})</span></dd>`;
-    if (m.confidence) h += `<dt>신뢰도</dt><dd>${esc(m.confidence)}</dd>`;
-    h += `</dl>`;
-    (m.api_groups || []).forEach((g) => {
-      const st = g.stats;
-      h += `<div class="statline">실거래 ${esc(g.group)}: ${st.n}건 · 중앙값 ${won(st.median)} · 25~75% ${won(st.p25)}~${won(st.p75)} · 범위 ${won(st.min)}~${won(st.max)}</div>`;
-    });
-    if (m.manual_market && m.manual_market.values.length) {
-      h += `<div style="margin-top:6px"><b style="font-size:.84rem">주변 단지 시세</b> ${statLine(m.manual_market.stats, "만원")}</div>`;
-      h += valuesTable(m.manual_market.values.map((v) => ({ ...v, note: [v.build_year ? `${v.build_year}년식` : "", v.kind, v.note].filter(Boolean).join(" · ") })), "만원");
-    }
-    if (m.manual_newsale && m.manual_newsale.values.length) {
-      h += `<div><b style="font-size:.84rem">인근 분양가</b> ${statLine(m.manual_newsale.stats, "만원")}</div>` + valuesTable(m.manual_newsale.values, "만원");
-    }
-    if (m.region_trend) {
-      const rt = m.region_trend;
-      h += `<div style="margin-top:6px"><b style="font-size:.84rem">지역 시세 흐름: ${esc(rt.region)}</b>${rt.exact ? "" : ' <span class="meta">(해당 구 자료가 없어 상위 지역)</span>'}</div>`;
-      Object.entries(rt.metrics).forEach(([k, mm]) => {
-        h += `<div class="statline" style="margin-top:4px">${esc(k)} 변동률: ${statLine(mm.stats, "%")}</div>` + valuesTable(mm.values, "%");
-      });
-    }
-    if ((m.notes || []).length) h += `<ul class="news">${m.notes.map((n) => `<li class="meta">${esc(n)}</li>`).join("")}</ul>`;
-    return h;
-  }
-  function extrasBlock(s) {
-    const cond = (s.conditions || []).map((c) => `<dt>${esc(c.title)}</dt><dd class="${c.tone === "warn" ? "warn" : ""}">${esc(c.body)} ${factBadges(c.facts)}</dd>`).join("");
-    const cc = (s.crosscheck || []).map((c) => `<div style="margin-top:6px"><b style="font-size:.84rem">${esc(c.label)}</b> ${statLine(c.stats, c.unit, c.values)}</div>${valuesTable(c.values, c.unit)}`).join("");
-    const nw = (s.news || []).map((n) => `<li><span class="off">공식</span><a href="${esc(n.url)}" target="_blank" rel="noopener">${esc(n.title)}</a> <span class="meta">${esc(n.source)} · ${esc(n.date || "")}</span></li>`).join("");
-    return `<div class="more-box">
-      ${eligDetail(s)}
-      ${cond ? `<details class="x"><summary>조건 쉽게 보기</summary><dl class="cond">${cond}</dl><p class="src">최종 기준은 입주자모집공고문입니다.</p></details>` : ""}
-      <details class="x"><summary>시세 분석 · 비교 단지</summary>${marketBlock(s.market)}</details>
-      ${cc ? `<details class="x"><summary>공식 수치 (청약홈 등 공식 출처별)</summary>${cc}</details>` : ""}
-      ${nw ? `<details class="x"><summary>공식 발표 ${s.news.length}건 (정부·지자체·LH·SH·GH)</summary><ul class="news">${nw}</ul></details>` : ""}
-    </div>`;
-  }
-
-  // ---------------------------------------------------------------- 당첨 후 제한 (전매·실거주·재당첨)
-  const yTxt = (y) => !y ? "없음" : (y < 1 ? `${Math.round(y * 12)}개월` : `${+y.toFixed(1)}년`);
-  const resideTxt = (r) => !r.reside_max ? "없음" : (r.reside_min === r.reside_max ? yTxt(r.reside_max) : `${yTxt(r.reside_min)}~${yTxt(r.reside_max)}`);
-  function restrictLine(s) {
-    const r = s.restrict; if (!r) return "";
-    if (r.resale_years == null) return r.note ? `<div class="rsline"><span class="unoff">전매·실거주·재당첨</span> <span class="meta">${esc(r.note)}</span></div>` : "";
-    const tag = (label, val, warn, title) => `<span class="rs ${warn ? "w" : ""}" title="${esc(title)}">${label} <b>${val}</b></span>`;
-    return `<div class="rsline" aria-label="당첨 후 제한">
-      ${tag("전매", yTxt(r.resale_years), r.resale_years >= 1, r.resale_basis)}
-      ${tag("실거주", resideTxt(r), r.reside_max > 0, r.reside_basis)}
-      ${tag("재당첨", yTxt(r.rewin_years), r.rewin_years >= 7, "주택공급에 관한 규칙 제54조")}
-      ${r.confirmed ? `<a class="off" href="${esc(r.source_url)}" target="_blank" rel="noopener">공고문 확인</a>`
-        : `<a class="unoff" href="${esc(r.law.reside)}" target="_blank" rel="noopener" title="주택법·시행령 기준 추정. 최종은 입주자모집공고문">법령 기준 추정</a>`}</div>`;
-  }
-  const lockOf = (s) => (s.invest || {}).lock_years;
-
-  // ---------------------------------------------------------------- 평형별 가격
-  const PY = (b, k) => b && b.pyeong ? b.pyeong : Math.round((+k) * 1.33 / 3.3058);   // 공급면적 없으면 추정
-  const bandList = (s) => Object.entries(s.bands || {}).map(([k, b]) => ({ k: +k, ...b, py: PY(b, k) })).sort((a, b) => a.k - b.k);
-  const BAND_GROUPS = [["all", "전체 평형"], ["small", "~59㎡ (~25평)"], ["mid", "74~84㎡ (국평)"], ["large", "100㎡+ (대형)"]];
-  const inBand = (k, g) => g === "all" || (g === "small" ? k <= 59 : g === "mid" ? (k >= 74 && k <= 84) : k >= 100);
-  const bandPrice = (b) => b.min == null ? "-" : (b.min === b.max ? eok(b.min) : `${eok(b.min)}~${eok(b.max)}`);
-  function bandsBlock(s) {
-    const bl = bandList(s); if (!bl.length) return "";
-    return `<div class="bands" aria-label="평형별 분양가">${bl.map((b) => `<div class="band">
-      <b>${b.k}㎡</b> <span class="meta">${b.py}평${b.supply_estimated === false ? "" : "(추정)"}</span>
-      <div class="bp">${bandPrice(b)}</div>
-      <div class="meta">${b.pyeong_price ? `3.3㎡당 ${b.pyeong_price.toLocaleString()}만` : ""}${b.units ? ` · ${b.units}세대` : ""}</div></div>`).join("")}</div>`;
-  }
-  const midPrice = (s) => { const bl = bandList(s).filter((b) => b.median != null); return bl.length ? bl.map((b) => b.median) : (s.price_min != null ? [s.price_min] : []); };
-  const ELIG_ORDER = { ok: 0, maybe: 1, later: 2, no: 3 };
-  const SCHED_SORT = {
-    date: null,
-    price_asc: (a, b) => nz(Math.min(...midPrice(a)), 1) - nz(Math.min(...midPrice(b)), 1),
-    price_desc: (a, b) => nz(Math.max(...midPrice(b)), -1) - nz(Math.max(...midPrice(a)), -1),
-    pp_asc: (a, b) => nz(a.pyeong_price, 1) - nz(b.pyeong_price, 1),
-    margin: (a, b) => nz((b.market || {}).margin_pct, -1) - nz((a.market || {}).margin_pct, -1),
-    score: (a, b) => nz((b.invest || {}).score, -1) - nz((a.invest || {}).score, -1),
-    elig: (a, b) => nz(ELIG_ORDER[(elig(a) || {}).best], 1) - nz(ELIG_ORDER[(elig(b) || {}).best], 1),
-  };
-  function nz(v, dir) { return v == null || !isFinite(v) ? (dir > 0 ? 1e12 : -1e12) : v; }
-
-  // 표 보기: 공고 × 평형 한 줄씩
-  const TCOLS = [
-    ["name", "단지", (r) => r.s.name],
-    ["area", "전용㎡", (r) => r.b ? r.b.k : null, true],
-    ["py", "평형", (r) => r.b ? r.b.py : null, true],
-    ["price", "분양가", (r) => r.b ? r.b.median : r.s.price_min, true],
-    ["pp", "3.3㎡당", (r) => r.b ? r.b.pyeong_price : r.s.pyeong_price, true],
-    ["units", "세대", (r) => r.b ? r.b.units : r.s.units, true],
-    ["date", "다음 일정", (r) => { const n = nextEvent(r.s); return n ? n.start : "9999"; }],
-    ["lock", "묶임(전매·실거주)", (r) => lockOf(r.s), true],
-    ["margin", "시세 여유", (r) => (r.s.market || {}).margin_pct, true],
-    ["score", "투자 점수", (r) => (r.s.invest || {}).score, true],
-    ["elig", "내 자격", (r) => ELIG_ORDER[(elig(r.s) || {}).best]],
-  ];
-  function priceTable(rows) {
-    const out = [];
-    rows.forEach((s) => {
-      const bl = bandList(s).filter((b) => inBand(b.k, st.tBand));
-      if (bl.length) bl.forEach((b, i) => out.push({ s, b, first: i === 0 }));
-      else if (st.tBand === "all") out.push({ s, b: null, first: true });
-    });
-    const col = TCOLS.find((c) => c[0] === st.tSort.key) || TCOLS[6];
-    const dir = st.tSort.dir;
-    out.sort((a, b) => {
-      let x = col[2](a), y = col[2](b);
-      if (x == null && y == null) return 0; if (x == null) return 1; if (y == null) return -1;
-      return (typeof x === "string" ? x.localeCompare(y, "ko") : x - y) * dir;
-    });
-    const th = TCOLS.map(([k, label, , isNum]) => {
-      const on = st.tSort.key === k;
-      return `<th class="${isNum ? "num" : ""}" ${on ? `aria-sort="${dir > 0 ? "ascending" : "descending"}"` : ""}><button type="button" data-tsort="${k}">${label}${on ? (dir > 0 ? " ▲" : " ▼") : ""}</button></th>`;
+  // 레이더 스코프: 고리 = 7·14·30일, 점 = 접수 예정 공고
+  const C = 220, RMAX = 196, HORIZON = 30;
+  const rOf = (d) => 26 + Math.min(d, HORIZON) / HORIZON * (RMAX - 26);
+  function scope(items) {
+    const rings = [7, 14, 30].map((d) => `<circle class="ring" cx="${C}" cy="${C}" r="${rOf(d)}"/><text x="${C + 4}" y="${C - rOf(d) + 12}">${d}일</text>`).join("");
+    const cross = `<line x1="${C - RMAX}" y1="${C}" x2="${C + RMAX}" y2="${C}" stroke="var(--grid)" stroke-dasharray="2 5"/><line x1="${C}" y1="${C - RMAX}" x2="${C}" y2="${C + RMAX}" stroke="var(--grid)" stroke-dasharray="2 5"/>`;
+    const sweep = `<defs><linearGradient id="sw" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7fd8c2" stop-opacity="0"/><stop offset="1" stop-color="#7fd8c2" stop-opacity=".5"/></linearGradient></defs>
+      <path class="sweep" d="M${C},${C} L${C + RMAX},${C} A${RMAX},${RMAX} 0 0 0 ${C + RMAX * Math.cos(-0.6)},${C + RMAX * Math.sin(-0.6)} Z" fill="url(#sw)"/>`;
+    const blips = items.map((x) => {
+      const a = hash(x.name) * Math.PI * 2, r = rOf(x.d);
+      const cx = C + r * Math.cos(a), cy = C + r * Math.sin(a), col = x.zup ? "var(--amber)" : "var(--mint)";
+      return `<a href="radar/#${x.zup ? "zupzup" : "schedule"}"><circle class="blip" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${x.dim ? 3 : x.d <= 7 ? 7 : 5}" fill="${x.dim ? "#9fbab1" : col}" fill-opacity="${x.dim ? .45 : x.d <= 7 ? 1 : .75}"><title>${esc(x.name)} · ${x.open ? "접수 중" : x.d <= 0 ? "오늘 접수" : x.d + "일 뒤 접수"}</title></circle></a>`;
     }).join("");
-    const td = ({ s, b }) => {
-      const nx = nextEvent(s), m = s.market || {}, e = elig(s);
-      return `<tr><td><b>${esc(s.name)}</b><span class="sub">${esc([s.region, s.sigungu].filter(Boolean).join(" "))} · ${esc(KIND[s.source] || "")}</span></td>
-        <td class="num">${b ? `${b.k}` : "-"}${b && b.area_min && b.area_min !== b.area_max ? `<span class="sub">${b.area_min}~${b.area_max}</span>` : ""}</td>
-        <td class="num">${b ? `${b.py}평` : "-"}</td>
-        <td class="num">${b ? bandPrice(b) : (priceTxt(s) || "-")}</td>
-        <td class="num">${(b ? b.pyeong_price : s.pyeong_price) ? `${(b ? b.pyeong_price : s.pyeong_price).toLocaleString()}만` : "-"}</td>
-        <td class="num">${(b ? b.units : s.units) ? (b ? b.units : s.units).toLocaleString() : "-"}</td>
-        <td>${nx ? `${esc(nx.label)} ${md(nx.start)}(${wd(nx.start)})` : "종료"}</td>
-        <td>${s.restrict && s.restrict.resale_years != null ? `전매 ${yTxt(s.restrict.resale_years)} · 실거주 ${resideTxt(s.restrict)}` : "-"}</td>
-        <td class="num">${m.margin_pct != null ? pct(m.margin_pct) : "-"}</td>
-        <td class="num">${(s.invest || {}).score != null ? s.invest.score : "-"}</td>
-        <td>${e ? `<span class="agree ${ST_CLS[e.best]}">${ST_TXT[e.best]}</span>` : "-"}</td></tr>`;
-    };
-    return `<p class="meta" style="margin:4px 2px 8px">열 제목을 누르면 그 기준으로 정렬됩니다(한 번 더 누르면 반대로). 평형 = 공급면적 기준, '시세 여유·투자 점수'는 단지 대표 평형 기준. 묶임 = 전매제한·실거주의무로 팔 수 없는 기간(추정).</p>
-      <div class="ptable-wrap"><table class="pt"><thead><tr>${th}</tr></thead><tbody>${out.map(td).join("") || `<tr><td colspan="11">해당 평형이 없습니다.</td></tr>`}</tbody></table></div>`;
+    $("#scope").innerHTML = `<circle cx="${C}" cy="${C}" r="${RMAX + 14}" fill="var(--pine-2)"/>${cross}${rings}${sweep}<g class="blips">${blips}</g><circle cx="${C}" cy="${C}" r="4" fill="#e9f3ef"/>`;
   }
-  document.addEventListener("click", (e) => {
-    const t = e.target.closest("[data-tsort]");
-    if (t) { const k = t.dataset.tsort; st.tSort = { key: k, dir: st.tSort.key === k ? -st.tSort.dir : (["margin", "score", "units"].includes(k) ? -1 : 1) }; saveSt(); renderSched(); return; }
-    const v = e.target.closest("[data-sview]");
-    if (v) { st.sView = v.dataset.sview; saveSt(); renderSched(); }
-  });
+  scope([]);
 
-  function schedCard(s) {
-    const nx = nextEvent(s);
-    let dd = `<span class="dday done">종료</span>`;
-    if (nx) {
-      const n = dayDiff(nx.start);
-      const label = n > 0 ? `D-${n}` : (nx.end > TODAY && n < 0 ? "진행 중" : "D-DAY");
-      dd = `<span class="dday ${n <= 2 ? "hot" : ""}">${esc(nx.label)}<br>${label}</span>`;
-    }
-    const evs = s.events.map((e) => {
-      const cls = e.end < TODAY ? "past" : (nx && e === nx ? "next" : "");
-      const t = e.start === e.end ? `${md(e.start)}(${wd(e.start)})` : `${md(e.start)}~${md(e.end)}`;
-      return `<span class="ev ${cls}">${esc(e.label)} <time datetime="${e.start}">${t}</time></span>`;
-    }).join("");
-    const price = priceTxt(s);
-    return `<article class="card">
-      <div class="row1">
-        <div class="name">${esc(s.name)}</div>
-        <div class="side">${dd}${starBtn(s.id, s.name)}</div>
-      </div>
-      <div class="meta"><b>${esc([s.region, s.sigungu].filter(Boolean).join(" "))}</b><span>${esc(s.kind)}</span>${s.regulation ? `<span>${esc(s.regulation)}</span>` : ""}
-        ${s.units ? `<span>${s.units.toLocaleString()}세대</span>` : ""}
-        ${price ? `<span>분양가 <b>${price}</b></span>` : ""}
-        ${s.builder ? `<span>${esc(s.builder)}</span>` : ""}
-        ${s.price_cap === "Y" ? `<span>분양가상한제</span>` : ""}</div>
-      <div class="tl">${evs || '<span class="ev">일정 미정</span>'}</div>
-      ${bandsBlock(s)}
-      ${focusTag(s)}
-      ${restrictLine(s)}
-      ${eligLine(s)}
-      <div class="links">${s.url ? `<a href="${esc(s.url)}" target="_blank" rel="noopener">청약홈 공고 ↗</a>` : ""}
-        ${s.lat ? `<a href="#map" data-map="${esc(s.id)}">지도</a>` : ""}
-        ${s.homepage ? `<a href="${esc(s.homepage)}" target="_blank" rel="noopener">분양 홈페이지 ↗</a>` : ""}</div>
-      ${extrasBlock(s)}
-    </article>`;
-  }
-  function renderSched() {
-    renderSchedFilters();
-    const rows = D.schedules.filter((s) => st.regions.includes(s.region) && focusOk(s) && st.kinds.includes(s.source)
-      && (!st.favOnly || favs.has(s.id)) && (!st.eligOnly || eligOk(s)));
-    const live = rows.filter(nextEvent).sort((a, b) => nextEvent(a).start.localeCompare(nextEvent(b).start));
-    const done = rows.filter((s) => !nextEvent(s)).sort((a, b) => (b.last_date || "").localeCompare(a.last_date || ""));
-    // 보기 방식·정렬 컨트롤
-    document.querySelectorAll("[data-sview]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.sview === st.sView ? "true" : "false"));
-    $("#s-sort").value = st.sSort; $("#s-sort").hidden = st.sView === "table";
-    const bb = $("#s-band"); bb.innerHTML = "";
-    if (st.sView === "table") BAND_GROUPS.forEach(([k, label]) => bb.append(chip(label, st.tBand === k, () => { st.tBand = k; saveSt(); renderSched(); })));
-    $("#n-schedule").textContent = live.length;
-    if (st.sView === "table") {
-      $("#sched-list").innerHTML = rows.length ? priceTable([...live, ...done]) : `<p class="empty">조건에 맞는 공고가 없습니다. 위 필터를 바꿔 보세요.</p>`;
-      return;
-    }
-    const cmp = SCHED_SORT[st.sSort];
-    if (cmp) {
-      const sorted = [...live].sort(cmp);
-      let html = `<div class="group-h"><span>접수 예정·진행 (${$("#s-sort").selectedOptions[0].textContent.replace("정렬: ", "")})</span><span>${sorted.length}건</span></div><div class="list">${sorted.map(schedCard).join("")}</div>`;
-      if (done.length) html += `<div class="group-h"><span>최근 종료</span><span>${done.length}건</span></div><div class="list">${[...done].sort(cmp).map(schedCard).join("")}</div>`;
-      $("#sched-list").innerHTML = html;
-      return;
-    }
-    // 다음 일정 기준 주 단위 묶음
-    const groups = new Map();
-    live.forEach((s) => {
-      const n = dayDiff(nextEvent(s).start);
-      const key = n <= 0 ? "오늘 · 진행 중" : n <= 7 ? "이번 주 (7일 이내)" : n <= 14 ? "다음 주" : n <= 31 ? "이번 달" : "그 이후";
-      if (!groups.has(key)) groups.set(key, []);
-      groups.get(key).push(s);
+  fetch("data/data.json", { cache: "no-cache" }).then((r) => r.json()).then((D) => {
+    const f = D.focus || {};
+    const lim = (f.min_expected_eok || 0) * 1e4;
+    const ok = (s) => (!f.core_only || s.core !== false) && !(lim && (s.market || {}).method === "distance" && s.market.expected < lim);
+    const items = [];
+    D.schedules.forEach((s) => {
+      const ev = (s.events || []).filter((e) => !["당첨자 발표", "계약"].includes(e.label) && e.end >= today).sort((a, b) => a.start.localeCompare(b.start))[0];
+      if (ev) items.push({ name: s.name, d: Math.max(0, days(ev.start)), open: ev.start < today, date: ev.start, label: ev.label, zup: s.source !== "apt", dim: !ok(s), where: [s.region, s.sigungu].filter(Boolean).join(" ") });
     });
-    let html = "";
-    groups.forEach((list, key) => { html += `<div class="group-h"><span>${key}</span><span>${list.length}건</span></div><div class="list">${list.map(schedCard).join("")}</div>`; });
-    if (done.length) html += `<div class="group-h"><span>최근 종료 (계약·발표 확인용)</span><span>${done.length}건</span></div><div class="list">${done.map(schedCard).join("")}</div>`;
-    $("#sched-list").innerHTML = html || `<p class="empty">조건에 맞는 공고가 없습니다. 위 필터를 바꿔 보세요.</p>`;
-    $("#n-schedule").textContent = live.length;
-  }
+    items.sort((a, b) => a.d - b.d);
+    scope(items.filter((x) => x.d <= HORIZON).sort((a, b) => b.dim - a.dim));
+    const rest = items.filter((x) => x.dim).length;
+    items.splice(0, items.length, ...items.filter((x) => !x.dim));
+    const zup = items.filter((x) => x.zup).length;
+    $("#next").innerHTML = items.slice(0, 4).map((x) => `<li><span class="d">${x.open ? "접수 중" : x.d === 0 ? "오늘" : "D-" + x.d}</span><a class="n" href="radar/#${x.zup ? "zupzup" : "schedule"}"><span class="n">${esc(x.name)}</span></a><span class="k">${esc(x.where)}</span></li>`).join("")
+      || `<li><span class="d">–</span><span class="n">${rest ? `기준에 맞는 접수 예정 공고가 없습니다 (기준 밖 ${rest}건)` : "지금 접수 예정인 공고가 없습니다"}</span><span class="k"></span></li>`;
+    $("#next-h").textContent = f.core_only ? "가까운 접수 일정 (핵심지역)" : "가까운 접수 일정";
+    $("#fig-radar").innerHTML = `<b>${items.length}건</b>접수 예정${zup ? ` (줍줍 ${zup})` : ""}`;
+    $("#fig-guide").innerHTML = `<b>${((D.guide || {}).terms || { items: [] }).items.length}개</b>용어`;
+    $("#stamp").textContent = `청약 갱신 ${String(D.generated_at || "").slice(0, 16).replace("T", " ")}.`;
+  }).catch(() => { $("#next").innerHTML = `<li><span class="d">–</span><span class="n">청약 데이터가 아직 없습니다. 다음 자동 갱신 뒤에 채워집니다</span><span class="k"></span></li>`; });
 
-  // ---------------------------------------------------------------- 정비사업
-  const MS = [["d_zone", "구역지정"], ["d_comm", "추진위"], ["d_union", "조합설립"], ["d_review", "건축심의"],
-              ["d_impl", "사업시행인가"], ["d_mgmt", "관리처분인가"], ["d_move_s", "이주"], ["d_start", "착공"]];
-  const STAGE_MS = { "구역지정": ["d_zone2", "d_zone"], "추진위": ["d_comm"], "조합설립": ["d_union"], "건축심의": ["d_review"],
-                     "사업시행": ["d_impl2", "d_impl"], "관리처분": ["d_mgmt2", "d_mgmt"], "착공": ["d_start"] };
-  const stageDate = (p) => { const m = p.milestones || {}; for (const k of (STAGE_MS[p.stage] || [])) if (m[k]) return m[k]; return null; };
-  const latestDate = (p) => Object.values(p.milestones || {}).sort().pop() || p.updated || "";
-
-  function renderPipeFilters() {
-    const stages = D.stages;
-    if (!st.minStage) st.minStage = D.default_min_stage || stages[0];
-    const minIdx = stages.indexOf(st.minStage);
-    const counts = stages.map((s) => D.pipeline.filter((p) => p.stage === s && passBase(p)).length);
-    const lad = $("#ladder"); lad.innerHTML = "";
-    stages.forEach((s, i) => {
-      const b = document.createElement("button");
-      b.type = "button"; b.className = i >= minIdx ? "on" : "";
-      b.title = `${s} 이상 보기`;
-      b.innerHTML = `<b>${counts[i]}</b><span>${s}</span>`;
-      b.addEventListener("click", () => { st.minStage = s; st.limit = 60; saveSt(); render(); });
-      lad.append(b);
-    });
-    const regs = [...new Set(D.pipeline.map((p) => p.region).filter(Boolean))];
-    if (!st.pRegions) st.pRegions = regs;
-    const rb = $("#f-pipe-region"); rb.innerHTML = "";
-    regs.forEach((r) => rb.append(chip(r, st.pRegions.includes(r), () => {
-      st.pRegions = st.pRegions.includes(r) ? st.pRegions.filter((x) => x !== r) : [...st.pRegions, r]; saveSt(); render();
-    })));
-    const types = [...new Set(D.pipeline.map((p) => p.type).filter(Boolean))];
-    if (!st.pTypes) st.pTypes = types;
-    const tb = $("#f-pipe-type"); tb.innerHTML = "";
-    types.forEach((t) => tb.append(chip(t, st.pTypes.includes(t), () => {
-      st.pTypes = st.pTypes.includes(t) ? st.pTypes.filter((x) => x !== t) : [...st.pTypes, t]; saveSt(); render();
-    })));
-    $("#only-watch").setAttribute("aria-pressed", st.watchOnly ? "true" : "false");
-  }
-  function passBase(p) {
-    if (st.coreOnly && p.core === false) return false;
-    if (st.pRegions && !st.pRegions.includes(p.region)) return false;
-    if (st.pTypes && p.type && !st.pTypes.includes(p.type)) return false;
-    if (st.watchOnly && !(p.watched || favs.has(p.id))) return false;
-    if (st.q) {
-      const hay = [p.name, p.sigungu, p.address, p.road_address, p.memo, p.builder].join(" ").toLowerCase();
-      if (!hay.includes(st.q.toLowerCase())) return false;
-    }
-    return true;
-  }
-  // 이미 일반분양 공고가 나간 구역(청약홈 과거 공고와 주소로 짝지음)
-  function soldLine(p) {
-    const s = p.sold; if (!s) return "";
-    return `<div class="meta" style="margin-bottom:4px"><span class="agree ok">분양 완료</span> ${esc(s.name || "")} · 공고 ${esc(s.notice_date || "")}
-      ${s.url ? `<a class="off" href="${esc(s.url)}" target="_blank" rel="noopener">청약홈 공고</a>` : ""}</div>`;
-  }
-  function pipeCard(p) {
-    const order = p.stage_order || 0;
-    const steps = D.stages.slice(0, 7).map((_, i) => `<i class="${i < order ? "on" : ""}"></i>`).join("");
-    const sd = stageDate(p);
-    const ms = MS.map(([k, l]) => (p.milestones || {})[k] ? `<span class="ev past">${l} <time>${p.milestones[k]}</time></span>` : "").join("");
-    const hh = p.households ? `${p.households.toLocaleString()}세대${p.sale_households ? ` (분양 ${p.sale_households.toLocaleString()})` : ""}` : "";
-    const gen = p.general_supply ? `일반분양 ${p.general_supply.toLocaleString()}` : "";
-    const sold = soldLine(p);
-    return `<article class="card">${sold}
-      <div class="row1">
-        <div class="name">${esc(p.name)}</div>
-        <div class="side">
-          <span class="stage s${order}">${esc(p.stage || "단계 미상")}</span>${starBtn(p.id, p.name)}</div>
-      </div>
-      ${order && order <= 7 ? `<div class="steps" aria-hidden="true">${steps}</div>` : ""}
-      <div class="meta"><b>${esc([p.region, p.sigungu].filter(Boolean).join(" "))}</b>
-        ${p.type_detail || p.type ? `<span>${esc(p.type_detail || p.type)}</span>` : ""}
-        ${hh ? `<span>${hh}</span>` : ""}${gen ? `<span><b>${gen}</b></span>` : ""}
-        ${sd ? `<span>${esc(p.stage)} ${sd}</span>` : ""}
-        ${p.expected ? `<span>분양예정 <b>${esc(p.expected)}</b></span>` : ""}
-        ${p.builder ? `<span>${esc(p.builder)}</span>` : ""}</div>
-      ${p.memo ? `<div class="memo">${esc(p.memo)}</div>` : ""}
-      ${ms ? `<details><summary class="meta" style="cursor:pointer">추진 이력</summary><div class="tl" style="margin-top:6px">${ms}</div></details>` : ""}
-      <div class="links">
-        ${p.lat ? `<a href="#map" data-map="${esc(p.id)}">지도</a>` : ""}
-        ${p.source_url ? `<a href="${esc(p.source_url)}" target="_blank" rel="noopener">공식 근거 ↗</a>` : ""}
-        <span class="meta">${p.source === "seoul_xlsx" ? `서울시 ${esc(p.as_of || "")} 기준 · <code>${esc(p.id)}</code>` : "관심목록"}${p.watched && p.source === "seoul_xlsx" ? " + 관심목록" : ""}</span>
-      </div>
-    </article>`;
-  }
-  function renderPipe() {
-    renderPipeFilters();
-    const minIdx = D.stages.indexOf(st.minStage) + 1;
-    let rows = D.pipeline.filter((p) => passBase(p) && (p.stage_order || 0) >= minIdx);
-    const sorters = {
-      stage: (a, b) => (b.stage_order || 0) - (a.stage_order || 0) || (stageDate(b) || "").localeCompare(stageDate(a) || ""),
-      hh: (a, b) => (b.households || 0) - (a.households || 0),
-      recent: (a, b) => latestDate(b).localeCompare(latestDate(a)),
-    };
-    rows.sort(sorters[st.sort] || sorters.stage);
-    const shown = rows.slice(0, st.limit);
-    $("#pipe-list").innerHTML = (rows.length ? `<div class="group-h"><span>${esc(st.minStage)} 이상</span><span>${rows.length}곳</span></div>` : "")
-      + `<div class="list">${shown.map(pipeCard).join("")}</div>`
-      + (rows.length > shown.length ? `<div style="display:grid"><button class="more" type="button" id="more">${rows.length - shown.length}곳 더 보기</button></div>` : "")
-      + (rows.length ? "" : `<p class="empty">조건에 맞는 구역이 없습니다. 단계 막대에서 더 앞 단계를 눌러 보세요.</p>`);
-    const more = $("#more"); if (more) more.addEventListener("click", () => { st.limit += 60; renderPipe(); });
-    $("#n-pipeline").textContent = D.pipeline.filter((p) => (p.stage_order || 0) >= 6).length;
-  }
-  $("#only-watch").addEventListener("click", () => { st.watchOnly = !st.watchOnly; saveSt(); render(); });
-  $("#q").addEventListener("input", (e) => { st.q = e.target.value.trim(); st.limit = 60; renderPipe(); });
-  $("#sort").addEventListener("change", (e) => { st.sort = e.target.value; saveSt(); renderPipe(); });
-  $("#s-sort").addEventListener("change", (e) => { st.sSort = e.target.value; saveSt(); renderSched(); });
-
-  // ---------------------------------------------------------------- 변경 이력
-  const CK = { init: "시작", new_notice: "새 공고", schedule_change: "일정 변경", new_zone: "신규 구역", stage_change: "단계 변경" };
-  function renderChanges() {
-    const list = D.changes || [];
-    $("#chg-list").innerHTML = list.length ? list.map((c) => `<div class="chg">
-        <time datetime="${esc(c.at)}">${esc((c.at || "").slice(0, 10))}</time>
-        <div><div class="k">${esc(CK[c.kind] || c.kind)}</div>${esc(c.title)}</div>
-        <div class="d">${esc(c.detail || "")}</div></div>`).join("")
-      : `<p class="empty">아직 기록된 변경이 없습니다. 매일 갱신되면서 새 공고와 단계 변경이 여기에 쌓입니다.</p>`;
-    const recent = list.filter((c) => c.kind !== "init" && dayDiff((c.at || "").slice(0, 10)) >= -7).length;
-    $("#n-changes").textContent = recent || "";
-  }
-
-  // ---------------------------------------------------------------- 추천 순위
-  const RANK_SORT = [["score", "투자 점수(연 환산)"], ["gain", "기대 차익(금액)"], ["margin", "시세 여유율"], ["lock", "묶이는 기간 짧은 순"]];
-  function renderRanking() {
-    const byId = Object.fromEntries(D.schedules.map((s) => [s.id, s]));
-    let rows = (D.ranking || []).filter((r) => byId[r.id] && st.regions.includes(byId[r.id].region) && focusOk(byId[r.id]) && (!st.eligOnly || eligOk(byId[r.id])));
-    const key = st.rSort || "score";
-    const val = { score: (r) => r.score, gain: (r) => r.gain_manwon, margin: (r) => r.margin_pct, lock: (r) => r.lock_years == null ? null : -r.lock_years };
-    rows = [...rows].sort((a, b) => nz(val[key](b), -1) - nz(val[key](a), -1));
-    const scored = rows.filter((r) => r.score != null);
-    const maxAbs = Math.max(5, ...scored.map((r) => Math.min(Math.abs(r.score), 40)));
-    $("#rank-method").innerHTML = `<div class="filters" style="padding:0 0 8px" id="rank-f"></div>
-      <b>순위는 실측 근거가 있는 공고만</b> 매깁니다: 국토부 실거래가(해제·직거래 제외)로, 공고 위치에서 <b>실제 거리 1→2→3km 안의 10년 이내 단지 3곳 이상</b>을 찾아 단지별 중앙값의 중앙값을 기대 시세로 씁니다. 근거가 모자라면 '근거 부족'으로 아래에 둡니다.<br>
-      <b>투자 점수(연 %p)</b> = 시세 여유율 ÷ <b>묶이는 기간</b>(년). 시세 여유율이 0 이하이면 나누지 않고 그대로 씁니다(손실을 기간으로 희석하지 않음).<br>
-      <b>묶이는 기간</b> = max(전매제한, 입주까지 남은 기간 + 보유 기간), 보유 기간 = max(실거주의무, 2년).
-      입주(잔금) 후 2년 안에 팔면 양도세율이 60~70%라서(소득세법 제104조) 실거주의무가 없어도 최소 2년 보유를 가정합니다. 최근 상승률은 참고로만 보여 주고 점수에는 넣지 않습니다.
-      같은 차익이라도 오래 묶이면 점수가 낮아집니다. 시세는 국토부 실거래가, 제한 기간은 법령 기준 추정이며 최종은 공고문입니다. 투자 권유가 아닙니다.`;
-    $("#rank-list").innerHTML = `<div class="list" style="margin-top:12px">${rows.map((r, i) => {
-      const s = byId[r.id], m = s.market || {}, iv = s.invest || {};
-      const w = r.score == null ? 0 : Math.min(Math.abs(r.score), 40) / maxAbs * 50;
-      const bar = r.score == null ? "" : `<div class="bar"><i class="${r.score < 0 ? "neg" : ""}" style="${r.score < 0 ? `right:50%;width:${w}%` : `left:50%;width:${w}%`}"></i></div>`;
-      const nx = nextEvent(s);
-      const cell = (label, v) => `<div><small>${label}</small><b>${v}</b></div>`;
-      return `<article class="card rank"><div class="no">${r.score == null ? "–" : i + 1}</div><div style="display:grid;gap:6px;min-width:0">
-        <div class="row1"><div class="name">${esc(s.name)}</div>${r.score == null ? `<span class="dday done" title="${esc(r.reason || "")}">근거 부족</span>` : `<span class="score ${r.score < 0 ? "neg" : ""}" title="연 환산 %p">${r.score > 0 ? "+" : ""}${r.score}<small style="font-size:.6em">/년</small></span>`}</div>
-        <div class="meta"><b>${esc([s.region, s.sigungu].filter(Boolean).join(" "))}</b><span>${esc(s.kind)}</span><span>${esc(s.regulation || "")}</span>
-          <span>신뢰도 ${esc(r.confidence || "-")}</span>${nx ? `<span>${esc(nx.label)} ${md(nx.start)}</span>` : ""}</div>
-        ${bar}
-        ${r.score == null ? "" : `<div class="inv">
-          ${cell("분양가(대표)", won(m.price_rep))}${cell("기대 시세", won(m.expected))}
-          ${cell("기대 차익", iv.gain_manwon != null ? won(iv.gain_manwon) : "-")}${cell("시세 여유율", pct(iv.margin_pct))}
-          ${cell("최근 3개월", m.momentum_3m_pct != null ? pct(m.momentum_3m_pct) : "-")}${cell("묶이는 기간", `<span title="${esc(iv.lock_formula || "")}">${iv.lock_years}년</span>`)}
-          ${cell("계약금(10~20%)", iv.down_payment ? `${won(iv.down_payment[0])}~${won(iv.down_payment[1])}` : "-")}${cell("입주", esc(iv.move_in_basis || "-"))}</div>`}
-        ${r.score == null ? `<p class="meta">순위 제외: ${esc(r.reason || "주변 실거래 근거 부족")}</p>` : `<p class="meta">근거: ${esc(m.expected_basis || "")} — '시세 분석'을 펼치면 비교 단지·거리·거래 건수가 나옵니다.</p>`}
-        ${iv.lock_formula ? `<p class="meta">묶이는 기간 = ${esc(iv.lock_formula)} = <b>${iv.lock_years}년</b></p>` : ""}
-        ${restrictLine(s)}
-        ${eligLine(s)}
-        ${extrasBlock(s)}
-      </div></article>`;
-    }).join("")}</div>` + (rows.length ? "" : `<p class="empty">지금 신청할 수 있는 공고가 없습니다.</p>`);
-    $("#n-ranking").textContent = scored.length || "";
-    const rf = $("#rank-f");
-    if (rf) {
-      RANK_SORT.forEach(([k, label]) => rf.append(chip(label, key === k, () => { st.rSort = k; saveSt(); renderRanking(); })));
-      rf.append(chip("✓ 내 자격 되는 것만", st.eligOnly, () => { st.eligOnly = !st.eligOnly; saveSt(); render(); }));
-    }
-  }
-
-  // ---------------------------------------------------------------- 초보 가이드
-  function tableHtml(t) {
-    return `<div class="tbl-wrap"><table class="t"><thead><tr>${t.cols.map((c) => `<th>${esc(c)}</th>`).join("")}</tr></thead><tbody>${
-      t.rows.map((r) => `<tr>${r.map((c) => `<td>${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`
-      + (t.note ? `<p class="meta">${esc(t.note)}</p>` : "")
-      + (t.facts ? `<details class="x"><summary>이 표의 숫자, 출처별로 보기</summary>${factsHtml(t.facts)}</details>` : "");
-  }
-  function factsHtml(keys) {
-    const F = FACT();
-    return keys.filter((k) => F[k]).map((k) => { const f = F[k];
-      return `<div style="margin-top:8px"><b style="font-size:.86rem">${esc(f.label)}</b> ${statLine(f.stats, f.unit, f.values)}${f.note ? `<div class="meta">${esc(f.note)}</div>` : ""}</div>${valuesTable(f.values, f.unit)}`; }).join("");
-  }
-  // ---------------------------------------------------------------- 줍줍 (무순위·잔여세대·임의공급)
-  const ZUP_LAW = "https://www.law.go.kr/LSW/lsRvsDocInfoR.do?lsiSeq=271555";
-  function renderZup() {
-    const all = D.schedules.filter((s) => (s.source === "remndr" || s.source === "opt") && st.regions.includes(s.region) && focusOk(s));
-    const open = all.filter(nextEvent).sort((a, b) => nextEvent(a).start.localeCompare(nextEvent(b).start));
-    const past = all.filter((s) => !nextEvent(s)).sort((a, b) => (b.last_date || "").localeCompare(a.last_date || "")).slice(0, 12);
-    const acceptOpen = open.filter((s) => s.events.some((e) => e.label !== "당첨자 발표" && e.label !== "계약" && e.end >= TODAY));
-    $("#n-zupzup").textContent = acceptOpen.length || "";
-    $("#zup-head").innerHTML = `<b>줍줍 = 무순위·잔여세대·임의공급·계약취소주택.</b> 1·2순위가 끝난 뒤 남은 집을 다시 신청받는 것으로, <b>청약통장 없이</b> 신청할 수 있습니다.
-      2025년 6월 10일 개정부터 <b>성년 + 무주택세대구성원</b>만 신청할 수 있고, 거주 요건은 시장·군수·구청장이 공고마다 추가할 수 있습니다.
-      일정은 청약홈 공식 데이터로 하루 4번 갱신됩니다. <a class="off" href="${ZUP_LAW}" target="_blank" rel="noopener">근거</a>`;
-    const f = $("#zup-f"); f.innerHTML = "";
-    f.append(chip("✓ 내 자격 되는 것만", st.eligOnly, () => { st.eligOnly = !st.eligOnly; saveSt(); render(); }));
-    const card = (s, done) => {
-      const acc = s.events.find((e) => e.label === "청약접수" || e.label === "접수") || s.events[0];
-      const ann = s.events.find((e) => e.label === "당첨자 발표"), con = s.events.find((e) => e.label === "계약");
-      const d = acc ? dayDiff(acc.start) : null;
-      const badge = done ? `<span class="dday done">종료</span>` : (acc && acc.end < TODAY ? `<span class="dday">발표·계약</span>`
-        : `<span class="dday ${d != null && d <= 1 ? "hot" : ""}">접수<br>${d > 0 ? `D-${d}` : d === 0 ? "오늘" : "진행 중"}</span>`);
-      const m = s.market || {};
-      return `<article class="card"><div class="row1"><div class="name">${esc(s.name)}</div><div class="side">${badge}${starBtn(s.id, s.name)}</div></div>
-        <div class="meta"><b>${esc([s.region, s.sigungu].filter(Boolean).join(" "))}</b><span>${esc(KIND[s.source])}</span><span>${esc(s.regulation || "")}</span><span>${s.units || "-"}세대</span>${s.move_in ? `<span>입주 ${esc(String(s.move_in).slice(0, 4))}.${esc(String(s.move_in).slice(4, 6))}</span>` : ""}</div>
-        <div class="tl">${acc ? `<span class="ev"><b>접수</b> ${md(acc.start)}(${wd(acc.start)})${acc.end !== acc.start ? `~${md(acc.end)}` : ""}</span>` : ""}
-          ${ann ? `<span class="ev"><b>발표</b> ${md(ann.start)}</span>` : ""}${con ? `<span class="ev"><b>계약</b> ${md(con.start)}${con.end !== con.start ? `~${md(con.end)}` : ""}</span>` : ""}</div>
-        ${bandsBlock(s)}
-        ${m.method === "distance" && m.margin_pct != null ? `<div class="meta">주변 실거래 대비 <b>${pct(m.margin_pct)}</b> <span>(${esc(m.expected_basis)})</span></div>` : ""}
-        ${restrictLine(s)}
-        ${eligLine(s)}
-        <div class="links"><a class="off" href="${esc(s.url)}" target="_blank" rel="noopener">공고 원문(청약홈)</a>
-          <a href="https://www.applyhome.co.kr/" target="_blank" rel="noopener">청약홈에서 신청 ↗</a>
-          ${s.homepage ? `<a href="${esc(s.homepage)}" target="_blank" rel="noopener" title="청약홈 공고에 적힌 사업주체 홈페이지">분양 홈페이지 ↗</a>` : ""}</div>
-        ${extrasBlock(s)}</article>`;
-    };
-    const rows = (arr) => arr.filter((s) => !st.eligOnly || eligOk(s));
-    let html = `<div class="group-h"><span>접수 예정·진행 중</span><span>${rows(acceptOpen).length}건</span></div>`;
-    html += rows(acceptOpen).length ? `<div class="list">${rows(acceptOpen).map((s) => card(s, false)).join("")}</div>` : `<p class="empty">지금 접수할 수 있는 줍줍이 없습니다. 새 공고가 뜨면 알림을 받도록 아래 '알림 받기'를 설정해 두세요.</p>`;
-    const after = open.filter((s) => !acceptOpen.includes(s));
-    if (rows(after).length) html += `<div class="group-h"><span>접수 끝 · 발표·계약 남음</span><span>${rows(after).length}건</span></div><div class="list">${rows(after).map((s) => card(s, false)).join("")}</div>`;
-    if (past.length) html += `<details class="x" style="margin-top:10px"><summary>최근 끝난 줍줍 ${past.length}건 (어떤 게 나오는지 참고)</summary><div class="list">${past.map((s) => card(s, true)).join("")}</div></details>`;
-    $("#zup-list").innerHTML = html;
-    $("#zup-guide").innerHTML = `<div class="card" style="margin-top:14px"><h2 style="margin-top:0">신청 방법</h2>
-      <ol style="line-height:1.8;padding-left:20px;margin:6px 0">
-        <li><b>공고 확인</b>: 위 카드의 '공고 원문(청약홈)'에서 거주 요건·자격·계약금 일정을 꼭 확인합니다. 거주 요건은 공고마다 다릅니다.</li>
-        <li><b>자격 점검</b>: 성년이고 세대 전원이 무주택이어야 합니다(오피스텔은 건축물대장 용도가 업무시설이면 주택 아님). 청약통장은 필요 없습니다.</li>
-        <li><b>신청</b>: 접수일에 청약홈(PC 또는 '청약홈' 앱)에 공동·금융인증서로 로그인해 무순위·잔여세대 청약 메뉴에서 신청합니다. 임의공급은 공고에 따라 사업주체 홈페이지·견본주택에서 받기도 합니다.</li>
-        <li><b>발표·계약</b>: 추첨으로 뽑고, 당첨되면 보통 며칠 안에 계약금(분양가의 10~20%)을 내야 합니다. <b>현금을 미리 준비</b>하세요.</li>
-      </ol>
-      <h2>주의할 점</h2>
-      <ul style="line-height:1.8;padding-left:20px;margin:6px 0">
-        <li>당첨되면 <b>당첨 이력</b>이 남습니다. 규제지역·분양가상한제 단지면 <b>재당첨 제한</b>이 붙고, 원래 단지의 전매제한·실거주의무도 그대로 따라옵니다(카드의 '전매·실거주·재당첨' 줄).</li>
-        <li>당첨 후 계약을 포기해도 당첨자로 관리됩니다. 살 수 있는 자금과 실거주 계획이 있을 때만 넣으세요.</li>
-        <li>공공(LH·SH·GH)의 잔여세대는 각 기관 청약 사이트에서 따로 공고하기도 합니다: <a class="off" href="https://apply.lh.or.kr/" target="_blank" rel="noopener">LH 청약플러스</a> · <a class="off" href="https://www.i-sh.co.kr/" target="_blank" rel="noopener">SH</a> · <a class="off" href="https://www.gh.or.kr/" target="_blank" rel="noopener">GH</a></li>
-      </ul>
-      <h2>알림 받기</h2>
-      <p class="meta" style="line-height:1.7">이 사이트를 GitHub로 운영하면, 새 줍줍 공고가 뜰 때와 접수 하루 전에 자동으로 알림을 보냅니다(서울·경기).
-        ① <b>GitHub 앱</b>: 저장소에 '줍줍' 이슈가 만들어지고 GitHub 앱 푸시·메일이 옵니다(설정 불필요, 앱에서 알림 허용만).
-        ② <b>텔레그램</b>: 저장소 Secret에 TELEGRAM_BOT_TOKEN·TELEGRAM_CHAT_ID를 넣으면 휴대폰으로 바로 옵니다. 설정 방법은 README '줍줍 알림'.</p>
-      <p class="src">근거: <a class="off" href="${ZUP_LAW}" target="_blank" rel="noopener">주택공급에 관한 규칙 개정(2025.6.10)</a> · 최종 기준은 각 입주자모집공고문.</p></div>`;
-  }
-
-  function renderTerms() {
-    const T = (D.guide && D.guide.terms) || { categories: [], items: [] };
-    const cat = st.tCat || "전체";
-    const cats = $("#t-cat"); cats.innerHTML = "";
-    ["전체", ...T.categories].forEach((c) => cats.append(chip(c, cat === c, () => { st.tCat = c; saveSt(); renderTerms(); })));
-    const q = ($("#t-q").value || "").trim();
-    const items = T.items.filter((t) => (cat === "전체" || t.cat === cat) && (!q || (t.term + t.easy + t.detail).includes(q)));
-    const groups = (cat === "전체" ? T.categories : [cat]).map((c) => [c, items.filter((t) => t.cat === c)]).filter(([, v]) => v.length);
-    $("#t-list").innerHTML = groups.map(([c, v]) => `<div class="group-h"><span>${esc(c)}</span><span>${v.length}개</span></div>
-      <div class="list">${v.map((t) => `<article class="card" id="term-${esc(t.term)}">
-        <div class="name">${esc(t.term)}</div>
-        <p style="margin:6px 0 4px;font-size:.98rem"><b>${esc(t.easy)}</b></p>
-        <p class="meta" style="margin:0 0 6px;line-height:1.6">${esc(t.detail)}</p>
-        <div class="links"><a class="off" href="${esc(t.law[1])}" target="_blank" rel="noopener">근거</a> <span class="meta">${esc(t.law[0])}</span></div>
-      </article>`).join("")}</div>`).join("") || `<p class="empty">'${esc(q)}'에 맞는 용어가 없습니다.</p>`;
-  }
-  $("#t-q").addEventListener("input", () => renderTerms());
-
-  function renderGuide() {
-    const g = D.guide; if (!g) { $("#guide").innerHTML = ""; return; }
-    let h = `<p class="meta">규칙 확인일 ${esc(g.checked)} · <b>근거와 링크는 정부·지자체·공공기관(국가법령정보센터, 국토교통부·정책브리핑, 청약홈, LH·SH·GH, 서울시) 발표만</b> 씁니다. 언론·블로그·민간 앱은 근거로 쓰지 않습니다. 실제 신청 전에는 단지별 입주자모집공고문이 최종 기준입니다.</p>`;
-    h += `<h2>청약, 이 순서로 하면 됩니다</h2><ol>${g.steps.map(([t, d]) => `<li><b>${esc(t)}</b> — ${esc(d)}</li>`).join("")}</ol>`;
-    h += `<h2>1순위가 되려면</h2>${tableHtml(g.rank1)}`;
-    h += `<h2>민영주택 통장 예치금</h2>${tableHtml(g.deposit)}`;
-    h += `<h2>가점제와 추첨제 비율</h2>${tableHtml(g.ratio)}`;
-    h += `<h2>가점 계산 (84점 만점)</h2>${tableHtml(g.score)}`;
-    h += `<h2>특별공급 종류</h2><div class="tbl-wrap"><table class="t"><thead><tr><th>유형</th><th>대상</th><th>알아둘 점</th></tr></thead><tbody>${
-      g.special.map((x) => `<tr><td><b>${esc(x.name)}</b></td><td>${esc(x.who)}</td><td>${esc(x.tip)}</td></tr>`).join("")}</tbody></table></div>
-      <p class="meta">특별공급은 평생 1번만 당첨될 수 있습니다. 소득 기준 세부 금액은 해마다 바뀌니 공고문을 보세요. <a href="${esc(g.special_source.url)}" target="_blank" rel="noopener">출처: ${esc(g.special_source.name)}</a></p>`;
-    h += `<h2>숫자별 공식 근거</h2>${factsHtml(g.facts.map((f) => f.key))}`;
-    h += `<h2>용어 풀이</h2><p class="meta">어려운 말은 <a href="#terms">용어집</a> 탭에 근거와 함께 정리돼 있습니다.</p><dl class="cond">${g.glossary.map(([t, d]) => `<dt>${esc(t)}</dt><dd>${esc(d)}</dd>`).join("")}</dl>`;
-    h += `<h2>쓰는 공식 사이트·앱</h2><p class="meta">모두 정부·지자체·공공기관 운영입니다. ‘자동’은 이 도구가 매일 직접 가져오는 곳, ‘링크’는 사람이 열어서 확인하는 곳입니다. ‘Claude 접근’은 이 도구를 만들 때 Claude 작업 환경에서 열어 본 결과입니다.</p>
-      <div class="tbl-wrap"><table class="t"><thead><tr><th>이름</th><th>용도</th><th>이 도구</th><th>Claude 접근</th><th>앱</th></tr></thead><tbody>${
-      g.sites.map((x) => `<tr><td><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.name)}</a></td><td>${esc(x.use)}</td><td>${esc(x.auto)}</td><td>${esc(x.claude)}</td><td>${esc(x.app || "-")}</td></tr>`).join("")}</tbody></table></div>`;
-    h += `<h2>근거 자료 (공식)</h2><ul class="news">${g.sources.map((x) => `<li><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.name)}</a>${x.date ? ` <span class="meta">${esc(x.date)}</span>` : ""}</li>`).join("")}</ul>`;
-    $("#guide").innerHTML = h;
-  }
-
-  // ---------------------------------------------------------------- 곧 나올 분양
-  const monthLabel = (k) => k === "9999" ? "시기 미정" : `${k.slice(0, 4)}년 ${+k.slice(5, 7)}월`;
-  const OFF_SEOUL = () => (D.official_sources || {}).seoul_pipeline || null;
-  function pseudoNotice(p) {
-    return { id: p.id, name: p.name, region: p.region, sigungu: p.sigungu, regulation: p.regulation,
-             kind: p.type === "공공분양" ? "국민" : "민영", source: "apt", bands: {}, notice_date: TODAY };
-  }
-  function renderUpcoming() {
-    const U = D.upcoming || { planned: [], candidates: [], news: [] };
-    const inRegion = (x) => (!x.region || st.regions.includes(x.region)) && coreOk(x) && (!x.events || priceOk(x));
-    // 1) 공고 났고 접수 전
-    const pre = D.schedules.filter((s) => inRegion(s) && s.events.length && s.events.every((e) => e.start > TODAY))
-      .sort((a, b) => a.events[0].start.localeCompare(b.events[0].start));
-    let h = `<div class="group-h"><span>공고 났고 접수 전</span><span>${pre.length}건</span></div>`;
-    h += pre.length ? `<div class="list">${pre.map((s) => {
-      const e0 = s.events[0], d = dayDiff(e0.start);
-      return `<article class="card up-card"><div class="row1"><div class="name">${esc(s.name)}</div><div class="side"><span class="dday ${d <= 3 ? "hot" : ""}">${esc(e0.label)}<br>D-${d}</span>${starBtn(s.id, s.name)}</div></div>
-        <div class="meta"><b>${esc([s.region, s.sigungu].filter(Boolean).join(" "))}</b><span>${esc(s.kind)}</span>${s.units ? `<span>${s.units.toLocaleString()}세대</span>` : ""}${priceTxt(s) ? `<span>분양가 ${priceTxt(s)}</span>` : ""}</div>
-        ${eligLine(s)}
-        <div class="links">${s.url ? `<a href="${esc(s.url)}" target="_blank" rel="noopener">청약홈 공고 ↗</a>` : ""}<a href="#schedule">일정 전체</a>${s.lat ? `<a href="#map" data-map="${esc(s.id)}">지도</a>` : ""}</div></article>`;
-    }).join("")}</div>` : `<p class="meta">지금은 접수 전 공고가 없습니다.</p>`;
-    // 2) 공고 전 분양 예정
-    const plAll = (U.planned || []).filter(inRegion).filter((p) => !p.sold);   // 이미 분양한 곳은 정비사업 탭에 '분양 완료'로
-    const press = plAll.filter((p) => p.basis !== "공식" && !p.notice_id);
-    const pl = st.showPress ? plAll : plAll.filter((p) => p.basis === "공식" || p.notice_id);
-    const byM = new Map();
-    pl.forEach((p) => { const k = p.expected_key || "9999"; if (!byM.has(k)) byM.set(k, []); byM.get(k).push(p); });
-    h += `<div class="group-h"><span>분양 예정 · 공고 전</span><span>${pl.length}곳</span></div>`;
-    if (press.length) h += `<div class="filters" style="margin:6px 0"><button type="button" class="chip" id="press-tg" aria-pressed="${st.showPress ? "true" : "false"}">공식 발표 전 · 업계 계획 ${press.length}곳도 보기</button></div>
-      <p class="meta">공식 근거(정부·지자체·LH·SH·GH 발표)가 있는 예정만 기본으로 보여 줍니다. 업계 계획은 언론 보도 기준이라 링크를 달지 않으며, 청약홈에 공고가 뜨면 자동으로 '공고 나옴'으로 바뀝니다.</p>`;
-    if (!pl.length) h += `<p class="meta">공식 발표로 확인된 공고 전 분양 예정은 아직 없습니다.</p>`;
-    [...byM.keys()].sort().forEach((k) => {
-      h += `<div class="meta" style="margin:10px 0 6px"><b>${monthLabel(k)}</b></div><div class="list">${byM.get(k).map((p) => {
-        const e = window.Elig && EP() ? window.Elig.forNotice(PROF, pseudoNotice(p), EP(), TODAY) : null;
-        return `<article class="card up-card">${soldLine(p)}<div class="row1"><div class="name">${esc(p.name)}</div><div class="side">${p.notice_id ? `<span class="agree ok">공고 나옴</span>` : p.sold ? `<span class="agree ok">분양 완료</span>` : `<span class="badge-plan">${esc(p.expected || "예정")}</span>`}${starBtn(p.id, p.name)}</div></div>
-          ${!p.notice_id ? (p.basis === "공식" ? `<div><span class="off">공식 발표</span></div>` : `<div><span class="unoff">공식 공고 전 · 보도 기준 시기</span></div>`) : ""}
-          <div class="meta"><b>${esc([p.region, p.sigungu].filter(Boolean).join(" "))}</b>${p.type ? `<span>${esc(p.type)}</span>` : ""}<span>${esc(p.regulation || "")}</span>
-            ${p.households ? `<span>${(+p.households).toLocaleString()}세대</span>` : ""}${p.general_supply ? `<span>일반분양 <b>${(+p.general_supply).toLocaleString()}</b></span>` : ""}${p.builder ? `<span>${esc(p.builder)}</span>` : ""}</div>
-          ${p.memo ? `<div class="memo">${esc(p.memo)}</div>` : ""}
-          ${e ? `<div class="elig"><span class="agree ${ST_CLS[e.best]}">예상 자격 · ${ST_TXT[e.best]}</span> <span class="meta">${esc(e.label)} (주택형 미정 기준)</span></div>` : ""}
-          <div class="links">${p.source_url ? `<a href="${esc(p.source_url)}" target="_blank" rel="noopener">공식 근거 ↗</a>` : ""}${p.notice_id ? `<a href="#schedule">공고 보기</a>` : ""}${p.lat ? `<a href="#map" data-map="${esc(p.id)}">지도</a>` : ""}</div></article>`;
-      }).join("")}</div>`;
-    });
-    // 3) 정비사업 막바지
-    const cd = (U.candidates || []).filter(inRegion);
-    h += `<div class="group-h"><span>분양 후보 · 정비사업 막바지 (서울 공식 자료 ${esc(D.seoul_as_of || "")} 기준)</span><span>${cd.length}곳</span></div>
-      <p class="meta">서울시 공식 자료에서 관리처분 인가 또는 최근 2년 안에 착공한 구역 중 아직 청약홈 공고와 짝이 없는 곳입니다. 착공 구역은 이미 분양했을 수도 있으니 청약홈·정비사업 정보몽땅에서 확인하세요.</p>`;
-    h += `<div class="list">${cd.slice(0, st.cdLimit || 12).map((c) => `<article class="card up-card"><div class="row1"><div class="name">${esc(c.name)}</div><div class="side"><span class="stage s${c.stage === "착공" ? 7 : 6}">${esc(c.stage)}</span>${starBtn(c.id, c.name)}</div></div>
-      <div class="meta"><b>${esc([c.region, c.sigungu].filter(Boolean).join(" "))}</b><span>${esc(c.type_detail || c.type || "")}</span>${c.households ? `<span>${c.households.toLocaleString()}세대</span>` : ""}${c.sale_households ? `<span>분양분 <b>${c.sale_households.toLocaleString()}</b></span>` : ""}</div>
-      <div class="meta">${esc(c.estimate)}</div>
-      <div class="links"><span class="off">공식</span>${OFF_SEOUL() ? `<a href="${esc(OFF_SEOUL())}" target="_blank" rel="noopener">서울시 정비사업 현황 ↗</a>` : ""}<a href="https://cleanup.seoul.go.kr/" target="_blank" rel="noopener">정비사업 정보몽땅 ↗</a>${c.lat ? `<a href="#map" data-map="${esc(c.id)}">지도</a>` : ""}</div></article>`).join("")}</div>`;
-    if (cd.length > (st.cdLimit || 12)) h += `<div style="display:grid"><button class="more" type="button" id="cd-more">${cd.length - (st.cdLimit || 12)}곳 더 보기</button></div>`;
-    // 4) 기사
-    const nw = U.news || [];
-    if (nw.length) h += `<div class="group-h"><span>공식 발표 (정부·지자체·LH·SH·GH, 최근)</span><span>${nw.length}건</span></div><ul class="news">${nw.map((n) => `<li><span class="off">공식</span><a href="${esc(n.url)}" target="_blank" rel="noopener">${esc(n.title)}</a> <span class="meta">${esc(n.source)} · ${esc(n.date || "")}</span></li>`).join("")}</ul>
-      <p class="meta">공식 발표에서 본 단지를 data/watchlist.csv 에 basis=공식, source_url=발표 주소로 추가하면 위 '분양 예정'에 공식 근거와 함께 뜹니다.</p>`;
-    $("#up-list").innerHTML = h;
-    const more = $("#cd-more"); if (more) more.addEventListener("click", () => { st.cdLimit = (st.cdLimit || 12) + 24; renderUpcoming(); });
-    const ptg = $("#press-tg"); if (ptg) ptg.addEventListener("click", () => { st.showPress = !st.showPress; saveSt(); renderUpcoming(); });
-    $("#n-upcoming").textContent = (pre.length + pl.filter((p) => !p.notice_id).length) || "";
-  }
-
-  // ---------------------------------------------------------------- 지도
-  let MAP = null, MAP_LAYERS = {}, MAP_MARKERS = {}, MAP_FOCUS = null, LEAFLET = null;
-  const LAYER_DEF = [
-    ["open", "청약 접수 예정·진행", "--accent", true],
-    ["remndr", "무순위·임의공급", "--warn", true],
-    ["planned", "분양 예정(공고 전)", "--plan", true],
-    ["cand", "정비 막바지(관리처분·착공)", "--hot", true],
-    ["zones", "서울 정비구역 전체", "--past", false],
-  ];
-  const mapOn = () => Object.assign(Object.fromEntries(LAYER_DEF.map(([k, , , on]) => [k, on])), store.get("mapLayers", {}));
-  function loadLeaflet() {
-    if (window.L) return Promise.resolve();
-    if (LEAFLET) return LEAFLET;
-    LEAFLET = new Promise((res, rej) => {
-      const css = document.createElement("link"); css.rel = "stylesheet"; css.href = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"; document.head.append(css);
-      const sc = document.createElement("script"); sc.src = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js";
-      sc.onload = () => res(); sc.onerror = () => rej(new Error("지도 라이브러리를 불러오지 못했습니다")); document.head.append(sc);
-    });
-    return LEAFLET;
-  }
-  const cssVar = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim() || "#0e6b5b";
-  function popupHtml(kind, x) {
-    const loc = esc([x.region, x.sigungu].filter(Boolean).join(" "));
-    const approx = x.geo === "area" ? `<div class="meta">📍 대략 위치 — ${loc} 중심 근처(번지를 못 찾음)</div>`
-      : x.geo === "dong" ? `<div class="meta">📍 동 단위 위치 — 해당 동 안 어딘가(정확한 번지 아님)</div>` : "";
-    let body = "";
-    if (kind === "open" || kind === "remndr") {
-      const nx = nextEvent(x); const e = elig(x);
-      body = `<div>${esc(x.kind)} · ${x.units ? x.units.toLocaleString() + "세대" : ""} ${priceTxt(x) ? "· " + priceTxt(x) : ""}</div>
-        ${nx ? `<div>${esc(nx.label)} ${md(nx.start)}(${wd(nx.start)}) · D-${Math.max(0, dayDiff(nx.start))}</div>` : ""}
-        ${e ? `<div><span class="agree ${ST_CLS[e.best]}">${ST_TXT[e.best]}</span> ${esc(e.label)}</div>` : ""}
-        ${x.url ? `<a href="${esc(x.url)}" target="_blank" rel="noopener">청약홈 공고 ↗</a>` : ""}`;
-    } else if (kind === "planned") {
-      body = `<div>분양 예정 ${esc(x.expected || "")}${x.general_supply ? ` · 일반분양 ${x.general_supply}` : ""}</div>${x.basis === "공식" ? "" : `<div class="meta">시기: 공식 공고 전(보도 기준)</div>`}${x.source_url ? `<a href="${esc(x.source_url)}" target="_blank" rel="noopener">공식 근거 ↗</a>` : ""}`;
-    } else {
-      body = `<div>${esc(x.type_detail || x.type || "")} · ${esc(x.stage || "")}${x.households ? ` · ${x.households.toLocaleString()}세대` : ""}</div>${x.estimate ? `<div class="meta">${esc(x.estimate)}</div>` : ""}<div class="meta">근거: 서울시 정비사업 추진현황(공식)</div>`;
-    }
-    return `<b>${esc(x.name)}</b><div class="meta">${loc}</div>${body}${approx}`;
-  }
-  function mapPoints() {
-    const U = D.upcoming || {};
-    const inR = (x) => (!x.region || st.regions.includes(x.region)) && coreOk(x) && (!x.events || priceOk(x));
-    const open = D.schedules.filter((s) => s.lat && nextEvent(s) && inR(s));
-    const candIds = new Set((U.candidates || []).map((c) => c.id)), planIds = new Set((U.planned || []).map((p) => p.id));
-    return {
-      open: open.filter((s) => s.source === "apt"),
-      remndr: open.filter((s) => s.source !== "apt"),
-      planned: (U.planned || []).filter((p) => p.lat && !p.notice_id && inR(p)),
-      cand: (U.candidates || []).filter((c) => c.lat && inR(c)),
-      zones: D.pipeline.filter((p) => p.lat && p.source === "seoul_xlsx" && !candIds.has(p.id) && !planIds.has(p.id) && inR(p)),
-    };
-  }
-  async function renderMap() {
-    const on = mapOn();
-    const lb = $("#map-layers"); lb.innerHTML = "";
-    LAYER_DEF.forEach(([k, label]) => lb.append(chip(label, on[k], () => { const o = mapOn(); o[k] = !o[k]; store.set("mapLayers", o); renderMap(); })));
-    $("#map-legend").innerHTML = LAYER_DEF.map(([k, label, v]) => `<span><i style="background:${cssVar(v)}"></i>${esc(label)}</span>`).join("") + `<span>● 진한 점 = 단지·번지 위치</span><span>◌ 점선 = 동 단위</span><span>◌ 옅은 점선 = 구 중심(대략)</span>`;
-    if ($("#v-map").hidden) return;
-    if (window.__PREVIEW__) { $("#map").innerHTML = `<p class="empty" style="padding:24px">지도는 PC에서 실행한 사이트(python serve.py)에서 보입니다. 이 미리보기 창은 외부 지도 이미지를 막습니다.</p>`; return; }
-    try { await loadLeaflet(); } catch (e) { $("#map").innerHTML = `<p class="empty">${esc(e.message)} — 인터넷 연결을 확인하세요.</p>`; return; }
-    const L = window.L;
-    if (!MAP) {
-      MAP = L.map("map", { zoomControl: true, attributionControl: true }).setView([37.45, 127.0], 10);
-      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 18, attribution: "&copy; OpenStreetMap" }).addTo(MAP);
-    }
-    Object.values(MAP_LAYERS).forEach((g) => g.remove());
-    MAP_LAYERS = {}; MAP_MARKERS = {};
-    const P = mapPoints();
-    const cnt = { exact: 0, dong: 0, area: 0 };
-    LAYER_DEF.forEach(([k, , v]) => {
-      const g = L.layerGroup();
-      const col = cssVar(v);
-      (P[k] || []).forEach((x) => {
-        const pr = x.geo === "dong" || x.geo === "area" ? x.geo : "exact"; cnt[pr]++;
-        const fo = (k === "zones" ? 0.35 : 0.8) * (pr === "exact" ? 1 : pr === "dong" ? 0.55 : 0.3);
-        const m = L.circleMarker([x.lat, x.lng], { radius: k === "zones" ? 4 : 8, color: col, weight: pr === "exact" ? 2 : 1.5,
-                                        dashArray: pr === "exact" ? null : (pr === "dong" ? "4 2" : "2 3"),
-                                        fillColor: col, fillOpacity: fo }).bindPopup(popupHtml(k, x), { maxWidth: 280 });
-        m.addTo(g); MAP_MARKERS[x.id] = m;
-      });
-      MAP_LAYERS[k] = g;
-      if (on[k]) g.addTo(MAP);
-    });
-    const total = cnt.exact + cnt.dong + cnt.area;
-    const gs = D.geo_status || {}, kk = gs.kakao || "none";
-    const kakaoTxt = kk.startsWith("ok") ? `카카오 키 정상 (${kk.slice(3)})` : kk.startsWith("rejected") ? `⚠ 카카오 키 거절됨 (${kk.slice(10)}) — REST API 키·[카카오맵] 사용 설정 확인`
-      : kk === "unused" ? "카카오 키 설정됨 (이번 갱신엔 새로 찾을 곳 없음)" : "카카오 키 없음";
-    $("#map-note").textContent = `[${kakaoTxt}] 표시 ${total}곳 — 단지·번지 ${cnt.exact} · 동 단위 ${cnt.dong} · 구 중심(대략) ${cnt.area}.`
-      + (cnt.dong + cnt.area ? " 무료 지도 검색은 번지까지 못 찾는 곳이 많습니다. .env 에 KAKAO_REST_KEY(무료)를 넣으면 거의 전부 번지 위치로 바뀝니다." : "")
-      + (cnt.area ? " 구 중심 항목은 다음 갱신 때 이어서 찾습니다." : "");
-    setTimeout(() => MAP.invalidateSize(), 50);
-    if (MAP_FOCUS && MAP_MARKERS[MAP_FOCUS]) {
-      const m = MAP_MARKERS[MAP_FOCUS];
-      Object.entries(MAP_LAYERS).forEach(([k, g]) => { if (g.hasLayer(m) && !MAP.hasLayer(g)) g.addTo(MAP); });
-      MAP.setView(m.getLatLng(), 14); m.openPopup(); MAP_FOCUS = null;
-    }
-  }
-  document.addEventListener("click", (e) => { const a = e.target.closest("[data-map]"); if (a) { MAP_FOCUS = a.dataset.map; if (location.hash === "#map") renderMap(); } });
-
-  // ---------------------------------------------------------------- 내 자격
-  const FIELDS = [
-    ["기본", [["birth", "생년월일", "date"], ["marital", "혼인 상태", "select", [["single", "미혼"], ["engaged", "결혼 예정(예비신혼)"], ["married", "기혼"]]],
-      ["marriage_date", "혼인신고일(예정이면 빈칸 가능)", "date"], ["household_head", "세대주", "bool"], ["household_size", "세대원 수(본인 포함)", "num"], ["with_parents", "부모님과 같은 등본", "bool"]]],
-    ["주택·당첨 이력", [["homes_owned", "보유 주택 수 (아파트·빌라 등)", "num"], ["officetel", "보유 오피스텔 수 — 청약에선 주택 아님", "num"], ["ever_owned_home", "과거에 주택을 가진 적 있음", "bool"],
-      ["won_5y", "최근 5년 안에 세대원 당첨", "bool"], ["special_won", "특별공급 당첨 이력", "bool"]]],
-    ["거주", [["sido", "시·도", "select", [["서울", "서울"], ["경기", "경기"], ["인천", "인천"], ["기타", "그 외"]]], ["sigungu", "시·군·구", "text"], ["residence_since", "이 시·도에 계속 산 시작일(전입일)", "date"]]],
-    ["청약통장", [["acct_years", "가입 기간(년)", "num"], ["acct_payments", "납입 회차", "num"], ["acct_balance", "잔액·예치금 (만원)", "num"]]],
-    ["소득 (만원/년)", [["income_self", "본인 전년도 총급여", "num"], ["income_includes_bonus", "위 금액에 성과급 포함", "bool"], ["tax_years", "소득세 낸 햇수", "num"], ["spouse_income", "배우자(예정) 연소득 (없으면 0)", "num"]]],
-    ["자산 (만원)", [["realestate", "부동산 가액 (오피스텔 포함)", "num"], ["lease_deposit", "전·월세 보증금", "num"], ["financial_assets", "금융자산 (예금·주식)", "num"], ["car", "자동차 가액", "num"], ["debts", "부채 (전세대출 등)", "num"], ["parent_assets", "부모 자산 (청년특공용)", "num"]]],
-    ["가족", [["children", "미성년 자녀 수", "num"], ["newborn", "2세 미만 자녀·임신", "num"], ["parent65_years", "65세 이상 부모 부양 햇수", "num"]]],
-    ["배우자(예정)", [["spouse_homeless", "배우자 무주택", "bool"], ["spouse_ever_owned", "배우자 과거 주택 소유", "bool"], ["spouse_acct_years", "배우자 통장 가입 기간(년)", "num"], ["spouse_realestate", "배우자 부동산 가액 (만원)", "num"]]],
-  ];
-  function fieldHtml([k, label, type, opts]) {
-    const v = PROF[k];
-    const unk = (v === null || v === undefined || v === "") && type !== "bool" && type !== "text" && k !== "marriage_date";
-    if (type === "bool") return `<label class="fld chk"><input type="checkbox" id="pf-${k}" data-k="${k}" ${v ? "checked" : ""}><span>${esc(label)}</span></label>`;
-    if (type === "select") return `<label class="fld">${esc(label)}<select id="pf-${k}" data-k="${k}">${opts.map(([val, t]) => `<option value="${val}" ${v === val ? "selected" : ""}>${t}</option>`).join("")}</select></label>`;
-    return `<label class="fld ${unk ? "unk" : ""}">${esc(label)}${unk ? " · 모름" : ""}<input id="pf-${k}" data-k="${k}" type="${type === "num" ? "number" : type}" ${type === "num" ? 'inputmode="decimal" step="any"' : ""} value="${v == null ? "" : esc(v)}"></label>`;
-  }
-  function meResultsHtml() {
-    const P = EP(); if (!P || !window.Elig) return "<p class='meta'>판정 기준을 불러오지 못했습니다.</p>";
-    const E = window.Elig;
-    const now = E.summary(PROF, P, TODAY);
-    const md2 = PROF.marriage_date || (() => { const d = new Date(); d.setMonth(d.getMonth() + 9); return d.toISOString().slice(0, 10); })();
-    const after = { ...PROF, marital: "married", marriage_date: md2 };
-    const later = new Date(Date.parse(md2) + 30 * 864e5).toISOString().slice(0, 10);
-    const aft = E.summary(after, P, later > TODAY ? later : TODAY);
-    const all = [...now.public, ...now.private_seoul, ...now.private_gg, ...now.etc];
-    const cnt = (x) => all.filter((r) => r.status === x).length;
-    const sc = E.score(PROF, TODAY), sc2 = E.score(after, later > TODAY ? later : TODAY);
-    const open = D.schedules.filter((s) => nextEvent(s) && st.regions.includes(s.region) && focusOk(s) && eligOk(s));
-    let h = `<div class="panel"><div class="kpis">
-      <div class="kpi ok"><b>${cnt("ok")}</b><span>지금 넣을 수 있는 유형</span></div>
-      <div class="kpi mid"><b>${cnt("maybe")}</b><span>정보 더 필요(확인)</span></div>
-      <div class="kpi later"><b>${cnt("later")}</b><span>결혼·출산 후 가능</span></div>
-      <div class="kpi"><b>${sc.total ?? sc.min + "+"}<small style="font-size:.8rem">/84</small></b><span>내 가점 → 혼인 후 ${sc2.total ?? "?"}점</span></div>
-      <div class="kpi"><b>${open.length}</b><span>지금 넣을 수 있는 공고 (확인 필요 포함)</span></div></div>
-      <div class="meta">가점 내역: ${sc.items.map((i) => `${esc(i.label)} ${i.points ?? "?"}/${i.max} (${esc(i.detail)})`).join(" · ")}</div></div>`;
-    const row = (r, r2) => `<tr><td>${esc(r.label)}${r.route ? `<div class="meta">${esc(r.route)}</div>` : ""}</td>
-      <td><span class="agree ${ST_CLS[r.status]}">${ST_TXT[r.status]}</span></td>
-      <td>${r2 ? `<span class="agree ${ST_CLS[r2.status]}">${ST_TXT[r2.status]}</span>${r2.route ? `<div class="meta">${esc(r2.route)}</div>` : ""}` : "-"}</td>
-      <td class="why">${r.reasons.map(esc).join("<br>")}</td></tr>`;
-    const grp = (title, a, b) => `<tr class="grp"><td colspan="4">${esc(title)}</td></tr>` + a.map((r, i) => row(r, b && b[i])).join("");
-    h += `<h3 style="margin:16px 0 6px">청약 종류별 내 자격</h3><div class="tbl-wrap"><table class="ttree"><thead><tr><th>유형</th><th>지금</th><th>혼인신고 후</th><th>이유</th></tr></thead><tbody>
-      ${grp("A. 국민주택 (LH·SH·GH 공공분양) — 서울 기준", now.public, aft.public)}
-      ${grp("B. 민영주택 — 서울(투기과열) 기준", now.private_seoul, aft.private_seoul)}
-      ${grp("B'. 민영주택 — 경기 비규제(화성·파주·시흥 등)", now.private_gg, aft.private_gg)}
-      ${grp("C. 남은 물량", now.etc, aft.etc)}</tbody></table></div>
-      <p class="meta">‘혼인신고 후’는 ${esc(md2)} 혼인신고, 배우자 정보는 아래 입력값으로 가정한 결과입니다.</p>`;
-    const miss = E.missing(PROF);
-    if (miss.length) h += `<h3 style="margin:16px 0 6px">더 알려주면 정확해지는 것</h3><ul class="news">${miss.map((m) => `<li><b>${esc(m.label)}</b> — <span class="meta">${esc(m.why)}</span></li>`).join("")}</ul>`;
-    if (open.length) h += `<h3 style="margin:16px 0 6px">지금 넣을 수 있는 공고</h3><ul class="news">${open.map((s) => { const e = elig(s); const nx = nextEvent(s);
-      return `<li><a href="#schedule">${esc(s.name)}</a> <span class="meta">${esc(nx.label)} ${md(nx.start)} · ${esc(e ? e.label : "")}</span></li>`; }).join("")}</ul>`;
-    const srcs = (D.guide.elig_sources || []).map((x) => `<li>${x.verified ? `<span class="off">공식 확인</span>` : `<span class="unoff">금액 미확인</span>`} <a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.name)}</a>${x.date ? ` <span class="meta">${esc(x.date)}</span>` : ""}</li>`).join("");
-    h += `<details class="x"><summary>판정 기준과 출처 (확인일 ${esc(P.checked)})</summary><ul class="news">${srcs}</ul>
-      <p class="meta">공식 원문으로 금액을 아직 확인하지 못한 기준(청년 특공 소득·자산, 공공 총자산, 민영 특공 추첨용 부동산 기준, 1~2인 가구 가산)은 판정이 '확인 필요'로 나올 수 있습니다. 해당 입주자모집공고문의 금액이 최종 기준입니다.</p>
-      <p class="meta">오피스텔은 주택법상 준주택이라 청약 무주택 판정에서 주택 수에 넣지 않습니다. 다만 공공분양 자산 기준에는 부동산으로 들어갑니다. 소득은 전년도 총급여(성과급 포함) 기준입니다.</p></details>`;
-    return h;
-  }
-  function renderMe() {
-    const box = $("#me");
-    if (!box.dataset.built) {
-      box.innerHTML = `<div id="me-res" style="margin-top:12px"></div>
-        <details class="x panel" id="pf-wrap" style="margin-top:12px"><summary>내 정보 보기·고치기</summary><div class="meta" id="pf-src"></div>
-        <form class="form" id="pf" autocomplete="off">${FIELDS.map(([t, fs]) => `<fieldset><legend>${esc(t)}</legend>${fs.map(fieldHtml).join("")}</fieldset>`).join("")}</form>
-        <div class="btns"><button type="button" class="btn" id="pf-save">이 기기에 저장</button>
-          <button type="button" class="btn ghost" id="pf-save-pc" hidden>PC에도 저장</button>
-          <button type="button" class="btn ghost" id="pf-reset">처음 값으로</button></div>
-        <p class="meta">입력값은 이 기기 브라우저(와 선택하면 내 PC의 profile.local.json)에만 저장됩니다. 외부 서버로 보내지 않습니다.</p></details>`;
-      box.dataset.built = "1";
-      let t = null;
-      $("#pf").addEventListener("input", (e) => {
-        const el = e.target, k = el.dataset.k; if (!k) return;
-        let v = el.type === "checkbox" ? el.checked : el.value;
-        if (el.type === "number") v = v === "" ? null : +v;
-        PROF[k] = v;
-        el.closest(".fld") && el.closest(".fld").classList.toggle("unk", el.type === "number" && v == null);
-        clearTimeout(t); t = setTimeout(() => { ELC = new Map(); $("#me-res").innerHTML = meResultsHtml(); }, 180);
-      });
-      $("#pf-save").addEventListener("click", () => { store.set("profile", PROF); PROF_SRC = "이 기기에 저장한 값"; $("#pf-src").textContent = "출처: " + PROF_SRC; toast("이 기기에 저장했습니다"); render(); });
-      $("#pf-save-pc").addEventListener("click", async () => {
-        try { const r = await fetch("api/profile", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(PROF) });
-          toast(r.ok ? "PC의 profile.local.json 에 저장했습니다" : "PC 저장 실패 — 같은 와이파이에서만 가능합니다"); } catch (e) { toast("PC 저장 실패"); }
-      });
-      $("#pf-reset").addEventListener("click", () => { try { localStorage.removeItem("profile"); } catch (e) {}
-        PROF = { ...BLANK, ...(SERVER_PROFILE || {}) }; PROF_SRC = SERVER_PROFILE ? "PC의 profile.local.json" : "빈 기본값"; box.dataset.built = ""; ELC = new Map(); render(); toast("처음 값으로 되돌렸습니다"); });
-    }
-    if (!PROF.birth) $("#pf-wrap").open = true;
-    $("#pf-src").textContent = "출처: " + PROF_SRC + (PROF.marriage_note ? ` · 결혼 ${PROF.marriage_note}` : "");
-    $("#pf-save-pc").hidden = !(SERVER && SERVER.profile_editable);
-    $("#me-res").innerHTML = meResultsHtml();
-  }
-  function toast(msg) {
-    const t = document.createElement("div"); t.className = "toast"; t.setAttribute("role", "status"); t.textContent = msg;
-    document.body.append(t); setTimeout(() => t.remove(), 2600);
-  }
-
-  // ---------------------------------------------------------------- 최신 정보 가져오기 (로컬 서버일 때)
-  let SERVER = null, POLL = null;
-  function setBusy(b, label) {
-    const r = $("#refresh"); r.setAttribute("aria-busy", b ? "true" : "false");
-    r.textContent = b ? (label || "가져오는 중…") : "↻ 최신 정보";
-  }
-  async function checkServer(auto) {
-    if (window.__DATA__) return;
-    try { const r = await fetch("api/status", { cache: "no-store" }); if (!r.ok) throw 0; SERVER = await r.json(); }
-    catch (e) { SERVER = null; $("#refresh").hidden = true; return; }
-    $("#refresh").hidden = false;
-    $("#pf-link").hidden = !SERVER.portfolio;
-    if ($("#pf-save-pc")) $("#pf-save-pc").hidden = !SERVER.profile_editable;
-    const ageMin = (Date.now() - Date.parse(D.generated_at)) / 6e4;
-    if (SERVER.running) poll();
-    else if (auto && ageMin > 60) refreshNow(false);
-  }
-  async function refreshNow(force) {
-    setBusy(true);
-    try { await fetch("api/refresh" + (force ? "?force=1" : ""), { method: "POST" }); } catch (e) {}
-    poll();
-  }
-  function poll() {
-    if (POLL) return;
-    setBusy(true);
-    const before = D.generated_at;
-    POLL = setInterval(async () => {
-      try {
-        const s = await (await fetch("api/status", { cache: "no-store" })).json();
-        if (s.running) return;
-        clearInterval(POLL); POLL = null;
-        const d = await (await fetch("data/data.json", { cache: "no-store" })).json();
-        setBusy(false);
-        if (d.generated_at !== before) {
-          const fresh = (d.changes || []).filter((c) => c.at > before && c.kind !== "init").length;
-          boot(d); toast(fresh ? `최신 정보 반영 · 새 소식 ${fresh}건` : "최신 정보 반영 · 바뀐 공고 없음");
-        } else toast(s.last_run_ok === false ? "갱신 실패 — PC 창의 메시지를 확인하세요" : "이미 최신입니다");
-      } catch (e) { clearInterval(POLL); POLL = null; setBusy(false); }
-    }, 4000);
-  }
-  $("#refresh").addEventListener("click", () => refreshNow(true));
-  document.addEventListener("visibilitychange", () => { if (!document.hidden && D) checkServer(true); });
-
-  // ---------------------------------------------------------------- 라우팅
-  const VIEWS = ["ranking", "schedule", "zupzup", "upcoming", "map", "me", "pipeline", "changes", "guide", "terms"];
-  function route() {
-    const v = VIEWS.includes(location.hash.slice(1)) ? location.hash.slice(1) : "ranking";
-    VIEWS.forEach((x) => { $("#v-" + x).hidden = x !== v; });
-    const learning = v === "guide" || v === "terms";       // 가이드·용어집은 별도 영역(위 메뉴를 바꿔 끼움)
-    if (!learning) route.last = v; else document.querySelector("[data-back]").href = "#" + (route.last || "ranking");
-    document.querySelector('nav[aria-label="보기"]').hidden = learning;
-    $("#learn-nav").hidden = !learning;
-    $("#focus-bar").hidden = learning;
-    $("#learn-link").setAttribute("aria-current", learning ? "page" : "false");
-    document.querySelectorAll("nav a").forEach((a) => a.setAttribute("aria-current", a.dataset.view === v ? "page" : "false"));
-    const cur = document.querySelector(`nav a[data-view="${v}"]`);
-    if (cur) cur.scrollIntoView({ block: "nearest", inline: "nearest" });
-    if (v === "map" && D) renderMap();
-  }
-  window.addEventListener("hashchange", route);
-
-  function render() {
-    ELC = new Map();
-    if (!st.regions) st.regions = [...D.regions];
-    renderFocusBar();
-    renderSched(); renderRanking(); renderUpcoming(); renderMe(); renderPipe(); renderChanges(); renderGuide(); renderTerms(); renderZup();
-    if (!$("#v-map").hidden) renderMap(); else { const lb = $("#map-layers"); if (lb && !lb.childElementCount) renderMap(); }
-  }
-
-  function boot(data) {
-    D = data;
-    $("#stamp").textContent = `갱신 ${data.generated_at.slice(0, 16).replace("T", " ")} KST`;
-    const notes = [];
-    if (data.sample) notes.push("샘플 데이터로 보는 중입니다. 인증키를 넣고 첫 갱신이 돌면 실제 공고로 바뀝니다.");
-    (data.warnings || []).forEach((w) => notes.push(w));
-    $("#banner").innerHTML = notes.length ? `<div class="banner"><b>알림</b><ul>${notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ul></div>` : "";
-    $("#q").value = ""; $("#sort").value = st.sort;
-    route(); render();
-  }
-
-  async function start(data) { await loadProfile(); boot(data); checkServer(true); }
-  if (window.__DATA__) start(window.__DATA__);
-  else fetch("data/data.json", { cache: "no-store" }).then((r) => r.json()).then(start).catch((e) => {
-    $("#stamp").textContent = "데이터를 불러오지 못했습니다";
-    $("#banner").innerHTML = `<div class="banner">data/data.json 을 읽지 못했습니다(${esc(e.message)}). 먼저 <code>python -m tracker.run</code> 을 실행하세요.</div>`;
-  });
+  fetch("data/market/summary.json", { cache: "no-cache" }).then((r) => r.json()).then((M) => {
+    $("#fig-market").innerHTML = `<b>${M.complexes.length.toLocaleString()}곳</b>단지 · 거래 ${(M.totals.trades || 0).toLocaleString()}건`;
+    $("#fig-lab").innerHTML = `<b>${M.gus.length}개</b>지역 자료`;
+    fetch("data/forecast/summary.json", { cache: "no-cache" }).then((r) => r.json()).then((F) => { const n = F.gus.filter((g) => g.ready).length; $("#fig-scn").innerHTML = n ? `<b>${n}곳</b>예측 가능 지역` : `<b>수집 중</b>과거 자료 ${F.backfill_left}곳 남음`; }).catch(() => { $("#fig-scn").textContent = "첫 갱신 대기"; });
+    fetch("data/catalysts.json", { cache: "no-cache" }).then((r) => r.json()).then((C) => { if (C.items.length) $("#fig-market").innerHTML += ` · 예정 호재 ${C.items.length}곳`; }).catch(() => {});
+  }).catch(() => { $("#fig-market").textContent = "첫 갱신 대기"; $("#fig-lab").textContent = "첫 갱신 대기"; });
 })();
 </script>
 </body>

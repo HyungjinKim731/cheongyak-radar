@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Comps 실거래가 분석 지도 · ASAR Partners</title>
+<meta name="theme-color" content="#0e6b5b" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#17211e" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="시세지도">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" type="image/png" sizes="32x32" href="../icons/favicon-32.png">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@700;800&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+/* 지도가 주인공인 화면: 위에 얇은 막대(검색·필터), 지도는 화면 끝까지, 상세는 데스크톱=오른쪽 패널 / 휴대폰=아래 시트 */
+:root {
+  --bg: #f3f6f5; --surface: #ffffff; --fg: #15201d; --muted: #5d6b67; --line: #d9e1de;
+  --accent: #0e6b5b; --accent-soft: #dcefea; --up: #c0392b; --down: #1f5fa8; --shadow: 0 6px 24px rgba(10, 30, 25, .14);
+  --f-display: "Gothic A1", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --f-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --panel-w: 400px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0f1614; --surface: #17211e; --fg: #e4ece9; --muted: #95a5a0; --line: #2a3733;
+  --accent: #4fc2a9; --accent-soft: #173a33; --up: #f07b6b; --down: #6aa5ee; --shadow: 0 6px 24px rgba(0, 0, 0, .5); color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0f1614; --surface: #17211e; --fg: #e4ece9; --muted: #95a5a0; --line: #2a3733;
+  --accent: #4fc2a9; --accent-soft: #173a33; --up: #f07b6b; --down: #6aa5ee; --shadow: 0 6px 24px rgba(0, 0, 0, .5); color-scheme: dark }
+* { box-sizing: border-box }
+html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg); font: 15px/1.5 var(--f-body); -webkit-text-size-adjust: 100% }
+a { color: var(--accent) }
+button, input, select { font: inherit; color: inherit }
+.num { font-family: var(--f-mono); font-variant-numeric: tabular-nums }
+.up { color: var(--up) } .down { color: var(--down) }
+
+/* 상단 막대 */
+.top { position: fixed; z-index: 1000; left: 0; right: 0; top: 0; padding: calc(env(safe-area-inset-top) + 8px) 12px 6px;
+  background: color-mix(in srgb, var(--surface) 94%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line) }
+.row { display: flex; gap: 8px; align-items: center; min-width: 0 }
+.brand { font: 800 1.05rem var(--f-display); white-space: nowrap; letter-spacing: -.01em }
+.brand span { color: var(--accent) }
+.back { font-size: .8rem; white-space: nowrap; text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; color: var(--fg) }
+.search { position: relative; flex: 1; min-width: 0 }
+.search input { width: 100%; border: 1px solid var(--line); background: var(--bg); border-radius: 999px; padding: 7px 12px 7px 32px; font-size: .9rem; outline: none }
+.search input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft) }
+.search svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--muted) }
+.sugg { position: absolute; left: 0; right: 0; top: calc(100% + 4px); background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); max-height: 50vh; overflow: auto; display: none }
+.sugg button { display: flex; justify-content: space-between; gap: 8px; width: 100%; text-align: left; border: 0; background: none; padding: 9px 12px; cursor: pointer; font-size: .88rem }
+.sugg button:hover, .sugg button:focus { background: var(--accent-soft); outline: none }
+.sugg small { color: var(--muted) }
+.chips { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 7px 0 2px }
+.chips::-webkit-scrollbar { display: none }
+.chip { flex: none; border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 4px 11px; font-size: .8rem; cursor: pointer; white-space: nowrap; min-height: 30px }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--surface); font-weight: 600 }
+.chip.ghost { border-style: dashed }
+.sep { flex: none; width: 1px; background: var(--line); margin: 3px 2px }
+.lbl { flex: none; font-size: .72rem; color: var(--muted); align-self: center; padding-left: 2px }
+
+#map { position: fixed; inset: 0; z-index: 0; background: var(--bg) }
+.leaflet-container { font: inherit; background: var(--bg) }
+.leaflet-tile-pane { filter: saturate(.3) contrast(.92) brightness(1.04) }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) saturate(.25) brightness(.82) contrast(.95) } }
+:root[data-theme="dark"] .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) saturate(.25) brightness(.82) contrast(.95) }
+
+/* 지도 위 표식 */
+.pill { transform: translate(-50%, -100%); white-space: nowrap; border-radius: 8px; padding: 2px 7px 3px; font: 600 .74rem/1.25 var(--f-body);
+  box-shadow: 0 1px 4px rgba(0,0,0,.28); cursor: pointer; position: relative; text-align: center; border: 1px solid rgba(0,0,0,.12) }
+.pill::after { content: ""; position: absolute; left: 50%; bottom: -5px; margin-left: -5px; border: 5px solid transparent; border-bottom: 0; border-top-color: inherit }
+.pill small { display: block; font: 500 .62rem var(--f-body); opacity: .85 }
+.pill.approx { opacity: .55; border-style: dashed }
+.pill.sel { outline: 2.5px solid var(--fg); outline-offset: 1px; z-index: 1000 !important }
+.bubble { transform: translate(-50%, -50%); border-radius: 12px; padding: 5px 9px; text-align: center; white-space: nowrap; cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25); font: 600 .78rem/1.3 var(--f-body); border: 1.5px solid rgba(255,255,255,.7) }
+.bubble b { display: block; font: 800 .86rem var(--f-display) }
+.bubble small { font-size: .66rem; opacity: .9 }
+
+/* 범례·버튼 */
+.legend { position: fixed; z-index: 900; left: 12px; bottom: calc(env(safe-area-inset-bottom) + 14px); background: var(--surface); border: 1px solid var(--line);
+  border-radius: 12px; padding: 8px 10px; box-shadow: var(--shadow); font-size: .72rem; max-width: calc(100vw - 24px) }
+.legend .bar { display: flex; height: 8px; border-radius: 4px; overflow: hidden; margin: 5px 0 3px; min-width: 190px }
+.legend .bar i { flex: 1 }
+.legend .ticks { display: flex; justify-content: space-between; color: var(--muted); font-family: var(--f-mono); gap: 6px }
+.fab { position: fixed; z-index: 900; right: 12px; bottom: calc(env(safe-area-inset-bottom) + 14px); display: flex; flex-direction: column; gap: 8px }
+.fab button { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 9px 14px; box-shadow: var(--shadow); cursor: pointer; font-weight: 600; font-size: .85rem }
+.hint { position: fixed; z-index: 900; left: 50%; transform: translateX(-50%); top: 0; background: var(--fg); color: var(--bg); padding: 5px 12px; border-radius: 999px; font-size: .78rem; opacity: 0; transition: opacity .25s; pointer-events: none }
+.hint.on { opacity: .92 }
+
+/* 상세 패널 */
+.panel { position: fixed; z-index: 1100; background: var(--surface); box-shadow: var(--shadow); display: flex; flex-direction: column; transition: transform .25s ease }
+.panel[hidden] { display: flex !important; transform: translateY(110%) }
+.ph { padding: 10px 14px 8px; border-bottom: 1px solid var(--line); flex: none }
+.ph .handle { width: 40px; height: 4px; border-radius: 2px; background: var(--line); margin: 0 auto 8px }
+.ph h2 { margin: 0; font: 800 1.12rem/1.3 var(--f-display); letter-spacing: -.01em }
+.ph .sub { color: var(--muted); font-size: .8rem }
+.ph .x { position: absolute; right: 10px; top: 8px; border: 0; background: none; font-size: 1.4rem; line-height: 1; cursor: pointer; color: var(--muted); padding: 6px }
+.pb { overflow: auto; padding: 10px 14px 24px; -webkit-overflow-scrolling: touch }
+@media (min-width: 900px) {
+  .panel { top: var(--top-h, 96px); right: 0; bottom: 0; width: var(--panel-w); border-left: 1px solid var(--line) }
+  .panel[hidden] { transform: translateX(110%) }
+  .ph .handle { display: none }
+  .legend { left: 12px }
+  body.open .fab { right: calc(var(--panel-w) + 12px) }
+}
+@media (max-width: 899px) {
+  .panel { left: 0; right: 0; bottom: 0; max-height: 62vh; border-radius: 16px 16px 0 0; padding-bottom: env(safe-area-inset-bottom) }
+  .panel.full { max-height: calc(100vh - var(--top-h, 96px)) }
+  body.open .legend, body.open .fab { display: none }
+}
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; margin: 2px 0 10px }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px }
+.stat { border: 1px solid var(--line); border-radius: 10px; padding: 7px 9px; min-width: 0 }
+.stat small { display: block; color: var(--muted); font-size: .72rem }
+.stat b { font: 700 1rem var(--f-mono); font-variant-numeric: tabular-nums }
+.stat .s2 { font-size: .74rem; color: var(--muted) }
+h3 { font: 700 .92rem var(--f-display); margin: 16px 0 6px }
+.chart { width: 100%; height: auto; display: block; overflow: visible }
+.chart text { font: 10px var(--f-mono); fill: var(--muted) }
+table { border-collapse: collapse; width: 100%; font-size: .82rem }
+th, td { padding: 6px 6px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap }
+th { color: var(--muted); font-weight: 600; font-size: .74rem; position: sticky; top: 0; background: var(--surface) }
+th button { all: unset; cursor: pointer }
+td.r, th.r { text-align: right }
+tr.click { cursor: pointer } tr.click:hover { background: var(--accent-soft) }
+.note { color: var(--muted); font-size: .75rem; line-height: 1.55 }
+.badge { display: inline-block; font-size: .68rem; border: 1px solid var(--line); border-radius: 5px; padding: 0 5px; color: var(--muted); margin-left: 4px; vertical-align: 1px }
+.load { position: fixed; inset: 0; display: grid; place-items: center; z-index: 2000; background: var(--bg); color: var(--muted) }
+</style>
+</head>
+<body>
+<div class="load" id="load">시세 데이터를 불러오는 중…</div>
+
+<div class="top" id="top">
+  <div class="row">
+    <a class="back" href="../" title="첫 화면으로">⌂ 홈</a>
+    <div class="brand" title="Comps: 비교 사례(comparables)">Comps <span>실거래가 분석 지도</span></div>
+    <div class="search">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="단지·동·구 검색" autocomplete="off" aria-label="단지·동·구 검색">
+      <div class="sugg" id="sugg" role="listbox"></div>
+    </div>
+  </div>
+  <div class="chips" id="f1"></div>
+  <div class="chips" id="f2"></div>
+</div>
+
+<div id="map" aria-label="실거래가 분석 지도"></div>
+<div class="hint" id="hint"></div>
+<div class="legend" id="legend"></div>
+<div class="fab"><button type="button" id="btn-list">☰ 이 화면 목록</button><button type="button" id="btn-me" title="현재 위치">◎ 내 위치</button></div>
+
+<aside class="panel" id="panel" hidden aria-live="polite">
+  <div class="ph" id="ph"><div class="handle" id="handle"></div><button class="x" id="close" aria-label="닫기">×</button><div id="ph-body"></div></div>
+  <div class="pb" id="pb"></div>
+</aside>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+(() => {
+  const $ = (s) => document.querySelector(s);
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const store = { get(k, d) { try { const v = localStorage.getItem("mk." + k); return v == null ? d : JSON.parse(v); } catch { return d; } },
+                  set(k, v) { try { localStorage.setItem("mk." + k, JSON.stringify(v)); } catch {} } };
+  const eok = (m) => m == null ? "-" : m >= 10000 ? `${(m / 10000).toFixed(m >= 100000 ? 1 : 2).replace(/\.?0+$/, "")}억` : `${Math.round(m).toLocaleString()}만`;
+  const eokShort = (m) => m == null ? "-" : m >= 10000 ? `${(m / 10000).toFixed(1)}억` : `${Math.round(m / 100) / 100}억`;
+  const pct = (v) => v == null ? "-" : `${v > 0 ? "+" : ""}${v.toFixed(1)}%`;
+  const cls = (v) => v == null ? "" : v > 0 ? "up" : v < 0 ? "down" : "";
+  const ymd = (s) => { if (!s) return "-"; const d = String(s).replace(/\D/g, ""); return `${d.slice(0, 4)}.${d.slice(4, 6)}.${d.slice(6, 8)}`; };
+  const THIS_YEAR = new Date().getFullYear();
+
+  // 색: 가격(순차) / 변동률(빨강=상승, 파랑=하락, 한국 관례) / 거래량(순차)
+  const SEQ = ["#e6f2ee", "#b9ddd2", "#86c4b3", "#4fa391", "#2a7f6f", "#145f53", "#063f37"];
+  const DIV = ["#1f5fa8", "#6b9fd6", "#c3d8ef", "#eceff1", "#f4c7bd", "#e2725f", "#b0281c"];
+  const VOL = ["#f3eef8", "#dccbe9", "#bf9fd6", "#9d72c0", "#7b49a6", "#5b2a86", "#3c1361"];
+  const ink = (hex) => { const n = parseInt(hex.slice(1), 16), r = n >> 16, g = (n >> 8) & 255, b = n & 255; return (r * 299 + g * 587 + b * 114) / 1000 > 150 ? "#13201c" : "#fff"; };
+
+  let D, map, layer, sel = null, lastZoomMode = null;
+  const st = Object.assign({ band: "all", age: 99, color: "ppa", period: 12 }, store.get("st", {}));
+  const save = () => store.set("st", { band: st.band, age: st.age, color: st.color });
+
+  // ------------------------------------------------------------ 데이터
+  function decode(c) {
+    const F = D.band_fields;
+    const b = {};
+    for (const [k, arr] of Object.entries(c.bands)) { const o = {}; F.forEach((f, i) => { o[f] = arr[i]; }); b[k] = o; }
+    c.b = b; c.age = c.by ? THIS_YEAR - c.by : null;
+    return c;
+  }
+  // 선택한 면적대 기준 값(가격·변동·거래량)
+  function val(c) {
+    if (st.band === "all") return { price: c.std84, label: "84㎡ 환산", yoy: c.yoy, n: c.n12, ppa: c.ppa12 };
+    const b = c.b[st.band];
+    if (!b) return null;
+    return { price: b.med12 ?? b.last_price, label: `${st.band === "소형" || st.band === "중대형" || st.band === "대형" ? st.band : st.band + "㎡"} 12개월 중앙`, yoy: b.yoy, n: b.n12, ppa: b.ppa12, last: b.last_price };
+  }
+  function passes(c) {
+    if (st.age < 99 && (c.age == null || c.age > st.age)) return false;
+    const v = val(c);
+    return v && v.price != null && v.n > 0;
+  }
+  function metric(c) { const v = val(c); return st.color === "yoy" ? v.yoy : st.color === "vol" ? v.n : st.color === "cagr" ? (c.hist ? c.hist[2] : null) : v.ppa; }
+
+  // 색 구간: 지금 필터에 맞는 단지 전체의 분위수(가격·거래량), 변동률은 고정 구간
+  let breaks = [];
+  function computeBreaks() {
+    if (st.color === "yoy") { breaks = [-10, -5, -1.5, 1.5, 5, 10]; return; }
+    const xs = D.complexes.filter(passes).map(metric).filter((x) => x != null).sort((a, b) => a - b);
+    breaks = [1, 2, 3, 4, 5, 6].map((i) => xs[Math.floor(xs.length * i / 7)] ?? 0);
+  }
+  function colorOf(x) {
+    const pal = st.color === "yoy" ? DIV : st.color === "vol" ? VOL : SEQ;
+    if (x == null) return "#9aa5a2";
+    let i = 0; while (i < breaks.length && x >= breaks[i]) i++;
+    return pal[i];
+  }
+  function legend() {
+    const pal = st.color === "yoy" ? DIV : st.color === "vol" ? VOL : SEQ;
+    const name = st.color === "yoy" ? "1년 변동률 (같은 단지 기준)" : st.color === "cagr" ? "준공 이후 연평균 상승률" : st.color === "vol" ? "최근 12개월 거래 건수" : "전용 3.3㎡당 가격 (12개월 중앙값)";
+    const fmt = (x) => st.color === "yoy" ? `${x > 0 ? "+" : ""}${x}%` : st.color === "cagr" ? `${(+x).toFixed(1)}%` : st.color === "vol" ? `${Math.round(x)}` : `${(x / 1000).toFixed(1)}천`;
+    const ticks = [breaks[0], breaks[2], breaks[4], breaks[5]].map(fmt);
+    $("#legend").innerHTML = `<b>${name}</b><div class="bar">${pal.map((c) => `<i style="background:${c}"></i>`).join("")}</div>
+      <div class="ticks">${ticks.map((t) => `<span>${t}</span>`).join("")}</div>
+      <div class="note" style="margin-top:3px">점선 = 위치 대략 · 실거래(직거래 제외)</div>`;
+  }
+
+  // ------------------------------------------------------------ 필터 칩
+  function chip(label, on, fn, title) {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "chip"; b.textContent = label; b.setAttribute("aria-pressed", on ? "true" : "false");
+    if (title) b.title = title;
+    b.addEventListener("click", fn);
+    return b;
+  }
+  function label(t) { const s = document.createElement("span"); s.className = "lbl"; s.textContent = t; return s; }
+  function sep() { const s = document.createElement("span"); s.className = "sep"; return s; }
+  function renderChips() {
+    const f1 = $("#f1"); f1.innerHTML = "";
+    f1.append(label("면적"));
+    [["all", "전체(84환산)"], ["59", "59㎡"], ["74", "74㎡"], ["84", "84㎡"], ["중대형", "중대형"], ["대형", "대형"]].forEach(([k, l]) =>
+      f1.append(chip(l, st.band === k, () => { st.band = k; save(); refresh(); })));
+    f1.append(sep(), label("연식"));
+    [[99, "전체"], [5, "5년↓"], [10, "10년↓"], [20, "20년↓"]].forEach(([k, l]) =>
+      f1.append(chip(l, st.age === k, () => { st.age = k; save(); refresh(); })));
+    f1.append(sep(), label("색"));
+    [["ppa", "3.3㎡당"], ["yoy", "1년 변동"], ["cagr", "준공 후 연평균"], ["vol", "거래량"]].forEach(([k, l]) =>
+      f1.append(chip(l, st.color === k, () => { st.color = k; save(); refresh(); })));
+    const f2 = $("#f2"); f2.innerHTML = "";
+    D.quick.forEach((q) => { const b = chip(q.name, false, () => map.flyTo([q.c[0], q.c[1]], q.c[2], { duration: .6 })); b.classList.add("ghost"); f2.append(b); });
+    document.documentElement.style.setProperty("--top-h", $("#top").offsetHeight + "px");
+  }
+
+  // ------------------------------------------------------------ 지도
+  function initMap() {
+    map = L.map("map", { zoomControl: false, preferCanvas: true, attributionControl: true, minZoom: 9 }).setView(store.get("view", [37.52, 127.02, 11]).slice(0, 2), store.get("view", [0, 0, 11])[2]);
+    L.control.zoom({ position: "topright" }).addTo(map);
+    // OpenStreetMap 기본 지도를 CSS로 차분하게(가격 표식이 잘 보이도록 채도를 낮춤, 다크 모드는 반전)
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(map);
+    layer = L.layerGroup().addTo(map); catLayer = L.layerGroup().addTo(map);
+    map.on("moveend", () => { draw(); drawCat(); const c = map.getCenter(); store.set("view", [c.lat, c.lng, map.getZoom()]); });
+    map.getContainer().style.paddingTop = "0";
+    const tz = map.getContainer().querySelector(".leaflet-top");
+    if (tz) tz.style.top = ($("#top").offsetHeight + 4) + "px";
+  }
+  // 예정 호재(고시·공식 발표만): 마름모 표식, 단계가 뒤일수록 진하게
+  let CAT = [], catLayer;
+  const kmBetween = (a, b, c, d) => Math.hypot((d - b) * Math.cos((a + c) * Math.PI / 360) * 111.32, (c - a) * 110.57);
+  function drawCat() {
+    if (!catLayer) return; catLayer.clearLayers();
+    if (!CAT.length || map.getZoom() < 12) return;
+    const b = map.getBounds().pad(.1);
+    CAT.filter((x) => b.contains([x.lat, x.lng])).forEach((x) => {
+      L.marker([x.lat, x.lng], { zIndexOffset: 2000, icon: L.divIcon({ className: "", iconSize: [18, 18], iconAnchor: [9, 9],
+        html: `<div style="width:14px;height:14px;margin:2px;transform:rotate(45deg);background:#f0b04a;opacity:${.45 + x.stage_i * .13};border:2px solid #14201c"></div>` }) })
+        .bindPopup(`<b>${esc(x.name)}</b>${x.line ? " · " + esc(x.line) : ""}<br>${esc(x.kind)} · 단계: <b>${esc(x.stage)}</b>${x.open_target ? " · 개통 목표 " + esc(x.open_target) : ""}<br>${x.notice_no ? esc(x.notice_no) + " " : ""}${esc(x.notice_date)}<br><a href="${esc(x.source_url)}" target="_blank" rel="noopener">${esc(x.org || "공식 출처")} 원문</a>${x.memo ? "<br>" + esc(x.memo) : ""}`)
+        .addTo(catLayer);
+    });
+  }
+  const catNear = (c) => !c.lat ? [] : CAT.map((x) => ({ x, d: kmBetween(c.lat, c.lng, x.lat, x.lng) })).filter((o) => o.d <= 1).sort((a, b) => a.d - b.d);
+  function hint(t) { const h = $("#hint"); h.textContent = t; h.style.top = ($("#top").offsetHeight + 10) + "px"; h.classList.add("on"); clearTimeout(hint.t); hint.t = setTimeout(() => h.classList.remove("on"), 1800); }
+
+  function areaBubble(x, kind) {
+    const v = x.std84, y = x.yoy;
+    const c = st.color === "yoy" ? colorOf(y) : st.color === "vol" ? colorOf(x.n12 / (kind === "gu" ? 40 : 6)) : colorOf(x.ppa12);
+    const name = kind === "gu" ? (x.label || x.gu).replace(/^(성남시|수원시|용인시|화성시) /, "") : x.dong;
+    return L.marker([x.lat, x.lng], { icon: L.divIcon({ className: "", iconSize: null,
+      html: `<div class="bubble" style="background:${c};color:${ink(c)}"><b>${esc(name)}</b>${eokShort(v)}<small> · ${y == null ? "변동 -" : pct(y)}</small></div>` }) })
+      .on("click", () => kind === "gu" ? openGu(x.gu) : openDong(x));
+  }
+  function draw() {
+    if (!D) return;
+    layer.clearLayers();
+    const z = map.getZoom(), b = map.getBounds().pad(0.15);
+    const mode = z <= 11 ? "gu" : z <= 13 ? "dong" : z === 14 ? "dot" : "pill";
+    if (mode !== lastZoomMode) { lastZoomMode = mode; hint(mode === "gu" ? "구 단위 · 확대하면 동 → 단지" : mode === "dong" ? "동 단위 · 더 확대하면 단지" : "단지 단위 · 눌러서 상세"); }
+    if (mode === "gu") { D.gus.filter((g) => g.lat).forEach((g) => layer.addLayer(areaBubble(g, "gu"))); return; }
+    if (mode === "dong") { D.dongs.filter((d) => d.lat && b.contains([d.lat, d.lng]) && d.n12 >= 3).forEach((d) => layer.addLayer(areaBubble(d, "dong"))); return; }
+    const cs = D.complexes.filter((c) => c.lat && b.contains([c.lat, c.lng]) && passes(c));
+    if (mode === "dot") {
+      cs.forEach((c) => {
+        const col = colorOf(metric(c)), v = val(c);
+        L.circleMarker([c.lat, c.lng], { radius: 6 + Math.min(6, Math.sqrt(v.n || 0)), color: c.geo === "exact" ? "#fff" : col, weight: c.geo === "exact" ? 1.5 : 1,
+          dashArray: c.geo === "exact" ? null : "2 2", fillColor: col, fillOpacity: c.geo === "exact" ? .9 : .5 })
+          .bindTooltip(`<b>${esc(c.name)}</b><br>${esc(v.label)} ${eok(v.price)} · ${pct(v.yoy)}`, { direction: "top", offset: [0, -6] })
+          .on("click", () => openComplex(c.id)).addTo(layer);
+      });
+      return;
+    }
+    // pill: 가까운 것끼리 겹치면 거래 많은 단지 먼저 (화면 픽셀 격자로 간단히 정리)
+    const taken = new Set();
+    cs.sort((a, b) => (val(b).n || 0) - (val(a).n || 0)).forEach((c) => {
+      const p = map.latLngToContainerPoint([c.lat, c.lng]);
+      const cell = `${Math.round(p.x / 92)}:${Math.round(p.y / 40)}`;
+      if (taken.has(cell) && sel !== c.id) return;
+      taken.add(cell);
+      const v = val(c), col = colorOf(metric(c));
+      const sub = st.color === "yoy" ? pct(v.yoy) : st.color === "cagr" ? (c.hist && c.hist[2] != null ? "연 " + pct(c.hist[2]) : "") : st.color === "vol" ? `${v.n}건` : `${c.age != null ? c.age + "년" : ""}`;
+      L.marker([c.lat, c.lng], { riseOnHover: true, zIndexOffset: (v.n || 0), icon: L.divIcon({ className: "", iconSize: null,
+        html: `<div class="pill ${c.geo === "exact" ? "" : "approx"} ${sel === c.id ? "sel" : ""}" style="background:${col};color:${ink(col)};border-top-color:${col}">${eokShort(v.price)}<small>${esc(c.name.length > 9 ? c.name.slice(0, 9) + "…" : c.name)}${sub ? " · " + esc(sub) : ""}</small></div>` }) })
+        .on("click", () => openComplex(c.id)).addTo(layer);
+    });
+  }
+  function refresh() { renderChips(); computeBreaks(); legend(); draw(); if (panelState.kind === "list") openList(); }
+
+  // ------------------------------------------------------------ 패널
+  const panelState = { kind: null };
+  function openPanel(head, body, kind) {
+    panelState.kind = kind;
+    $("#ph-body").innerHTML = head; $("#pb").innerHTML = body; $("#pb").scrollTop = 0;
+    $("#panel").hidden = false; document.body.classList.add("open");
+  }
+  function closePanel() { $("#panel").hidden = true; document.body.classList.remove("open"); panelState.kind = null; sel = null; history.replaceState(null, "", location.pathname); draw(); }
+  $("#close").addEventListener("click", closePanel);
+  $("#handle").addEventListener("click", () => $("#panel").classList.toggle("full"));
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closePanel(); });
+
+  const stat = (label, main, sub, extraCls = "") => `<div class="stat"><small>${label}</small><b class="${extraCls}">${main}</b>${sub ? `<div class="s2">${sub}</div>` : ""}</div>`;
+
+  async function openComplex(id, fly) {
+    const c = D.complexes.find((x) => x.id === id); if (!c) return;
+    sel = id; history.replaceState(null, "", "#c=" + encodeURIComponent(id));
+    if (fly && c.lat) map.flyTo([c.lat, c.lng], Math.max(map.getZoom(), 16), { duration: .6 });
+    draw();
+    const bands = Object.keys(c.b).sort((a, b) => D.bands.indexOf(a) - D.bands.indexOf(b));
+    let cur = st.band !== "all" && c.b[st.band] ? st.band : c.rep;
+    const head = `<h2>${esc(c.name)}</h2><div class="sub">${esc(c.gu)} ${esc(c.dong || "")} ${esc(c.jibun || "")} · ${c.by ? `${c.by}년 준공(${c.age}년차)` : "준공 -"}
+      ${c.geo === "exact" ? "" : `<span class="badge">위치 대략</span>`}</div>`;
+    const render = async () => {
+      const b = c.b[cur];
+      const tabs = `<div class="tabs">${bands.map((k) => `<button class="chip" data-band="${k}" aria-pressed="${k === cur}">${k === "소형" || k === "중대형" || k === "대형" ? k : k + "㎡"} <span class="num" style="opacity:.7">${c.b[k].n24}</span></button>`).join("")}</div>`;
+      const grid = `<div class="grid">
+        ${stat("최근 거래", eok(b.last_price), `${ymd(b.last_date)} · ${b.last_floor ?? "-"}층`)}
+        ${stat("6개월 중앙값", eok(b.med6), `${b.n6}건`)}
+        ${stat("12개월 중앙값", eok(b.med12), `평균 ${eok(b.avg12)} · ${b.n12}건`)}
+        ${stat("12개월 범위", `${eokShort(b.min12)}~${eokShort(b.max12)}`, "")}
+        ${stat("전용 3.3㎡당", b.ppa12 ? `${b.ppa12.toLocaleString()}만` : "-", `전용 ${b.area}㎡ 기준`)}
+        ${stat("1년 변동", pct(b.yoy), "최근 6개월 vs 1년 전 6개월", cls(b.yoy))}
+        ${stat("전고점 (24개월)", eok(b.peak_price), `${ymd(b.peak_date)} · 연속 3건 중앙값 최고`)}
+        ${stat("전고점 대비", pct(b.from_peak), "최근 6개월 중앙값 기준", cls(b.from_peak))}
+      </div>`;
+      const [y0, since, cagr, athdd, mdd, nall] = c.hist || [];
+      const hgrid = `<h3>준공 이후 전체 <span class="note">(모든 면적, 전용㎡당 기준)</span></h3><div class="grid">
+        ${stat("누적 상승", pct(since), y0 ? `${y0}년 대비 최근 12개월` : "과거 자료 모으는 중", cls(since))}
+        ${stat("연평균 상승", pct(cagr), "복리 기준", cls(cagr))}
+        ${stat("역대 최고 대비", pct(athdd), "분기 중앙값 최고 vs 최근 6개월", cls(athdd))}
+        ${stat("최대 낙폭", mdd ? pct(mdd[0]) : "-", mdd ? `${mdd[1]} → ${mdd[2]}` : "", mdd ? "down" : "")}
+      </div><div id="lchart" class="note"></div>`;
+      const near = catNear(c);
+      const cat = near.length ? `<h3>반경 1km 예정 호재</h3><div class="note" style="font-size:.9rem;color:var(--fg)">${near.map((o) => `◆ ${esc(o.x.name)}${o.x.line ? " (" + esc(o.x.line) + ")" : ""} · ${(o.d * 1000).toFixed(0)}m · ${esc(o.x.stage)}${o.x.open_target ? " · 개통 목표 " + esc(o.x.open_target) : ""} · <a href="${esc(o.x.source_url)}" target="_blank" rel="noopener">${esc(o.x.org || "원문")}</a>`).join("<br>")}</div>` : "";
+      openPanel(head, tabs + grid + cat + `<h3>거래 흐름</h3><div id="cchart" class="note">거래 내역을 불러오는 중…</div>${hgrid}<h3>최근 거래</h3><div id="ctable"></div>
+        <p class="note">국토교통부 실거래가(해제·직거래·이상치 제외). 원본은 <a href="${esc(D.method.check_url)}" target="_blank" rel="noopener">실거래가 공개시스템</a>에서 확인할 수 있습니다.</p>`, "complex");
+      document.querySelectorAll("[data-band]").forEach((x) => x.addEventListener("click", () => { cur = x.dataset.band; render(); }));
+      const td = await trades(c.id), tr = td.t.filter((t) => t[0] >= D.yms[0] + "01");
+      $("#lchart").innerHTML = longChart(td.h[cur], c.by);
+      const lo = { "소형": 0, "59": 50, "74": 65, "84": 80, "중대형": 92, "대형": 120 }[cur], hi = { "소형": 50, "59": 65, "74": 80, "84": 92, "중대형": 120, "대형": 1e9 }[cur];
+      const rows = tr.filter((t) => t[1] >= lo && t[1] < hi);
+      $("#cchart").innerHTML = rows.length ? scatter(rows) : "거래 내역 없음";
+      $("#ctable").innerHTML = rows.length ? `<div style="max-height:260px;overflow:auto"><table><thead><tr><th>계약일</th><th class="r">전용㎡</th><th class="r">층</th><th class="r">가격</th></tr></thead><tbody>${
+        rows.slice().reverse().slice(0, 40).map((t) => `<tr><td class="num">${ymd(t[0])}</td><td class="r num">${t[1]}</td><td class="r num">${t[3] ?? "-"}</td><td class="r num"><b>${eok(t[2])}</b></td></tr>`).join("")
+      }</tbody></table></div>` : "";
+    };
+    render();
+  }
+  const tcache = {};
+  async function trades(id) {
+    const code = id.split(":")[0];
+    if (!tcache[code]) tcache[code] = fetch(`../data/market/t_${code}.json`, { cache: "no-cache" }).then((r) => r.json()).catch(() => ({}));
+    const x = (await tcache[code])[id];
+    return Array.isArray(x) ? { t: x, h: {} } : (x || { t: [], h: {} });      // 예전 형식(배열)도 읽음
+  }
+  const qT = (q) => +q.slice(0, 4) + (+q.slice(5) - .5) / 4;                    // "2014Q3" → 2014.625
+  // 준공 이후 전체: 분기 중앙값 선(거래 1건뿐인 분기는 옅은 점)
+  function longChart(h, by) {
+    if (!h || h.length < 3) return `<div class="note">과거 자료를 아직 모으는 중이에요(갱신 때마다 조금씩 채워집니다).</div>`;
+    const W = 360, H = 170, P = { l: 40, r: 8, t: 8, b: 20 };
+    const x0 = Math.min(qT(h[0][0]), by || 9999), x1 = THIS_YEAR + 1;
+    const ys = h.map((r) => r[1]); let y0 = Math.min(...ys), y1 = Math.max(...ys); const pad = (y1 - y0) * .1 || y1 * .05; y0 = Math.max(0, y0 - pad); y1 += pad;
+    const X = (t) => P.l + (t - x0) / (x1 - x0) * (W - P.l - P.r), Y = (v) => H - P.b - (v - y0) / (y1 - y0) * (H - P.t - P.b);
+    const grid = [0, .5, 1].map((f) => { const v = y0 + (y1 - y0) * f; return `<line x1="${P.l}" x2="${W - P.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${P.l - 4}" y="${Y(v) + 3}" text-anchor="end">${(v / 10000).toFixed(1)}억</text>`; }).join("");
+    const step = Math.max(1, Math.ceil((x1 - x0) / 5));
+    let xt = ""; for (let y = Math.ceil(x0); y <= x1; y += step) xt += `<text x="${X(y)}" y="${H - 5}" text-anchor="middle">${y}</text><line x1="${X(y)}" x2="${X(y)}" y1="${P.t}" y2="${H - P.b}" stroke="var(--line)" stroke-opacity=".5"/>`;
+    const byMark = by && by >= x0 ? `<line x1="${X(by)}" x2="${X(by)}" y1="${P.t}" y2="${H - P.b}" stroke="var(--accent)" stroke-dasharray="3 3"/><text x="${X(by) + 3}" y="${P.t + 8}" fill="var(--accent)">준공</text>` : "";
+    const pts = h.map((r) => `<circle cx="${X(qT(r[0])).toFixed(1)}" cy="${Y(r[1]).toFixed(1)}" r="${r[2] > 1 ? 2.4 : 1.8}" fill="var(--fg)" fill-opacity="${r[2] > 1 ? 1 : .35}"><title>${r[0]} · 중앙값 ${eok(r[1])} · ${r[2]}건</title></circle>`).join("");
+    const line = `<polyline fill="none" stroke="var(--fg)" stroke-width="1.5" points="${h.map((r) => `${X(qT(r[0])).toFixed(1)},${Y(r[1]).toFixed(1)}`).join(" ")}"/>`;
+    return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="준공 이후 가격 흐름">${grid}${xt}${byMark}${line}${pts}</svg>
+      <div class="note">분기별 실거래 중앙값 · 옅은 점 = 그 분기 거래 1건 · 시작 ${h[0][0]}</div>`;
+  }
+  // 구 장기 지수(연쇄, 같은 단지 기준)
+  function longIndex(L0) {
+    const pts = (L0 || []).filter((r) => r[1] != null);
+    if (pts.length < 4) return "";
+    const W = 360, H = 170, P = { l: 34, r: 8, t: 10, b: 20 };
+    const x0 = pts[0][0], x1 = pts[pts.length - 1][0], vs = pts.map((r) => r[1]);
+    let y0 = Math.min(...vs), y1 = Math.max(...vs); const pad = (y1 - y0) * .1; y0 -= pad; y1 += pad;
+    const X = (t) => P.l + (t - x0) / (x1 - x0) * (W - P.l - P.r), Y = (v) => H - P.b - (v - y0) / (y1 - y0) * (H - P.t - P.b);
+    const grid = [y0 + pad, (y0 + y1) / 2, y1 - pad].map((v) => `<line x1="${P.l}" x2="${W - P.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${P.l - 4}" y="${Y(v) + 3}" text-anchor="end">${v.toFixed(0)}</text>`).join("");
+    const step = Math.max(1, Math.ceil((x1 - x0) / 5));
+    let xt = ""; for (let y = x0; y <= x1; y += step) xt += `<text x="${X(y)}" y="${H - 5}" text-anchor="middle">${y}</text>`;
+    const dots = pts.map((r) => `<circle cx="${X(r[0]).toFixed(1)}" cy="${Y(r[1]).toFixed(1)}" r="2.4" fill="var(--fg)"><title>${r[0]}년 지수 ${r[1]} · 비교 단지 ${r[2]}곳 · 거래 ${r[3]}건</title></circle>`).join("");
+    const last = pts[pts.length - 1], yrs = x1 - x0;
+    return `<h3>장기 흐름 <span class="note">(${x0}년 = 100)</span></h3><svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="장기 가격 지수">${grid}${xt}<polyline fill="none" stroke="var(--fg)" stroke-width="1.8" points="${pts.map((r) => `${X(r[0]).toFixed(1)},${Y(r[1]).toFixed(1)}`).join(" ")}"/>${dots}</svg>
+      <div class="note">같은 단지끼리 이웃한 두 해를 비교해 이어 붙인 지수 · ${x0}→${x1}년 ${(last[1] / 100).toFixed(2)}배, 연평균 ${pct((Math.pow(last[1] / pts[0][1], 1 / yrs) - 1) * 100)}</div>`;
+  }
+
+  // 산점도(거래) + 월별 중앙값 선
+  function scatter(rows) {
+    const W = 360, H = 170, P = { l: 40, r: 8, t: 8, b: 20 };
+    const toT = (s) => Date.UTC(+s.slice(0, 4), +s.slice(4, 6) - 1, +s.slice(6, 8));
+    const t0 = toT(D.yms[0] + "01"), t1 = Date.now();
+    const ys = rows.map((r) => r[2]); let y0 = Math.min(...ys), y1 = Math.max(...ys);
+    const pad = (y1 - y0) * .12 || y1 * .05; y0 -= pad; y1 += pad;
+    const X = (t) => P.l + (t - t0) / (t1 - t0) * (W - P.l - P.r), Y = (v) => H - P.b - (v - y0) / (y1 - y0) * (H - P.t - P.b);
+    const by = {}; rows.forEach((r) => (by[r[0].slice(0, 6)] ||= []).push(r[2]));
+    const med = Object.entries(by).sort().map(([ym, v]) => { v.sort((a, b) => a - b); const m = v.length % 2 ? v[(v.length - 1) / 2] : (v[v.length / 2 - 1] + v[v.length / 2]) / 2; return [toT(ym + "15"), m]; });
+    const grid = [0, .5, 1].map((f) => { const v = y0 + (y1 - y0) * f; return `<line x1="${P.l}" x2="${W - P.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${P.l - 4}" y="${Y(v) + 3}" text-anchor="end">${(v / 10000).toFixed(1)}억</text>`; }).join("");
+    const xt = [0, Math.floor(D.yms.length / 2), D.yms.length - 1].map((i) => { const ym = D.yms[i]; return `<text x="${X(toT(ym + "01"))}" y="${H - 5}" text-anchor="middle">${ym.slice(2, 4)}.${ym.slice(4)}</text>`; }).join("");
+    const pts = rows.map((r) => `<circle cx="${X(toT(r[0])).toFixed(1)}" cy="${Y(r[2]).toFixed(1)}" r="3" fill="var(--accent)" fill-opacity=".45"><title>${ymd(r[0])} · ${r[1]}㎡ · ${r[3] ?? "-"}층 · ${eok(r[2])}</title></circle>`).join("");
+    const line = med.length > 1 ? `<polyline fill="none" stroke="var(--fg)" stroke-width="1.6" points="${med.map(([t, v]) => `${X(t).toFixed(1)},${Y(v).toFixed(1)}`).join(" ")}"/>` : "";
+    return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="거래 가격 흐름">${grid}${xt}${pts}${line}</svg>
+      <div class="note">점 = 개별 거래 · 선 = 월별 중앙값</div>`;
+  }
+  // 구 가격 지수(같은 단지 기준) + 거래량 막대
+  function trend(sr) {
+    const W = 360, H = 170, P = { l: 34, r: 30, t: 10, b: 20 }, n = sr.ym.length;
+    const X = (i) => P.l + i * (W - P.l - P.r) / (n - 1);
+    const idx = sr.idx.map((v) => v), iv = idx.filter((v) => v != null);
+    const vmax = Math.max(...sr.n, 1);
+    let y0 = Math.min(...iv, 100), y1 = Math.max(...iv, 100); const pad = (y1 - y0) * .15 || 2; y0 -= pad; y1 += pad;
+    const Y = (v) => H - P.b - (v - y0) / (y1 - y0) * (H - P.t - P.b);
+    const bw = (W - P.l - P.r) / n * .65;
+    const bars = sr.n.map((v, i) => `<rect x="${(X(i) - bw / 2).toFixed(1)}" y="${(H - P.b - v / vmax * (H - P.t - P.b) * .45).toFixed(1)}" width="${bw.toFixed(1)}" height="${(v / vmax * (H - P.t - P.b) * .45).toFixed(1)}" fill="var(--accent)" fill-opacity=".22"><title>${sr.ym[i]} 거래 ${v}건</title></rect>`).join("");
+    let d = ""; idx.forEach((v, i) => { if (v == null) return; d += `${d && idx[i - 1] != null ? "L" : "M"}${X(i).toFixed(1)},${Y(v).toFixed(1)} `; });
+    const dots = idx.map((v, i) => v == null ? "" : `<circle cx="${X(i).toFixed(1)}" cy="${Y(v).toFixed(1)}" r="2.4" fill="var(--fg)"><title>${sr.ym[i]} 지수 ${v}</title></circle>`).join("");
+    const grid = [y0 + pad, 100, y1 - pad].map((v) => `<line x1="${P.l}" x2="${W - P.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)" ${v === 100 ? 'stroke-dasharray="3 3"' : ""}/><text x="${P.l - 4}" y="${Y(v) + 3}" text-anchor="end">${v.toFixed(0)}</text>`).join("");
+    const xt = [0, Math.floor(n / 2), n - 1].map((i) => `<text x="${X(i)}" y="${H - 5}" text-anchor="middle">${sr.ym[i].slice(2, 4)}.${sr.ym[i].slice(4)}</text>`).join("");
+    return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="가격 지수와 거래량">${grid}${bars}<path d="${d}" fill="none" stroke="var(--fg)" stroke-width="1.8"/>${dots}${xt}
+      <text x="${W - P.r + 4}" y="${P.t + 8}">거래</text></svg>
+      <div class="note">선 = 가격 지수(같은 단지끼리 비교, 처음 6개월 = 100) · 막대 = 월 거래 건수</div>`;
+  }
+
+  // 정렬 가능한 단지 표
+  function complexTable(list, id) {
+    const key = openTable.key || "price", dir = openTable.dir || -1;
+    const getv = { price: (c) => val(c).price, yoy: (c) => val(c).yoy, n: (c) => val(c).n, age: (c) => c.age, ppa: (c) => val(c).ppa };
+    const rows = list.filter(passes).sort((a, b) => { const x = getv[key](a), y = getv[key](b); return x == null ? 1 : y == null ? -1 : (x - y) * dir; }).slice(0, 150);
+    const th = (k, l, r) => `<th class="${r ? "r" : ""}"><button data-sort="${k}" data-tid="${id}">${l}${key === k ? (dir > 0 ? " ▲" : " ▼") : ""}</button></th>`;
+    return `<div style="overflow:auto;max-height:55vh"><table><thead><tr><th>단지</th>${th("price", st.band === "all" ? "84환산" : "중앙값", 1)}${th("ppa", "3.3㎡당", 1)}${th("yoy", "1년", 1)}${th("n", "거래", 1)}${th("age", "연식", 1)}</tr></thead><tbody>${
+      rows.map((c) => { const v = val(c); return `<tr class="click" data-cid="${esc(c.id)}"><td>${esc(c.name.length > 12 ? c.name.slice(0, 12) + "…" : c.name)}<div class="note">${esc(c.dong || "")}</div></td><td class="r num"><b>${eokShort(v.price)}</b></td><td class="r num">${v.ppa ? (v.ppa / 1000).toFixed(1) + "천" : "-"}</td><td class="r num ${cls(v.yoy)}">${pct(v.yoy)}</td><td class="r num">${v.n}</td><td class="r num">${c.age ?? "-"}</td></tr>`; }).join("")
+    }</tbody></table></div>${rows.length >= 150 ? `<p class="note">상위 150곳만 표시</p>` : ""}`;
+  }
+  function openTable() {}
+  function bindTable(rerender) {
+    document.querySelectorAll("[data-sort]").forEach((b) => b.addEventListener("click", () => {
+      const k = b.dataset.sort; openTable.dir = openTable.key === k ? -(openTable.dir || -1) : (k === "age" ? 1 : -1); openTable.key = k; rerender();
+    }));
+    document.querySelectorAll("[data-cid]").forEach((r) => r.addEventListener("click", () => openComplex(r.dataset.cid, true)));
+  }
+
+  function areaStats(x) {
+    return `<div class="grid">
+      ${stat("84㎡ 환산 (12개월)", eok(x.std84), "전용㎡당 중앙값 × 84.9")}
+      ${stat("전용 3.3㎡당", x.ppa12 ? `${x.ppa12.toLocaleString()}만` : "-", "12개월 중앙값")}
+      ${stat("1년 변동", pct(x.yoy), x.yoy == null ? `같은 단지 비교 가능 ${x.yoy_cx ?? 0}곳(5곳 필요)` : `같은 단지 ${x.yoy_cx}곳 기준`, cls(x.yoy))}
+      ${stat("거래량 (12개월)", `${x.n12.toLocaleString()}건`, x.vol_chg == null ? "" : `직전 12개월 대비 ${pct(x.vol_chg)}`, "")}
+    </div>`;
+  }
+  function openGu(gu) {
+    const g = D.gus.find((x) => x.gu === gu); if (!g) return;
+    history.replaceState(null, "", "#g=" + encodeURIComponent(gu));
+    if (g.lat && map.getZoom() < 12) map.flyTo([g.lat, g.lng], 13, { duration: .6 });
+    const list = D.complexes.filter((c) => c.gu === gu);
+    const r = () => { openPanel(`<h2>${esc(g.label || g.gu)}</h2><div class="sub">${esc(g.region)} · 단지 ${list.length.toLocaleString()}곳 · 직거래 제외 실거래</div>`,
+      areaStats(g) + `<h3>가격 흐름</h3>${trend(g.series)}${longIndex(g.long)}<h3>단지 순위 <span class="note">(열을 눌러 정렬 · 위 면적·연식 필터 적용)</span></h3>${complexTable(list, "gu")}`, "gu"); bindTable(r); };
+    r();
+  }
+  function openDong(d) {
+    if (d.lat && map.getZoom() < 14) map.flyTo([d.lat, d.lng], 15, { duration: .6 });
+    const list = D.complexes.filter((c) => c.gu === d.gu && c.dong === d.dong);
+    const r = () => { openPanel(`<h2>${esc(d.dong)}</h2><div class="sub">${esc(d.gu)} · 단지 ${list.length}곳</div>`, areaStats(d) + `<h3>단지</h3>${complexTable(list, "dong")}`, "dong"); bindTable(r); };
+    r();
+  }
+  function openList() {
+    const b = map.getBounds();
+    const list = D.complexes.filter((c) => c.lat && b.contains([c.lat, c.lng]));
+    const r = () => { openPanel(`<h2>이 화면의 단지</h2><div class="sub">${list.filter(passes).length.toLocaleString()}곳 · 지도를 옮기고 다시 누르면 갱신</div>`, complexTable(list, "list"), "list"); bindTable(r); };
+    r();
+  }
+  $("#btn-list").addEventListener("click", openList);
+  $("#btn-me").addEventListener("click", () => {
+    if (!navigator.geolocation) return hint("이 브라우저는 위치를 지원하지 않습니다");
+    navigator.geolocation.getCurrentPosition((p) => map.flyTo([p.coords.latitude, p.coords.longitude], 15), () => hint("위치 권한이 없어요"), { timeout: 8000 });
+  });
+
+  // ------------------------------------------------------------ 검색
+  function bindSearch() {
+    const q = $("#q"), box = $("#sugg");
+    let items = [];
+    const run = () => {
+      const s = q.value.trim().replace(/\s/g, "");
+      if (!s) { box.style.display = "none"; return; }
+      const hit = (t) => t && t.replace(/\s/g, "").includes(s);
+      items = [
+        ...D.gus.filter((g) => hit(g.gu) || hit(g.label)).map((g) => ({ t: g.label || g.gu, sub: "구", go: () => openGu(g.gu) })),
+        ...D.dongs.filter((d) => hit(d.dong)).slice(0, 6).map((d) => ({ t: d.dong, sub: d.gu, go: () => openDong(d) })),
+        ...D.complexes.filter((c) => hit(c.name)).sort((a, b) => b.n24 - a.n24).slice(0, 12).map((c) => ({ t: c.name, sub: `${c.gu.replace(/^\S+시 /, "")} ${c.dong || ""}`, go: () => openComplex(c.id, true) })),
+      ].slice(0, 16);
+      box.innerHTML = items.length ? items.map((x, i) => `<button type="button" role="option" data-i="${i}"><span>${esc(x.t)}</span><small>${esc(x.sub)}</small></button>`).join("") : `<div class="note" style="padding:10px 12px">결과 없음</div>`;
+      box.style.display = "block";
+      box.querySelectorAll("button").forEach((b) => b.addEventListener("click", () => { items[+b.dataset.i].go(); box.style.display = "none"; q.blur(); }));
+    };
+    q.addEventListener("input", run);
+    q.addEventListener("keydown", (e) => { if (e.key === "Enter" && items[0]) { items[0].go(); box.style.display = "none"; q.blur(); } });
+    document.addEventListener("click", (e) => { if (!e.target.closest(".search")) box.style.display = "none"; });
+  }
+
+  // ------------------------------------------------------------ 시작
+  fetch("../data/market/summary.json", { cache: "no-cache" }).then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); }).then((data) => {
+    D = data; D.complexes.forEach(decode);
+    $("#load").remove();
+    renderChips(); initMap(); computeBreaks(); legend(); draw(); bindSearch();
+    const h = decodeURIComponent(location.hash.slice(1));
+    fetch("../data/catalysts.json", { cache: "no-cache" }).then((r) => r.json()).then((c) => { CAT = c.items || []; drawCat(); }).catch(() => {})
+      .then(() => { if (h.startsWith("c=")) openComplex(h.slice(2), true); else if (h.startsWith("g=")) openGu(h.slice(2)); });
+    window.addEventListener("resize", () => document.documentElement.style.setProperty("--top-h", $("#top").offsetHeight + "px"));
+  }).catch((e) => { $("#load").innerHTML = `시세 데이터가 아직 없습니다 (${esc(e.message)}).<br>다음 자동 갱신 뒤에 다시 열어 주세요. <a href="../">⌂ 첫 화면</a>`; });
+})();
+</script>
+</body>
+</html>

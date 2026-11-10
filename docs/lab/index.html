@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Quant Lab · ASAR Partners</title>
+<meta name="description" content="실거래가로 직접 돌려 보는 통계 도구: 변수 관계, 그룹 비교, 회귀 모형, 공간 통계">
+<meta name="theme-color" content="#0c2f29">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="../icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@500;800;900&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+/* Quant Lab(분석실): 첫 화면과 같은 색. 왼쪽에 '무엇을 볼지' 조작판, 오른쪽에 결과. 숫자는 고정폭. */
+:root {
+  --pine: #0c2f29; --grid: #2b5a50; --mint: #7fd8c2; --amber: #f0b04a;
+  --paper: #f2f4ef; --card: #fbfcfa; --ink: #14201c; --muted: #5f6d68; --line: #d3dbd5; --teal: #0e6b5b; --up: #c2372e; --down: #1f5fae;
+  --f-display: "Gothic A1", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --f-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --paper: #0f1614; --card: #151e1b; --ink: #e6ede9; --muted: #93a39d; --line: #26332f; --teal: #5fcdb4; --up: #ff8a7d; --down: #7fb4f5 } }
+:root[data-theme="dark"] { --paper: #0f1614; --card: #151e1b; --ink: #e6ede9; --muted: #93a39d; --line: #26332f; --teal: #5fcdb4; --up: #ff8a7d; --down: #7fb4f5 }
+* { box-sizing: border-box }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 15px/1.55 var(--f-body) }
+a { color: var(--teal) }
+header { background: var(--pine); color: #e9f3ef; padding: calc(env(safe-area-inset-top) + 14px) 0 14px }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 18px }
+header .wrap { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap }
+header a { color: #bcd3cb; text-decoration: none; font-size: .9rem }
+header a:hover, header a:focus-visible { color: #fff; text-decoration: underline }
+h1 { font: 900 1.6rem/1.1 var(--f-display); letter-spacing: -.03em; margin: 0 }
+header p { margin: 0; color: #9fbab1; font-size: .88rem; flex: 1 1 260px }
+nav.tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--line); margin: 14px 0 0; overflow-x: auto }
+nav.tabs button { font: 600 .95rem var(--f-body); background: none; border: 0; border-bottom: 3px solid transparent; color: var(--muted); padding: 10px 14px; cursor: pointer; white-space: nowrap }
+nav.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--teal) }
+.scopebar { display: flex; gap: 10px 16px; flex-wrap: wrap; align-items: center; padding: 12px 0 0; font-size: .88rem }
+label { color: var(--muted); display: inline-flex; gap: 6px; align-items: center }
+select, input[type=number] { font: 500 .9rem var(--f-body); color: var(--ink); background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 5px 8px; max-width: 100% }
+button.act { font: 600 .9rem var(--f-body); background: var(--teal); color: var(--paper); border: 0; border-radius: 6px; padding: 7px 14px; cursor: pointer }
+button.sub { font: 500 .85rem var(--f-body); background: var(--card); color: var(--ink); border: 1px solid var(--line); border-radius: 6px; padding: 5px 10px; cursor: pointer }
+button.sub[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink) }
+:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px }
+main { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 22px; padding: 18px 0 60px; align-items: start }
+aside { position: sticky; top: 10px; display: grid; gap: 12px }
+aside label { display: grid; gap: 4px; font-size: .84rem }
+aside .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center }
+aside .chk { display: flex; gap: 8px; align-items: center; color: var(--ink); font-size: .9rem }
+.out { min-width: 0 }
+.out h2 { font: 800 1.15rem var(--f-display); letter-spacing: -.02em; margin: 0 0 4px }
+.out h3 { font: 600 .95rem var(--f-body); margin: 22px 0 6px }
+.read { font-size: 1rem; margin: 6px 0 12px; max-width: 46em }
+.note { color: var(--muted); font-size: .82rem; max-width: 56em }
+.nums { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin: 10px 0 }
+.nums div { background: var(--card); padding: 9px 12px }
+.nums small { display: block; color: var(--muted); font-size: .76rem }
+.nums b { font: 500 1.08rem var(--f-mono) }
+svg.chart { width: 100%; height: auto; display: block; background: var(--card); border: 1px solid var(--line); border-radius: 8px }
+svg.chart text { font: 500 10px var(--f-mono); fill: var(--muted) }
+svg.chart circle.p { cursor: pointer }
+table { border-collapse: collapse; width: 100%; font-size: .87rem }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); white-space: nowrap }
+th { color: var(--muted); font-weight: 500; font-size: .78rem; position: sticky; top: 0; background: var(--paper) }
+td.r, th.r { text-align: right } td.num { font-family: var(--f-mono) }
+.tw { overflow: auto; max-height: 460px; border: 1px solid var(--line); border-radius: 8px }
+.box { position: relative; height: 10px; min-width: 140px; background: transparent }
+.box i { position: absolute; top: 2px; height: 6px; background: var(--teal); opacity: .35; border-radius: 3px }
+.box b { position: absolute; top: 0; width: 2px; height: 10px; background: var(--ink) }
+.up { color: var(--up) } .down { color: var(--down) }
+#map { height: 440px; border: 1px solid var(--line); border-radius: 8px; z-index: 0 }
+.leaflet-tile-pane { filter: saturate(.35) contrast(.95) brightness(1.04) }
+.legend { display: flex; gap: 10px; flex-wrap: wrap; font-size: .8rem; color: var(--muted); margin: 6px 0 }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 4px; vertical-align: -1px }
+[hidden] { display: none !important }
+@media (max-width: 860px) { main { grid-template-columns: 1fr } aside { position: static; grid-template-columns: 1fr 1fr } aside .wide { grid-column: 1 / -1 } #map { height: 340px } }
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <a href="../">⌂ 홈</a>
+  <h1>Quant Lab <span style="font:500 .9rem var(--f-body);color:#9fbab1;letter-spacing:0">분석실</span></h1>
+  <p>국토교통부 실거래가(직거래·해제·이상치 제외)로 직접 돌려 보는 통계 도구. 모든 계산은 이 화면에서 바로 이뤄집니다.</p>
+  <a href="../market/">실거래가 분석 지도</a>
+</div></header>
+
+<div class="wrap">
+  <div class="scopebar">
+    <label>대상 지역 <select id="area"></select></label>
+    <label>연식 <select id="age"><option value="99">전체</option><option value="5">5년 이하</option><option value="10">10년 이하</option><option value="20">20년 이하</option><option value="-20">20년 초과</option></select></label>
+    <label>12개월 거래 <select id="minn"><option value="2">2건 이상</option><option value="5" selected>5건 이상</option><option value="10">10건 이상</option></select></label>
+    <label class="chk"><input type="checkbox" id="exact" checked> 위치가 정확한 단지만</label>
+    <span class="note" id="count"></span>
+  </div>
+  <nav class="tabs" role="tablist">
+    <button role="tab" data-tab="rel" aria-selected="true">변수 관계</button>
+    <button role="tab" data-tab="grp" aria-selected="false">그룹 비교</button>
+    <button role="tab" data-tab="reg" aria-selected="false">회귀 모형</button>
+    <button role="tab" data-tab="geo" aria-selected="false">공간 통계</button>
+    <button role="tab" data-tab="how" aria-selected="false">방법 설명</button>
+  </nav>
+
+  <main>
+    <aside id="side"></aside>
+    <section class="out" id="out"><p class="note">자료를 불러오는 중…</p></section>
+  </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+(() => {
+  "use strict";
+  const $ = (s) => document.querySelector(s);
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const YEAR = new Date().getFullYear();
+  const REFS = { "강남역": [37.4979, 127.0276], "서울시청": [37.5663, 126.9779], "여의도역": [37.5216, 126.9242], "판교역": [37.3948, 127.1112] };
+  const S = { tab: "rel", x: "age", y: "ppa", lx: false, ly: true, gv: "ppa", gby: "gu", ref: [...REFS["강남역"]], refName: "강남역", radius: 1.5,
+              sv: "ppa", tool: "radius", k: 8, bw: 1, reg: { age: true, age2: true, dist: true, lvol: false, gu: true }, model: null };
+  let D, ALL = [], map, layer, refLayer;
+
+  // ---------------------------------------------------------------- 수학
+  const med = (a) => { if (!a.length) return null; const s = [...a].sort((x, y) => x - y), m = s.length >> 1; return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; };
+  const qtl = (a, p) => { if (!a.length) return null; const s = [...a].sort((x, y) => x - y), i = (s.length - 1) * p, lo = Math.floor(i); return s[lo] + (s[Math.min(lo + 1, s.length - 1)] - s[lo]) * (i - lo); };
+  const mean = (a) => a.reduce((s, v) => s + v, 0) / a.length;
+  const sd = (a) => { const m = mean(a); return Math.sqrt(a.reduce((s, v) => s + (v - m) ** 2, 0) / Math.max(1, a.length - 1)); };
+  const km = (a, b, c, d) => { const x = (d - b) * Math.cos((a + c) * Math.PI / 360) * 111.32, y = (c - a) * 110.57; return Math.hypot(x, y); };
+  const rank = (a) => { const o = a.map((v, i) => [v, i]).sort((p, q) => p[0] - q[0]), r = Array(a.length); for (let i = 0; i < o.length;) { let j = i; while (j < o.length && o[j][0] === o[i][0]) j++; for (let k = i; k < j; k++) r[o[k][1]] = (i + j - 1) / 2 + 1; i = j; } return r; };
+  const pnorm = (z) => { const t = 1 / (1 + .2316419 * Math.abs(z)), d = .3989423 * Math.exp(-z * z / 2); const p = d * t * (.3193815 + t * (-.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274)))); return z > 0 ? 1 - p : p; };
+  const p2 = (z) => 2 * (1 - pnorm(Math.abs(z)));
+  function ols1(x, y) {
+    const n = x.length, mx = mean(x), my = mean(y); let sxx = 0, sxy = 0, syy = 0;
+    for (let i = 0; i < n; i++) { sxx += (x[i] - mx) ** 2; sxy += (x[i] - mx) * (y[i] - my); syy += (y[i] - my) ** 2; }
+    const b = sxy / sxx, a = my - b * mx, r = sxy / Math.sqrt(sxx * syy), se = Math.sqrt((syy - b * sxy) / (n - 2) / sxx);
+    return { a, b, r, r2: r * r, n, t: b / se };
+  }
+  // 다중 회귀: 정규방정식 (X'X)β = X'y 를 가우스-조르당으로 풀고 역행렬에서 표준오차를 얻음
+  function olsN(X, y) {
+    const n = X.length, p = X[0].length, A = Array.from({ length: p }, () => new Float64Array(2 * p));
+    const b = new Float64Array(p);
+    for (let i = 0; i < n; i++) { const r = X[i]; for (let j = 0; j < p; j++) { b[j] += r[j] * y[i]; for (let k = j; k < p; k++) A[j][k] += r[j] * r[k]; } }
+    for (let j = 0; j < p; j++) { for (let k = 0; k < j; k++) A[j][k] = A[k][j]; A[j][p + j] = 1; }
+    for (let c = 0; c < p; c++) {
+      let piv = c; for (let r = c + 1; r < p; r++) if (Math.abs(A[r][c]) > Math.abs(A[piv][c])) piv = r;
+      if (Math.abs(A[piv][c]) < 1e-10) return null;
+      [A[c], A[piv]] = [A[piv], A[c]];
+      const d = A[c][c]; for (let k = 0; k < 2 * p; k++) A[c][k] /= d;
+      for (let r = 0; r < p; r++) if (r !== c) { const f = A[r][c]; if (f) for (let k = 0; k < 2 * p; k++) A[r][k] -= f * A[c][k]; }
+    }
+    const beta = Array(p).fill(0); for (let j = 0; j < p; j++) for (let k = 0; k < p; k++) beta[j] += A[j][p + k] * b[k];
+    const my = mean(y); let sse = 0, sst = 0; const res = new Float64Array(n);
+    for (let i = 0; i < n; i++) { let f = 0; for (let j = 0; j < p; j++) f += X[i][j] * beta[j]; res[i] = y[i] - f; sse += res[i] ** 2; sst += (y[i] - my) ** 2; }
+    const s2 = sse / (n - p), se = beta.map((_, j) => Math.sqrt(s2 * A[j][p + j]));
+    return { beta, se, res, r2: 1 - sse / sst, adj: 1 - (sse / (n - p)) / (sst / (n - 1)), rmse: Math.sqrt(s2), n, p };
+  }
+  // k-최근접 이웃(행 표준화 가중치)
+  function knn(pts, k) {
+    return pts.map((a, i) => {
+      const d = []; for (let j = 0; j < pts.length; j++) if (j !== i) d.push([km(a.lat, a.lng, pts[j].lat, pts[j].lng), j]);
+      d.sort((p, q) => p[0] - q[0]); return d.slice(0, k).map((x) => x[1]);
+    });
+  }
+  // 모란 I(전역) + 무작위 순열 검정, 국지 모란(LISA) + 조건부 순열
+  function moran(vals, nb, perms = 199) {
+    const n = vals.length, m = mean(vals), z = vals.map((v) => v - m), s2 = z.reduce((s, v) => s + v * v, 0) / n, k = nb[0].length;
+    const I = (zz) => { let num = 0; for (let i = 0; i < n; i++) { let l = 0; for (const j of nb[i]) l += zz[j]; num += zz[i] * l / k; } return num / (n * s2); };
+    const obs = I(z), sim = [];
+    const zz = [...z];
+    for (let t = 0; t < perms; t++) { for (let i = n - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [zz[i], zz[j]] = [zz[j], zz[i]]; } sim.push(I(zz)); }
+    const ms = mean(sim), ss = sd(sim), ge = sim.filter((v) => Math.abs(v - ms) >= Math.abs(obs - ms)).length;
+    const lag = z.map((_, i) => nb[i].reduce((s, j) => s + z[j], 0) / k);
+    const local = z.map((zi, i) => {
+      const li = zi * lag[i]; let more = 0;
+      for (let t = 0; t < 99; t++) { let l = 0; for (let q = 0; q < k; q++) { let j = Math.floor(Math.random() * (n - 1)); if (j >= i) j++; l += z[j]; } if (Math.abs(zi * l / k) >= Math.abs(li)) more++; }
+      const p = (more + 1) / 100;
+      return { p, type: p > .05 ? "ns" : zi > 0 ? (lag[i] > 0 ? "HH" : "HL") : (lag[i] > 0 ? "LH" : "LL") };
+    });
+    return { I: obs, E: -1 / (n - 1), z: (obs - ms) / ss, p: (ge + 1) / (perms + 1), local, n };
+  }
+
+  // ---------------------------------------------------------------- 변수
+  const VARS = {
+    ppa: { name: "전용 3.3㎡당 가격", unit: "만원", get: (c) => c.ppa12, fmt: (v) => Math.round(v).toLocaleString() },
+    std84: { name: "84㎡ 환산 가격", unit: "억", get: (c) => c.std84 ? c.std84 / 10000 : null, fmt: (v) => v.toFixed(2) },
+    age: { name: "연식", unit: "년", get: (c) => c.by ? YEAR - c.by : null, fmt: (v) => v.toFixed(0) },
+    by: { name: "준공 연도", unit: "년", get: (c) => c.by || null, fmt: (v) => v.toFixed(0) },
+    yoy: { name: "1년 변동률", unit: "%", get: (c) => c.yoy, fmt: (v) => v.toFixed(1) },
+    cagr: { name: "준공 이후 연평균 상승률", unit: "%", get: (c) => c.hist ? c.hist[2] : null, fmt: (v) => v.toFixed(1) },
+    since: { name: "준공 이후 누적 상승률", unit: "%", get: (c) => c.hist ? c.hist[1] : null, fmt: (v) => v.toFixed(0) },
+    ath: { name: "역대 최고 대비", unit: "%", get: (c) => c.hist ? c.hist[3] : null, fmt: (v) => v.toFixed(1) },
+    mdd: { name: "최대 낙폭", unit: "%", get: (c) => c.hist && c.hist[4] ? c.hist[4][0] : null, fmt: (v) => v.toFixed(1) },
+    n12: { name: "12개월 거래 건수", unit: "건", get: (c) => c.n12, fmt: (v) => v.toFixed(0) },
+    dist: { name: () => `${S.refName}까지 거리`, unit: "km", get: (c) => c.lat ? km(c.lat, c.lng, S.ref[0], S.ref[1]) : null, fmt: (v) => v.toFixed(1) },
+    prem: { name: "주변 1km 대비 프리미엄", unit: "%", get: (c) => c._prem, fmt: (v) => v.toFixed(1) },
+    resid: { name: "회귀 모형 잔차", unit: "%", get: (c) => c._res ?? null, fmt: (v) => v.toFixed(1) },
+  };
+  const vname = (k) => typeof VARS[k].name === "function" ? VARS[k].name() : VARS[k].name;
+  const varOpts = (sel, keys = Object.keys(VARS)) => keys.filter((k) => k !== "resid" || S.model).map((k) => `<option value="${k}" ${k === sel ? "selected" : ""}>${esc(vname(k))} (${VARS[k].unit})</option>`).join("");
+
+  function scope() {
+    const a = $("#area").value, age = +$("#age").value, mn = +$("#minn").value, ex = $("#exact").checked;
+    return ALL.filter((c) => (a === "all" || (a.startsWith("r:") ? c.region === a.slice(2) : c.gu === a)) && c.n12 >= mn && c.ppa12
+      && (!ex || c.geo === "exact") && c.lat
+      && (age === 99 || (c.by && (age > 0 ? YEAR - c.by <= age : YEAR - c.by > -age))));
+  }
+  // 주변 프리미엄: 반경 1km 안 다른 단지(3곳 이상)의 3.3㎡당 중앙값 대비
+  function premiums() {
+    const pts = ALL.filter((c) => c.lat && c.ppa12 && c.geo === "exact");
+    const cell = (c) => `${Math.floor(c.lat / .01)}:${Math.floor(c.lng / .0125)}`, grid = {};
+    pts.forEach((c) => (grid[cell(c)] ||= []).push(c));
+    pts.forEach((c) => {
+      const gx = Math.floor(c.lat / .01), gy = Math.floor(c.lng / .0125), near = [];
+      for (let i = -1; i <= 1; i++) for (let j = -1; j <= 1; j++) for (const o of grid[`${gx + i}:${gy + j}`] || []) if (o !== c && km(c.lat, c.lng, o.lat, o.lng) <= 1) near.push(o.ppa12);
+      c._prem = near.length >= 3 ? (c.ppa12 / med(near) - 1) * 100 : null; c._nn = near.length;
+    });
+  }
+
+  // ---------------------------------------------------------------- 그림
+  function scatterSvg(pts, o) {
+    const W = 760, H = 420, P = { l: 58, r: 14, t: 14, b: 38 };
+    const tx = (v) => o.lx ? Math.log10(v) : v, ty = (v) => o.ly ? Math.log10(v) : v;
+    const xs = pts.map((p) => tx(p.x)), ys = pts.map((p) => ty(p.y));
+    let x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
+    const px = (x1 - x0) * .04 || 1, py = (y1 - y0) * .06 || 1; x0 -= px; x1 += px; y0 -= py; y1 += py;
+    const X = (v) => P.l + (v - x0) / (x1 - x0) * (W - P.l - P.r), Y = (v) => H - P.b - (v - y0) / (y1 - y0) * (H - P.t - P.b);
+    const lab = (v, lg, f) => f(lg ? 10 ** v : v);
+    // 눈금: 보통 축은 1·2·5 단위의 깔끔한 수, 로그 축은 1·2·5 × 10ⁿ
+    const ticks = (lo, hi, lg) => {
+      const out = [];
+      if (lg) { for (let e = Math.floor(lo); e <= Math.ceil(hi); e++) for (const m of [1, 2, 5]) { const t = e + Math.log10(m); if (t >= lo && t <= hi) out.push(t); } if (out.length >= 2) return out; }
+      const raw = (hi - lo) / 5, mag = 10 ** Math.floor(Math.log10(raw)), step = [1, 2, 5, 10].map((m) => m * mag).find((s) => s >= raw);
+      for (let t = Math.ceil(lo / step) * step; t <= hi + 1e-9; t += step) out.push(t);
+      return out;
+    };
+    const tl = (t, lg, f) => { const v = lg ? 10 ** t : t; return Math.abs(v) >= 100 || Number.isInteger(+v.toFixed(6)) ? Math.round(v).toLocaleString() : f(v); };
+    let g = "";
+    ticks(x0, x1, o.lx).forEach((vx) => { g += `<line x1="${X(vx)}" x2="${X(vx)}" y1="${P.t}" y2="${H - P.b}" stroke="var(--line)"/><text x="${X(vx)}" y="${H - P.b + 14}" text-anchor="middle">${tl(vx, o.lx, o.fx)}</text>`; });
+    ticks(y0, y1, o.ly).forEach((vy) => { g += `<line x1="${P.l}" x2="${W - P.r}" y1="${Y(vy)}" y2="${Y(vy)}" stroke="var(--line)"/><text x="${P.l - 6}" y="${Y(vy) + 3}" text-anchor="end">${tl(vy, o.ly, o.fy)}</text>`; });
+    const dots = pts.map((p) => `<circle class="p" data-id="${esc(p.c.id)}" cx="${X(tx(p.x)).toFixed(1)}" cy="${Y(ty(p.y)).toFixed(1)}" r="3" fill="var(--teal)" fill-opacity=".42"><title>${esc(p.c.name)} (${esc(p.c.gu)} ${esc(p.c.dong || "")})\n${esc(o.xl)} ${o.fx(p.x)} · ${esc(o.yl)} ${o.fy(p.y)}</title></circle>`).join("");
+    let line = "";
+    if (o.fit) line = `<line x1="${X(x0 + px)}" y1="${Y(o.fit.a + o.fit.b * (x0 + px))}" x2="${X(x1 - px)}" y2="${Y(o.fit.a + o.fit.b * (x1 - px))}" stroke="var(--up)" stroke-width="2"/>`;
+    let bins = "";
+    if (o.bins) bins = `<polyline fill="none" stroke="var(--ink)" stroke-width="2" points="${o.bins.map((b) => `${X(tx(b[0])).toFixed(1)},${Y(ty(b[1])).toFixed(1)}`).join(" ")}"/>` + o.bins.map((b) => `<circle cx="${X(tx(b[0])).toFixed(1)}" cy="${Y(ty(b[1])).toFixed(1)}" r="3.5" fill="var(--ink)"><title>${o.fx(b[0])} 부근 중앙값 ${o.fy(b[1])} · ${b[2]}곳</title></circle>`).join("");
+    return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(o.xl)}와 ${esc(o.yl)}의 산점도">${g}${dots}${line}${bins}
+      <text x="${(W + P.l) / 2}" y="${H - 6}" text-anchor="middle">${esc(o.xl)}${o.lx ? " (로그 눈금)" : ""}</text>
+      <text transform="translate(12 ${H / 2}) rotate(-90)" text-anchor="middle">${esc(o.yl)}${o.ly ? " (로그 눈금)" : ""}</text></svg>`;
+  }
+  const binned = (pts, nb = 10) => {
+    const s = [...pts].sort((a, b) => a.x - b.x), out = [], sz = Math.max(8, Math.ceil(s.length / nb));
+    for (let i = 0; i < s.length; i += sz) { const g = s.slice(i, i + sz); if (g.length >= 5) out.push([med(g.map((p) => p.x)), med(g.map((p) => p.y)), g.length]); }
+    return out;
+  };
+  const num = (label, v, sub) => `<div><small>${label}</small><b>${v}</b>${sub ? `<small>${sub}</small>` : ""}</div>`;
+  const sgn = (v, d = 1) => v == null ? "-" : `${v > 0 ? "+" : ""}${v.toFixed(d)}`;
+  const pTxt = (p) => p < .001 ? "0.001 미만" : p.toFixed(3);
+  const strength = (r) => { const a = Math.abs(r); return a < .1 ? "거의 없음" : a < .3 ? "약함" : a < .5 ? "보통" : a < .7 ? "뚜렷함" : "매우 강함"; };
+  const bindDots = () => document.querySelectorAll("circle.p, tr[data-id]").forEach((el) => el.addEventListener("click", () => { location.href = "../market/#c=" + encodeURIComponent(el.dataset.id); }));
+  const refPicker = () => `<label class="wide">기준점 <select id="ref">${Object.keys(REFS).map((k) => `<option ${k === S.refName ? "selected" : ""}>${k}</option>`).join("")}${S.refName in REFS ? "" : `<option selected>${esc(S.refName)}</option>`}</select></label>`;
+  const bindRef = () => $("#ref")?.addEventListener("change", (e) => { if (REFS[e.target.value]) { S.refName = e.target.value; S.ref = [...REFS[S.refName]]; render(); } });
+
+  // ---------------------------------------------------------------- 1) 변수 관계
+  function tabRel(cs) {
+    $("#side").innerHTML = `
+      <label>가로축 <select id="vx">${varOpts(S.x)}</select></label>
+      <label>세로축 <select id="vy">${varOpts(S.y)}</select></label>
+      <label class="chk"><input type="checkbox" id="lx" ${S.lx ? "checked" : ""}> 가로축 로그</label>
+      <label class="chk"><input type="checkbox" id="ly" ${S.ly ? "checked" : ""}> 세로축 로그 (기울기를 %로 읽음)</label>
+      ${S.x === "dist" || S.y === "dist" ? refPicker() : ""}
+      <p class="note wide">점 하나가 단지 하나. 누르면 실거래가 분석 지도에서 그 단지를 엽니다.</p>`;
+    ["vx", "vy"].forEach((id, i) => $("#" + id).addEventListener("change", (e) => { S[i ? "y" : "x"] = e.target.value; render(); }));
+    ["lx", "ly"].forEach((id) => $("#" + id).addEventListener("change", (e) => { S[id] = e.target.checked; render(); }));
+    bindRef();
+    const gx = VARS[S.x], gy = VARS[S.y];
+    const pts = cs.map((c) => ({ c, x: gx.get(c), y: gy.get(c) })).filter((p) => p.x != null && p.y != null && isFinite(p.x) && isFinite(p.y) && (!S.lx || p.x > 0) && (!S.ly || p.y > 0));
+    if (pts.length < 10) { $("#out").innerHTML = `<p class="read">조건에 맞는 단지가 ${pts.length}곳뿐이라 계산하지 않았어요. 대상 지역을 넓히거나 거래 건수 조건을 낮춰 보세요.</p>`; return; }
+    const tx = pts.map((p) => S.lx ? Math.log10(p.x) : p.x), ty = pts.map((p) => S.ly ? Math.log10(p.y) : p.y);
+    const f = ols1(tx, ty), rho = ols1(rank(pts.map((p) => p.x)), rank(pts.map((p) => p.y))).r;
+    let slope;
+    if (S.ly && !S.lx) slope = `${vname(S.x)}이(가) 1${gx.unit} 늘 때 ${vname(S.y)} ${sgn((10 ** f.b - 1) * 100)}%`;
+    else if (S.ly && S.lx) slope = `${vname(S.x)}이(가) 1% 늘 때 ${vname(S.y)} ${sgn(f.b, 2)}% (탄력성)`;
+    else if (!S.ly && S.lx) slope = `${vname(S.x)}이(가) 2배가 될 때 ${vname(S.y)} ${sgn(f.b * Math.log10(2), 2)}${gy.unit}`;
+    else slope = `${vname(S.x)}이(가) 1${gx.unit} 늘 때 ${vname(S.y)} ${sgn(f.b, 2)}${gy.unit}`;
+    $("#out").innerHTML = `<h2>${esc(vname(S.x))} × ${esc(vname(S.y))}</h2>
+      <p class="read">관계의 세기는 <b>${strength(rho)}</b>(순위 상관 ${rho.toFixed(2)}). 직선으로 요약하면 ${esc(slope)}.</p>
+      ${scatterSvg(pts, { lx: S.lx, ly: S.ly, fx: gx.fmt, fy: gy.fmt, xl: `${vname(S.x)} (${gx.unit})`, yl: `${vname(S.y)} (${gy.unit})`, fit: f, bins: binned(pts) })}
+      <div class="legend"><span><i style="background:var(--up);border-radius:0;height:3px;width:16px;vertical-align:3px"></i>회귀 직선</span><span><i style="background:var(--ink)"></i>구간별 중앙값(직선이 아닌 모양을 보려고)</span></div>
+      <div class="nums">${num("단지 수", f.n.toLocaleString())}${num("피어슨 상관 r", f.r.toFixed(3))}${num("스피어만 순위 상관", rho.toFixed(3))}${num("설명력 R²", f.r2.toFixed(3))}${num("기울기 t값", f.t.toFixed(1), `p ${pTxt(p2(f.t))}`)}</div>
+      <p class="note">상관은 인과가 아닙니다. 예: 연식과 가격의 관계에는 입지(오래된 단지가 도심에 많음)와 재건축 기대가 섞여 있어요. 다른 조건을 붙잡고 보려면 '회귀 모형' 탭을 쓰세요.</p>`;
+    bindDots();
+  }
+
+  // ---------------------------------------------------------------- 2) 그룹 비교
+  const AGEB = (c) => { const a = c.by ? YEAR - c.by : null; return a == null ? null : a <= 5 ? "① 5년 이하" : a <= 10 ? "② 6~10년" : a <= 20 ? "③ 11~20년" : a <= 30 ? "④ 21~30년" : "⑤ 30년 초과"; };
+  const GROUPS = { gu: ["시·군·구", (c) => c.gu], dong: ["동", (c) => `${c.gu.split(" ").pop()} ${c.dong}`], age: ["연식대", AGEB], region: ["시·도", (c) => c.region],
+                   ring: [() => `${S.refName}에서 거리`, (c) => { const d = km(c.lat, c.lng, S.ref[0], S.ref[1]); return d < 3 ? "① 3km 안" : d < 6 ? "② 3~6km" : d < 10 ? "③ 6~10km" : d < 20 ? "④ 10~20km" : "⑤ 20km 밖"; }] };
+  function tabGrp(cs) {
+    const gl = (k) => typeof GROUPS[k][0] === "function" ? GROUPS[k][0]() : GROUPS[k][0];
+    $("#side").innerHTML = `
+      <label>볼 값 <select id="gv">${varOpts(S.gv)}</select></label>
+      <label>묶는 기준 <select id="gby">${Object.keys(GROUPS).map((k) => `<option value="${k}" ${k === S.gby ? "selected" : ""}>${esc(gl(k))}</option>`).join("")}</select></label>
+      ${S.gby === "ring" || S.gv === "dist" ? refPicker() : ""}
+      <p class="note wide">막대 = 가운데 절반(25~75%)이 놓인 범위, 세로선 = 중앙값. 단지 5곳 미만인 그룹은 뺍니다.</p>`;
+    $("#gv").addEventListener("change", (e) => { S.gv = e.target.value; render(); });
+    $("#gby").addEventListener("change", (e) => { S.gby = e.target.value; render(); });
+    bindRef();
+    const v = VARS[S.gv], by = {};
+    cs.forEach((c) => { const g = GROUPS[S.gby][1](c), x = v.get(c); if (g != null && x != null && isFinite(x)) (by[g] ||= []).push(x); });
+    let rows = Object.entries(by).filter(([, a]) => a.length >= 5).map(([g, a]) => ({ g, n: a.length, med: med(a), q1: qtl(a, .25), q3: qtl(a, .75), mean: mean(a), sd: sd(a), lo: qtl(a, .05), hi: qtl(a, .95) }));
+    const ordered = S.gby === "age" || S.gby === "ring";
+    rows.sort((a, b) => ordered ? a.g.localeCompare(b.g) : b.med - a.med);
+    if (!rows.length) { $("#out").innerHTML = `<p class="read">조건에 맞는 그룹이 없어요.</p>`; return; }
+    const lo = Math.min(...rows.map((r) => r.q1)), hi = Math.max(...rows.map((r) => r.q3)), W = (x) => ((x - lo) / (hi - lo || 1) * 100).toFixed(1);
+    // 그룹 사이 차이가 전체 흩어짐의 얼마를 설명하는지(η², 분산분석의 설명 비율)
+    const all = rows.flatMap((r) => by[r.g]), gm = mean(all), sst = all.reduce((s, x) => s + (x - gm) ** 2, 0), ssb = rows.reduce((s, r) => s + r.n * (r.mean - gm) ** 2, 0);
+    $("#out").innerHTML = `<h2>${esc(gl(S.gby))}별 ${esc(vname(S.gv))}</h2>
+      <p class="read">${esc(gl(S.gby))}만 알아도 ${esc(vname(S.gv))} 차이의 <b>${(ssb / sst * 100).toFixed(0)}%</b>가 설명됩니다(그룹 ${rows.length}개, 단지 ${all.length.toLocaleString()}곳).</p>
+      <div class="tw"><table><thead><tr><th>${esc(gl(S.gby))}</th><th class="r">단지</th><th class="r">중앙값</th><th>25~75% 범위</th><th class="r">25%</th><th class="r">75%</th><th class="r">평균</th><th class="r">표준편차</th></tr></thead><tbody>${
+        rows.slice(0, 120).map((r) => `<tr><td>${esc(r.g)}</td><td class="r num">${r.n}</td><td class="r num"><b>${v.fmt(r.med)}</b></td>
+          <td><div class="box"><i style="left:${W(r.q1)}%;width:${Math.max(1, W(r.q3) - W(r.q1))}%"></i><b style="left:${W(r.med)}%"></b></div></td>
+          <td class="r num">${v.fmt(r.q1)}</td><td class="r num">${v.fmt(r.q3)}</td><td class="r num">${v.fmt(r.mean)}</td><td class="r num">${v.fmt(r.sd)}</td></tr>`).join("")
+      }</tbody></table></div><p class="note">단위: ${v.unit}. 설명 비율은 분산분석의 η²(그룹 간 제곱합 ÷ 전체 제곱합)입니다.</p>`;
+  }
+
+  // ---------------------------------------------------------------- 3) 회귀 모형(헤도닉)
+  function tabReg(cs) {
+    const R = S.reg;
+    $("#side").innerHTML = `
+      <p class="note wide" style="margin:0">설명할 값: 전용 3.3㎡당 가격(로그). 계수를 '다른 조건이 같을 때 몇 % 차이'로 읽습니다.</p>
+      <label class="chk"><input type="checkbox" data-r="age" ${R.age ? "checked" : ""}> 연식</label>
+      <label class="chk"><input type="checkbox" data-r="age2" ${R.age2 ? "checked" : ""}> 연식² (오래되면 다시 오르는 재건축 효과)</label>
+      <label class="chk"><input type="checkbox" data-r="dist" ${R.dist ? "checked" : ""}> 기준점까지 거리</label>
+      <label class="chk"><input type="checkbox" data-r="lvol" ${R.lvol ? "checked" : ""}> 거래량(로그)</label>
+      <label class="chk"><input type="checkbox" data-r="gu" ${R.gu ? "checked" : ""}> 시·군·구 고정효과</label>
+      ${refPicker()}`;
+    document.querySelectorAll("[data-r]").forEach((el) => el.addEventListener("change", () => { R[el.dataset.r] = el.checked; render(); }));
+    bindRef();
+    const use = cs.filter((c) => c.by && c.ppa12 > 0);
+    const gus = [...new Set(use.map((c) => c.gu))].sort(), names = ["(기준값)"];
+    if (R.age) names.push("연식 1년"); if (R.age2) names.push("연식² (10년 단위)"); if (R.dist) names.push(`${S.refName}에서 1km`); if (R.lvol) names.push("거래량 2배");
+    const fe = R.gu && gus.length > 1 ? gus.slice(1) : []; fe.forEach((g) => names.push(`${g} (vs ${gus[0]})`));
+    if (use.length < names.length * 5 || names.length < 2) { $("#out").innerHTML = `<p class="read">변수를 하나 이상 고르고, 단지가 충분한 지역을 선택하세요(지금 ${use.length}곳).</p>`; return; }
+    const X = use.map((c) => { const a = YEAR - c.by, r = [1]; if (R.age) r.push(a); if (R.age2) r.push(a * a / 100); if (R.dist) r.push(km(c.lat, c.lng, S.ref[0], S.ref[1])); if (R.lvol) r.push(Math.log2(Math.max(1, c.n12))); fe.forEach((g) => r.push(c.gu === g ? 1 : 0)); return r; });
+    const m = olsN(X, use.map((c) => Math.log(c.ppa12)));
+    if (!m) { $("#out").innerHTML = `<p class="read">이 조합은 풀 수 없어요(변수끼리 완전히 겹침). 변수를 하나 빼 보세요.</p>`; return; }
+    ALL.forEach((c) => delete c._res); use.forEach((c, i) => { c._res = (Math.exp(m.res[i]) - 1) * 100; }); S.model = true;
+    const core = names.map((n, j) => ({ n, b: m.beta[j], t: m.beta[j] / m.se[j], j })).filter((r) => r.j > 0);
+    const main = core.filter((r) => r.j <= names.length - fe.length - 1), fes = core.filter((r) => r.j > names.length - fe.length - 1).sort((a, b) => b.b - a.b);
+    const row = (r) => `<tr><td>${esc(r.n)}</td><td class="r num ${r.b > 0 ? "up" : "down"}">${sgn((Math.exp(r.b) - 1) * 100)}%</td><td class="r num">${r.t.toFixed(1)}</td><td class="r num">${pTxt(p2(r.t))}</td></tr>`;
+    const sorted = use.map((c) => c).sort((a, b) => a._res - b._res);
+    const lst = (arr) => arr.map((c) => `<tr data-id="${esc(c.id)}" style="cursor:pointer"><td>${esc(c.name)}</td><td>${esc(c.gu.split(" ").pop())} ${esc(c.dong || "")}</td><td class="r num">${YEAR - c.by}년</td><td class="r num">${Math.round(c.ppa12).toLocaleString()}</td><td class="r num ${c._res > 0 ? "up" : "down"}">${sgn(c._res)}%</td></tr>`).join("");
+    let turn = "";
+    if (R.age && R.age2) { const ba = m.beta[1], b2 = m.beta[2]; if (b2 > 0 && ba < 0) turn = ` 연식 효과는 약 <b>${(-ba / (2 * b2 / 100)).toFixed(0)}년차</b>에서 바닥을 찍고 다시 오릅니다(재건축 기대).`; }
+    $("#out").innerHTML = `<h2>헤도닉 회귀: 가격을 조건별로 나눠 보기</h2>
+      <p class="read">고른 조건들이 단지 간 가격 차이의 <b>${(m.r2 * 100).toFixed(0)}%</b>를 설명합니다. 모형이 맞히지 못한 나머지(잔차)의 전형적인 크기는 ±${((Math.exp(m.rmse) - 1) * 100).toFixed(0)}%.${turn}</p>
+      <div class="nums">${num("단지 수", m.n.toLocaleString())}${num("R²", m.r2.toFixed(3))}${num("수정 R²", m.adj.toFixed(3))}${num("변수 수", m.p - 1)}</div>
+      <h3>조건별 효과 <span class="note">(다른 조건이 같을 때)</span></h3>
+      <div class="tw"><table><thead><tr><th>조건</th><th class="r">가격 차이</th><th class="r">t값</th><th class="r">p</th></tr></thead><tbody>${main.map(row).join("")}${fes.map(row).join("")}</tbody></table></div>
+      <h3>모형보다 싼 단지 <span class="note">(같은 조건 대비, 눌러서 지도에서 보기)</span></h3>
+      <div class="tw"><table><thead><tr><th>단지</th><th>위치</th><th class="r">연식</th><th class="r">3.3㎡당(만)</th><th class="r">모형 대비</th></tr></thead><tbody>${lst(sorted.slice(0, 15))}</tbody></table></div>
+      <h3>모형보다 비싼 단지</h3>
+      <div class="tw"><table><thead><tr><th>단지</th><th>위치</th><th class="r">연식</th><th class="r">3.3㎡당(만)</th><th class="r">모형 대비</th></tr></thead><tbody>${lst(sorted.slice(-15).reverse())}</tbody></table></div>
+      <p class="note">'모형보다 싸다'는 저평가라는 뜻이 아닙니다. 이 모형에 없는 조건(세대수, 역·학교까지 거리, 브랜드, 평면, 재건축 단계, 토지 지분)이 잔차에 그대로 들어 있어요.
+      잔차는 다른 탭에서 '회귀 모형 잔차' 변수로 쓸 수 있고, 공간 통계 탭에서 잔차가 지역적으로 뭉쳐 있는지 확인하면 모형에 빠진 입지 요인이 있는지 알 수 있습니다.</p>`;
+    bindDots();
+  }
+
+  // ---------------------------------------------------------------- 4) 공간 통계
+  const SEQ = ["#ffe9a8", "#f9b65c", "#ec7a47", "#c43d5b", "#6d1f6e"];
+  const LISA = { HH: ["#c43d5b", "높은 값끼리 모임"], LL: ["#2c6fb3", "낮은 값끼리 모임"], HL: ["#f08f7a", "주변보다 혼자 높음"], LH: ["#8fb8e6", "주변보다 혼자 낮음"], ns: ["#a3adaa", "뚜렷하지 않음"] };
+  function tabGeo(cs) {
+    $("#side").innerHTML = `
+      <label>볼 값 <select id="sv">${varOpts(S.sv, Object.keys(VARS).filter((k) => k !== "dist"))}</select></label>
+      <div class="row wide" role="group" aria-label="도구">
+        ${[["radius", "반경 통계"], ["decay", "거리에 따른 변화"], ["moran", "군집 찾기"]].map(([k, l]) => `<button class="sub" data-tool="${k}" aria-pressed="${S.tool === k}">${l}</button>`).join("")}
+      </div>
+      ${S.tool === "radius" ? `<label>반경 <select id="rad">${[0.5, 1, 1.5, 2, 3, 5].map((r) => `<option ${r === S.radius ? "selected" : ""}>${r}</option>`).join("")}</select> km</label>` : ""}
+      ${S.tool === "moran" ? `<label>이웃 수 <select id="kk">${[4, 8, 12].map((r) => `<option ${r === S.k ? "selected" : ""}>${r}</option>`).join("")}</select></label>` : ""}
+      ${S.tool === "radius" || S.tool === "decay" ? refPicker() + `<p class="note wide">지도를 누르면 그 자리가 기준점이 됩니다.</p>` : ""}`;
+    $("#sv").addEventListener("change", (e) => { S.sv = e.target.value; render(); });
+    document.querySelectorAll("[data-tool]").forEach((b) => b.addEventListener("click", () => { S.tool = b.dataset.tool; render(); }));
+    $("#rad")?.addEventListener("change", (e) => { S.radius = +e.target.value; render(); });
+    $("#kk")?.addEventListener("change", (e) => { S.k = +e.target.value; render(); });
+    bindRef();
+    const v = VARS[S.sv], pts = cs.map((c) => ({ c, lat: c.lat, lng: c.lng, y: v.get(c) })).filter((p) => p.y != null && isFinite(p.y));
+    $("#out").innerHTML = `<h2 id="gh"></h2><p class="read" id="gr"></p><div id="map"></div><div class="legend" id="gl"></div><div id="gx"></div>`;
+    if (map) { map.remove(); map = null; }
+    if (pts.length < 10) { $("#gr").textContent = `조건에 맞는 단지가 ${pts.length}곳뿐이에요.`; return; }
+    map = L.map("map", { preferCanvas: true, minZoom: 9 });
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 18, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' }).addTo(map);
+    layer = L.layerGroup().addTo(map); refLayer = L.layerGroup().addTo(map);
+    const fitAll = () => map.fitBounds(L.latLngBounds(pts.map((p) => [p.lat, p.lng])).pad(.05));
+    const br = [.2, .4, .6, .8].map((q) => qtl(pts.map((p) => p.y), q)), colQ = (y) => SEQ[br.filter((b) => y >= b).length];
+    const dot = (p, col, r = 5) => L.circleMarker([p.lat, p.lng], { radius: r, color: "#fff", weight: .8, fillColor: col, fillOpacity: .9 })
+      .bindTooltip(`<b>${esc(p.c.name)}</b><br>${esc(vname(S.sv))} ${v.fmt(p.y)}${v.unit}`).on("click", (e) => { L.DomEvent.stopPropagation(e); location.href = "../market/#c=" + encodeURIComponent(p.c.id); }).addTo(layer);
+    const qLegend = () => SEQ.map((c, i) => `<span><i style="background:${c}"></i>${i === 0 ? `${v.fmt(br[0])} 미만` : i === 4 ? `${v.fmt(br[3])} 이상` : `${v.fmt(br[i - 1])}~`}</span>`).join("") + `<span>${v.unit} · 5분위</span>`;
+    const setRef = (ll) => { S.ref = [ll.lat, ll.lng]; S.refName = "선택한 지점"; render(); };
+
+    if (S.tool === "radius") {
+      const view = S.radius <= 1 ? 15 : S.radius <= 2 ? 14 : 13; map.setView(S.ref, view);
+      pts.forEach((p) => dot(p, colQ(p.y)));
+      L.circle(S.ref, { radius: S.radius * 1000, color: "#14201c", weight: 2, fill: false, dashArray: "5 4" }).addTo(refLayer); L.circleMarker(S.ref, { radius: 5, color: "#14201c", fillColor: "#f0b04a", fillOpacity: 1 }).addTo(refLayer);
+      map.on("click", (e) => setRef(e.latlng));
+      const inr = pts.filter((p) => km(p.lat, p.lng, S.ref[0], S.ref[1]) <= S.radius), ys = inr.map((p) => p.y), all = pts.map((p) => p.y);
+      $("#gh").textContent = `${S.refName} 반경 ${S.radius}km의 ${vname(S.sv)}`;
+      $("#gl").innerHTML = qLegend();
+      if (inr.length < 3) { $("#gr").textContent = `이 반경 안에 조건에 맞는 단지가 ${inr.length}곳뿐이에요. 반경을 넓히거나 지도에서 다른 곳을 눌러 보세요.`; return; }
+      const pctl = all.filter((x) => x < med(ys)).length / all.length * 100;
+      $("#gr").innerHTML = `단지 ${inr.length}곳, 중앙값 <b>${v.fmt(med(ys))}${v.unit}</b>. 선택한 대상 전체(${v.fmt(med(all))}${v.unit})와 비교하면 상위 <b>${(100 - pctl).toFixed(0)}%</b> 자리입니다.`;
+      $("#gx").innerHTML = `<div class="nums">${num("단지 수", inr.length)}${num("중앙값", v.fmt(med(ys)))}${num("25~75%", `${v.fmt(qtl(ys, .25))}~${v.fmt(qtl(ys, .75))}`)}${num("평균", v.fmt(mean(ys)))}${num("최소~최대", `${v.fmt(Math.min(...ys))}~${v.fmt(Math.max(...ys))}`)}${num("변동계수", (sd(ys) / Math.abs(mean(ys)) * 100).toFixed(0) + "%", "표준편차÷평균")}</div>
+        <div class="tw"><table><thead><tr><th>단지</th><th class="r">거리</th><th class="r">연식</th><th class="r">${esc(vname(S.sv))}</th></tr></thead><tbody>${
+          inr.sort((a, b) => b.y - a.y).slice(0, 60).map((p) => `<tr data-id="${esc(p.c.id)}" style="cursor:pointer"><td>${esc(p.c.name)}</td><td class="r num">${km(p.lat, p.lng, S.ref[0], S.ref[1]).toFixed(1)}km</td><td class="r num">${p.c.by ? YEAR - p.c.by + "년" : "-"}</td><td class="r num"><b>${v.fmt(p.y)}</b></td></tr>`).join("")}</tbody></table></div>`;
+      bindDots();
+    } else if (S.tool === "decay") {
+      fitAll(); pts.forEach((p) => dot(p, colQ(p.y), 4));
+      L.circleMarker(S.ref, { radius: 6, color: "#14201c", fillColor: "#f0b04a", fillOpacity: 1 }).addTo(refLayer); [5, 10, 20].forEach((r) => L.circle(S.ref, { radius: r * 1000, color: "#14201c", weight: 1, fill: false, dashArray: "4 4" }).addTo(refLayer));
+      map.on("click", (e) => setRef(e.latlng));
+      const dp = pts.map((p) => ({ c: p.c, x: km(p.lat, p.lng, S.ref[0], S.ref[1]), y: p.y })).filter((p) => p.x <= 35);
+      const pos = dp.every((p) => p.y > 0), f = ols1(dp.map((p) => p.x), dp.map((p) => pos ? Math.log10(p.y) : p.y));
+      $("#gh").textContent = `${S.refName}에서 멀어질 때: ${vname(S.sv)}`;
+      $("#gr").innerHTML = pos ? `1km 멀어질 때마다 평균 <b>${sgn((10 ** f.b - 1) * 100)}%</b>. 거리 하나로 차이의 ${(f.r2 * 100).toFixed(0)}%가 설명됩니다(단지 ${f.n.toLocaleString()}곳).`
+        : `1km 멀어질 때마다 평균 <b>${sgn(f.b, 2)}${v.unit}</b> (설명력 ${(f.r2 * 100).toFixed(0)}%, 단지 ${f.n.toLocaleString()}곳).`;
+      $("#gl").innerHTML = qLegend() + `<span>점선 = 5·10·20km</span>`;
+      $("#gx").innerHTML = scatterSvg(dp, { lx: false, ly: pos, fx: (x) => x.toFixed(0), fy: v.fmt, xl: `${S.refName}까지 거리 (km)`, yl: `${vname(S.sv)} (${v.unit})`, fit: f, bins: binned(dp, 14) })
+        + `<p class="note">검은 선(구간별 중앙값)이 빨간 직선에서 벗어나는 곳이 '거리만으로 설명 안 되는 곳'입니다. 도시경제학의 단일 도심 모형(도심에서 멀수록 지대가 지수적으로 하락)을 그대로 적용한 것이고, 서울처럼 중심이 여럿이면 기준점을 바꿔 가며 비교하세요.</p>`;
+      bindDots();
+    } else if (S.tool === "moran") {
+      fitAll();
+      if (S.sv === "ppa" || S.sv === "std84") $("#gx").insertAdjacentHTML("beforebegin", `<p class="note">가격 자체는 당연히 뭉쳐 있습니다. 이 도구는 '회귀 모형' 탭을 한 번 돌린 뒤 '회귀 모형 잔차'에 쓰는 것이 본래 용도입니다(모형에 빠진 입지 요인 찾기).</p>`);
+      if (pts.length > 4000) { $("#gr").textContent = "단지가 너무 많아요. 대상 지역을 좁혀 주세요."; return; }
+      const res = moran(pts.map((p) => p.y), knn(pts, Math.min(S.k, pts.length - 1)));
+      pts.forEach((p, i) => { const t = res.local[i].type; dot(p, LISA[t][0], t === "ns" ? 3.5 : 6); });
+      const cnt = {}; res.local.forEach((l) => { cnt[l.type] = (cnt[l.type] || 0) + 1; });
+      $("#gh").textContent = `지역적으로 뭉쳐 있는가: ${vname(S.sv)}`;
+      $("#gr").innerHTML = `모란 I = <b>${res.I.toFixed(3)}</b> (무작위라면 ${res.E.toFixed(3)} 근처, 순열 검정 p ${pTxt(res.p)}). ${res.p > .05 ? "뚜렷한 뭉침이 없습니다." : res.I > 0 ? `가까운 단지끼리 값이 <b>비슷합니다</b>(${strength(res.I)}).` : "가까운 단지끼리 값이 <b>엇갈립니다</b>."}`;
+      $("#gl").innerHTML = Object.entries(LISA).map(([k, [c, l]]) => `<span><i style="background:${c}"></i>${l} ${cnt[k] || 0}곳</span>`).join("");
+      const odd = pts.map((p, i) => ({ p, t: res.local[i].type })).filter((x) => x.t === "HL" || x.t === "LH");
+      $("#gx").innerHTML = `<div class="nums">${num("모란 I", res.I.toFixed(3))}${num("표준화 z", res.z.toFixed(1))}${num("p (순열 199회)", pTxt(res.p))}${num("단지 수", res.n.toLocaleString())}${num("이웃 정의", `가장 가까운 ${S.k}곳`)}</div>
+        ${odd.length ? `<h3>주변과 다른 단지 <span class="note">(공간 이상치)</span></h3><div class="tw"><table><thead><tr><th>단지</th><th>위치</th><th>유형</th><th class="r">${esc(vname(S.sv))}</th></tr></thead><tbody>${
+          odd.slice(0, 40).map(({ p, t }) => `<tr data-id="${esc(p.c.id)}" style="cursor:pointer"><td>${esc(p.c.name)}</td><td>${esc(p.c.gu.split(" ").pop())} ${esc(p.c.dong || "")}</td><td>${LISA[t][1]}</td><td class="r num">${v.fmt(p.y)}</td></tr>`).join("")}</tbody></table></div>` : ""}
+        <p class="note">전역 모란 I는 '전체적으로 뭉쳐 있는가'를 하나의 수로, 국지 모란(LISA)은 '어디가 뭉쳐 있는가'를 단지마다 알려 줍니다. 국지 판정은 단지마다 99번 무작위로 섞어 5% 기준으로 봤고, 단지가 많으면 우연히 유의해 보이는 곳이 섞이니 한두 곳짜리 군집은 가볍게 보세요.
+        가격 자체는 당연히 뭉쳐 있으니, '회귀 모형 잔차'나 '1년 변동률'에 돌려 보는 것이 더 쓸모 있습니다.</p>`;
+      bindDots();
+    }
+    setTimeout(() => map && map.invalidateSize(), 60);
+  }
+
+  // ---------------------------------------------------------------- 5) 방법 설명
+  function tabHow() {
+    $("#side").innerHTML = `<p class="note wide">이 화면의 계산이 어떤 자료와 방법으로 이뤄지는지 정리했습니다.</p>`;
+    $("#out").innerHTML = `<h2>자료와 방법</h2>
+      <p class="read">자료는 국토교통부 아파트 매매 실거래가 한 가지입니다. 계약 해제, 직거래, 같은 단지·같은 해 중앙값의 절반 미만이나 2배 초과 거래를 뺀 뒤 단지별로 요약했습니다. 기준 시각 ${esc(D.generated_at || "")}.</p>
+      <div class="tw" style="max-height:none"><table><thead><tr><th>도구</th><th>무엇을 답하나</th><th>방법</th></tr></thead><tbody>
+        <tr><td>변수 관계</td><td style="white-space:normal">두 값이 함께 움직이는가</td><td style="white-space:normal">피어슨·스피어만 상관, 단순 회귀, 구간별 중앙값</td></tr>
+        <tr><td>그룹 비교</td><td style="white-space:normal">지역·연식대에 따라 얼마나 다른가</td><td style="white-space:normal">중앙값·사분위, 분산분석의 설명 비율 η²</td></tr>
+        <tr><td>회귀 모형</td><td style="white-space:normal">다른 조건이 같을 때 각 조건의 값어치는</td><td style="white-space:normal">헤도닉 가격 모형(로그 가격의 최소제곱 회귀, 지역 고정효과)</td></tr>
+        <tr><td>반경 통계</td><td style="white-space:normal">이 지점 주변의 수준과 흩어짐은</td><td style="white-space:normal">반경 내 단지의 분포 요약, 전체 대비 백분위</td></tr>
+        <tr><td>거리에 따른 변화</td><td style="white-space:normal">중심에서 멀어지면 얼마나 싸지나</td><td style="white-space:normal">로그 가격을 거리에 회귀한 가격 경사</td></tr>
+        <tr><td>군집 찾기</td><td style="white-space:normal">값이 지역적으로 뭉쳐 있나, 어디가 튀나</td><td style="white-space:normal">전역 모란 I(순열 검정), 국지 모란(LISA)</td></tr>
+      </tbody></table></div>
+      <h3>알아 둘 한계</h3>
+      <p class="note">단지 하나를 값 하나(최근 12개월 전용㎡당 중앙값)로 요약한 자료라서, 같은 단지 안의 층·향·동 차이는 보지 않습니다. 세대수, 역과 학교까지 거리, 용적률 같은 변수는 아직 없어 회귀 잔차에 섞여 있습니다.
+      거래가 적은 단지는 값이 흔들리니 '12개월 거래' 조건을 높여 보세요. 준공 이후 통계는 과거 자료를 갱신 때마다 조금씩 받아 채우는 중이라, 다 모이기 전에는 일부 단지에서 비어 있습니다(남은 지역 ${D.backfill_left ?? "-"}곳).</p>
+      <p class="note">원자료 확인: <a href="${esc(D.method?.check_url || "https://rt.molit.go.kr")}" target="_blank" rel="noopener">국토교통부 실거래가 공개시스템</a></p>`;
+  }
+
+  // ---------------------------------------------------------------- 진행
+  function render() {
+    const cs = scope();
+    $("#count").textContent = `대상 단지 ${cs.length.toLocaleString()}곳`;
+    document.querySelectorAll("nav.tabs button").forEach((b) => b.setAttribute("aria-selected", b.dataset.tab === S.tab));
+    if (S.tab !== "geo" && map) { map.remove(); map = null; }
+    ({ rel: tabRel, grp: tabGrp, reg: tabReg, geo: tabGeo, how: tabHow })[S.tab](cs);
+    try { history.replaceState(null, "", "#" + S.tab); } catch (e) {}
+  }
+  fetch("../data/market/summary.json", { cache: "no-cache" }).then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); }).then((d) => {
+    D = d; ALL = d.complexes; premiums();
+    const gus = d.gus.map((g) => g.gu);
+    $("#area").innerHTML = `<option value="all">전체</option>` + [...new Set(d.gus.map((g) => g.region))].map((r) => `<option value="r:${esc(r)}">${esc(r)} 전체</option>`).join("") + gus.map((g) => `<option value="${esc(g)}">${esc(g)}</option>`).join("");
+    const h = location.hash.slice(1); if (["rel", "grp", "reg", "geo", "how"].includes(h)) S.tab = h;
+    ["area", "age", "minn", "exact"].forEach((id) => $("#" + id).addEventListener("change", render));
+    document.querySelectorAll("nav.tabs button").forEach((b) => b.addEventListener("click", () => { S.tab = b.dataset.tab; render(); }));
+    render();
+  }).catch(() => { $("#out").innerHTML = `<p class="read">시세 자료가 아직 없어요. 데이터 갱신(Actions)이 한 번 끝나면 여기서 분석할 수 있습니다.</p>`; });
+})();
+</script>
+</body>
+</html>

@@ -6,3 +6,6 @@ data/state/*_demo.json
 profile.local.json
 portfolio.local.json
 data/private/
+# 자동으로 만들어지는 화면 데이터·실거래 원본 (GitHub Actions 캐시에 보관, 저장소에는 넣지 않음)
+docs/data/
+data/state/trades/

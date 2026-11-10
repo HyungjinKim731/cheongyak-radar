@@ -64,7 +64,7 @@ def message(s: dict, kind: str, site: str | None) -> str:
     lines.append("자격: 성년·무주택세대구성원 / 거주요건은 공고문")
     lines.append(f"공고 원문: {s.get('url')}")
     if site:
-        lines.append(f"레이더: {site}#zupzup")
+        lines.append(f"레이더: {site}radar/#zupzup")
     return "\n".join(lines)
 
 

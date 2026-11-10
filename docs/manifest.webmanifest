@@ -1,9 +1,9 @@
 {
-  "name": "청약·정비 레이더",
-  "short_name": "청약레이더",
-  "description": "서울·경기 청약 일정, 추천 순위, 재건축·재개발 단계",
+  "name": "ASAR Partners",
+  "short_name": "ASAR",
+  "description": "Applied Statistical Asset Research. 응용통계로 자산의 불확실성을 좁힙니다",
   "lang": "ko",
-  "start_url": "./#ranking",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "background_color": "#f3f6f5",

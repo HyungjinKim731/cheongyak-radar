@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Scenario · ASAR Partners</title>
+<meta name="description" content="실거래가로 만든 지역·단지 가격 범위 예측, 과거 검증, 재건축 단계 효과, 교통 호재 소식">
+<meta name="theme-color" content="#0c2f29">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="../icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@500;800;900&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Scenario: 예측은 선 하나가 아니라 '범위'. 부채꼴 띠가 주인공이고, 바로 아래에 그 예측을 과거에 썼다면 얼마나 맞았는지를 둔다. */
+:root {
+  --pine: #0c2f29; --mint: #7fd8c2; --amber: #f0b04a;
+  --paper: #f2f4ef; --card: #fbfcfa; --ink: #14201c; --muted: #5f6d68; --line: #d3dbd5; --teal: #0e6b5b; --up: #c2372e; --down: #1f5fae;
+  --f-display: "Gothic A1", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --f-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --paper: #0f1614; --card: #151e1b; --ink: #e6ede9; --muted: #93a39d; --line: #26332f; --teal: #5fcdb4; --up: #ff8a7d; --down: #7fb4f5 } }
+:root[data-theme="dark"] { --paper: #0f1614; --card: #151e1b; --ink: #e6ede9; --muted: #93a39d; --line: #26332f; --teal: #5fcdb4; --up: #ff8a7d; --down: #7fb4f5 }
+* { box-sizing: border-box }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 15px/1.6 var(--f-body) }
+a { color: var(--teal) }
+header { background: var(--pine); color: #e9f3ef; padding: calc(env(safe-area-inset-top) + 14px) 0 14px }
+.wrap { max-width: 980px; margin: 0 auto; padding: 0 18px }
+header .wrap { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap }
+header a { color: #bcd3cb; text-decoration: none; font-size: .9rem }
+header a:hover, header a:focus-visible { color: #fff; text-decoration: underline }
+h1 { font: 900 1.6rem/1.1 var(--f-display); letter-spacing: -.03em; margin: 0 }
+h1 span { font: 500 .9rem var(--f-body); color: #9fbab1; letter-spacing: 0 }
+header p { margin: 0; color: #9fbab1; font-size: .88rem; flex: 1 1 260px }
+.bar { display: flex; gap: 10px 16px; flex-wrap: wrap; align-items: center; padding: 14px 0 4px; font-size: .9rem }
+label { color: var(--muted); display: inline-flex; gap: 6px; align-items: center }
+select, input[type=search] { font: 500 .92rem var(--f-body); color: var(--ink); background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 6px 9px; max-width: 100% }
+:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px }
+section { padding: 20px 0; border-bottom: 1px solid var(--line) }
+h2 { font: 800 1.2rem var(--f-display); letter-spacing: -.02em; margin: 0 0 4px }
+h3 { font: 600 .95rem var(--f-body); margin: 18px 0 6px }
+.read { font-size: 1.02rem; margin: 6px 0 12px; max-width: 46em }
+.note { color: var(--muted); font-size: .83rem; max-width: 60em }
+.nums { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin: 10px 0 }
+.nums div { background: var(--card); padding: 9px 12px }
+.nums small { display: block; color: var(--muted); font-size: .76rem }
+.nums b { font: 500 1.08rem var(--f-mono) }
+svg.chart { width: 100%; height: auto; display: block; background: var(--card); border: 1px solid var(--line); border-radius: 8px }
+svg.chart text { font: 500 10px var(--f-mono); fill: var(--muted) }
+table { border-collapse: collapse; width: 100%; font-size: .88rem }
+th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--line) }
+th { color: var(--muted); font-weight: 500; font-size: .78rem }
+td.r, th.r { text-align: right; white-space: nowrap } td.num { font-family: var(--f-mono) }
+.tw { overflow: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--card) }
+.eq { font: 500 .92rem var(--f-mono); background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; overflow-x: auto; white-space: nowrap }
+.up { color: var(--up) } .down { color: var(--down) }
+.tag { display: inline-block; font-size: .74rem; border: 1px solid var(--line); border-radius: 4px; padding: 0 6px; color: var(--muted); margin-right: 4px; white-space: nowrap }
+.wait { background: var(--card); border: 1px dashed var(--line); border-radius: 8px; padding: 14px 16px }
+#hits { position: relative } #hitlist { position: absolute; z-index: 5; background: var(--card); border: 1px solid var(--line); border-radius: 6px; max-height: 240px; overflow: auto; min-width: 260px }
+#hitlist button { display: block; width: 100%; text-align: left; background: none; border: 0; padding: 7px 10px; font: inherit; color: var(--ink); cursor: pointer }
+#hitlist button:hover, #hitlist button:focus-visible { background: var(--paper) }
+[hidden] { display: none !important }
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <a href="../">⌂ 홈</a>
+  <h1>Scenario <span>시나리오 예측</span></h1>
+  <p>국토교통부 실거래가만으로 만든 가격 범위 예측. 선 하나가 아니라 범위로 보고, 과거에 얼마나 맞았는지를 함께 봅니다.</p>
+  <a href="../market/">실거래가 분석 지도</a>
+</div></header>
+
+<div class="wrap">
+  <div class="bar">
+    <label>지역 <select id="gu"></select></label>
+    <span id="hits"><label>단지 <input type="search" id="cq" placeholder="단지 이름(선택)" autocomplete="off"></label><div id="hitlist" hidden></div></span>
+    <span class="note" id="stamp"></span>
+  </div>
+  <main id="out"><p class="note" style="padding:20px 0">자료를 불러오는 중…</p></main>
+</div>
+
+<script>
+(() => {
+  "use strict";
+  const $ = (s) => document.querySelector(s);
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const sgn = (v, d = 1) => v == null ? "-" : `${v > 0 ? "+" : ""}${(+v).toFixed(d)}%`;
+  const cls = (v) => v == null ? "" : v > 0 ? "up" : v < 0 ? "down" : "";
+  const eok = (man) => man == null ? "-" : (man / 10000).toFixed(man >= 100000 ? 1 : 2) + "억";
+  const num = (l, v, s) => `<div><small>${l}</small><b>${v}</b>${s ? `<small>${s}</small>` : ""}</div>`;
+  let F, M = null, C = null, cur = null, cx = null;
+
+  // 부채꼴 그림: 과거 분기 지수(선) + 1~5년 뒤 범위(띠 두 겹: 50%·80%)
+  function fan(g) {
+    const W = 760, H = 360, P = { l: 46, r: 16, t: 14, b: 26 };
+    const q0 = +g.q0.slice(0, 4) + (+g.q0.slice(5) - 1) / 4;
+    const hist = g.idx.map((v, i) => v == null ? null : [q0 + i / 4 + .125, v]).filter(Boolean);
+    const last = hist[hist.length - 1], x0 = hist[0][0], x1 = last[0] + 5.2;
+    const bands = g.fc.map((q, i) => [last[0] + i + 1, ...q.map((p) => last[1] * (1 + p / 100))]);
+    const ys = hist.map((h) => h[1]).concat(bands.flatMap((b) => [b[1], b[5]]));
+    let y0 = Math.min(...ys), y1 = Math.max(...ys); const pad = (y1 - y0) * .06; y0 -= pad; y1 += pad;
+    const X = (t) => P.l + (t - x0) / (x1 - x0) * (W - P.l - P.r), Y = (v) => H - P.b - (v - y0) / (y1 - y0) * (H - P.t - P.b);
+    let grid = "";
+    const step = Math.max(1, Math.round((x1 - x0) / 8));
+    for (let y = Math.ceil(x0); y <= x1; y += step) grid += `<line x1="${X(y)}" x2="${X(y)}" y1="${P.t}" y2="${H - P.b}" stroke="var(--line)"/><text x="${X(y)}" y="${H - 8}" text-anchor="middle">${y}</text>`;
+    for (let i = 0; i <= 4; i++) { const v = y0 + (y1 - y0) * i / 4; grid += `<line x1="${P.l}" x2="${W - P.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${P.l - 6}" y="${Y(v) + 3}" text-anchor="end">${v.toFixed(0)}</text>`; }
+    const poly = (lo, hi) => `M${X(last[0])},${Y(last[1])} ` + bands.map((b) => `L${X(b[0]).toFixed(1)},${Y(b[hi]).toFixed(1)}`).join(" ") + " " + bands.slice().reverse().map((b) => `L${X(b[0]).toFixed(1)},${Y(b[lo]).toFixed(1)}`).join(" ") + " Z";
+    const medLine = `M${X(last[0])},${Y(last[1])} ` + bands.map((b) => `L${X(b[0]).toFixed(1)},${Y(b[3]).toFixed(1)}`).join(" ");
+    const hl = hist.map((h, i) => `${i ? "L" : "M"}${X(h[0]).toFixed(1)},${Y(h[1]).toFixed(1)}`).join(" ");
+    const marks = bands.map((b, i) => `<circle cx="${X(b[0])}" cy="${Y(b[3])}" r="3" fill="var(--teal)"><title>${i + 1}년 뒤 중앙값 ${sgn(g.fc[i][2])} (80% 범위 ${sgn(g.fc[i][0])} ~ ${sgn(g.fc[i][4])})</title></circle>`).join("");
+    return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(g.label)} 가격 지수와 5년 예측 범위">${grid}
+      <line x1="${X(last[0])}" x2="${X(last[0])}" y1="${P.t}" y2="${H - P.b}" stroke="var(--muted)" stroke-dasharray="3 3"/><text x="${X(last[0]) + 4}" y="${P.t + 10}">지금</text>
+      <path d="${poly(1, 5)}" fill="var(--teal)" fill-opacity=".14"/><path d="${poly(2, 4)}" fill="var(--teal)" fill-opacity=".22"/>
+      <path d="${hl}" fill="none" stroke="var(--ink)" stroke-width="1.6"/><path d="${medLine}" fill="none" stroke="var(--teal)" stroke-width="2" stroke-dasharray="5 3"/>${marks}</svg>
+      <p class="note">실선 = 같은 단지·같은 면적대끼리 비교한 분기 지수(${esc(g.q0)} = 100) · 점선 = 예측 중앙값 · 진한 띠 = 가운데 50% · 옅은 띠 = 80% 범위</p>`;
+  }
+
+  function render() {
+    const g = cur; if (!g) return;
+    let h = "";
+    if (!g.ready) {
+      h += `<section><h2>${esc(g.label)}: 과거 자료를 모으는 중</h2><div class="wait"><p class="read" style="margin:0">예측에는 최소 ${F.min_years}년치 실거래가 필요합니다. 지금은 ${esc(String(g.hist_from).slice(0, 4))}년 ${esc(String(g.hist_from).slice(4))}월부터 모였고, 갱신 때마다 과거로 더 채워집니다(아직 덜 모인 지역 ${F.backfill_left}곳).</p></div></section>`;
+    } else {
+      const f1 = g.fc[0], f3 = g.fc[2], f5 = g.fc[4];
+      h += `<section><h2>${esc(g.label)} 기준 예측</h2>
+        <p class="read">3년 뒤 중앙값 <b class="${cls(f3[2])}">${sgn(f3[2])}</b>, 80% 범위는 <b>${sgn(f3[0])} ~ ${sgn(f3[4])}</b>. 지금 수준은 장기 추세선보다 <b>${sgn(g.gap_pct)}</b> ${g.gap_pct > 0 ? "위" : "아래"}에 있습니다.</p>
+        ${fan(g)}
+        <div class="nums">${num("장기 추세", sgn(g.trend_pct), "연율")}${num("추세 대비 지금", sgn(g.gap_pct), g.gap_pct > 0 ? "되돌림 압력" : "회복 여지")}${num("최근 1년", sgn(g.last_pct))}${num("1년 뒤", sgn(f1[2]), `${sgn(f1[0])} ~ ${sgn(f1[4])}`)}${num("3년 뒤", sgn(f3[2]), `${sgn(f3[0])} ~ ${sgn(f3[4])}`)}${num("5년 뒤", sgn(f5[2]), `${sgn(f5[0])} ~ ${sgn(f5[4])}`)}</div>`;
+      if (cx) {
+        const base = cx.std84, rows = F.years.map((y, i) => {
+          const sd = Math.sqrt(g.fc_sd[i] ** 2 + (g.sigma || 0) ** 2 * y), m = g.fc_med_log[i];
+          return `<tr><td>${y}년 뒤</td><td class="r num">${eok(base * Math.exp(m - 1.2816 * sd))}</td><td class="r num"><b>${eok(base * Math.exp(m))}</b></td><td class="r num">${eok(base * Math.exp(m + 1.2816 * sd))}</td></tr>`;
+        }).join("");
+        h += `<h3>${esc(cx.name)} <span class="note">(${esc(cx.dong || "")} · ${cx.by ? cx.by + "년 준공" : ""} · 84㎡ 환산 지금 ${eok(base)})</span></h3>
+          <div class="tw"><table><thead><tr><th>시점</th><th class="r">하위 10%</th><th class="r">중앙값</th><th class="r">상위 10%</th></tr></thead><tbody>${rows}</tbody></table></div>
+          <p class="note">지역 예측에 이 지역 단지들의 '따로 움직이는 폭'(연 ±${((g.sigma || 0) * 100).toFixed(1)}%)을 더해 범위를 넓혔습니다. 단지 고유의 사정(재건축 단계, 주변 개발)은 반영되지 않습니다.</p>`;
+      }
+      h += `</section>`;
+    }
+    // 방법 + 백테스트
+    if (F.model) {
+      const m = F.model, b1 = F.backtest.y1, b3 = F.backtest.y3;
+      const row = (n, b) => !b ? "" : `<tr><td>${n}</td><td class="r num">${b.n}</td><td class="r num"><b>${b.err_model}%</b></td><td class="r num">${b.err_nochange}%</td><td class="r num">${b.err_trend}%</td><td class="r num">${b.dir_hit}%</td><td class="r num">${b.cover80}%</td><td class="r num">×${b.scale}</td></tr>`;
+      const worse = b1 && b1.err_model > Math.min(b1.err_nochange, b1.err_trend);
+      h += `<section><h2>이 예측을 과거에 썼다면</h2>
+        <p class="read">${b1 ? `과거 ${b1.n}번의 1년 예측에서 오차 중앙값은 <b>${b1.err_model}%</b>였습니다. 아무 변화가 없다고 본 경우는 ${b1.err_nochange}%, 추세를 그대로 연장한 경우는 ${b1.err_trend}%.${worse ? " <b>이 모형이 단순한 방법보다 낫지 않았습니다.</b> 예측을 참고 이상으로 쓰지 마세요." : ""}` : "검증할 만큼 과거 자료가 아직 모이지 않았습니다."}</p>
+        <div class="tw"><table><thead><tr><th>예측 기간</th><th class="r">검증 횟수</th><th class="r">이 모형</th><th class="r">변화 없음</th><th class="r">추세 연장</th><th class="r">방향 적중</th><th class="r">80% 범위 적중(보정 전)</th><th class="r">범위 보정</th></tr></thead><tbody>${row("1년 뒤", b1)}${row("3년 뒤", b3)}</tbody></table></div>
+        <p class="note">오차 = |예측 ÷ 실제 − 1| 의 중앙값. 각 시점에서 그때까지의 자료만 써서 다시 추정했습니다. '80% 범위 적중'이 80%보다 낮으면 범위가 너무 좁았다는 뜻이라, 과거 오차로 계산한 배율만큼 범위를 넓혀 위 그림에 반영했습니다(추세와 계수를 추정할 때의 불확실성이 모의실험에 빠져 있기 때문).</p>
+        <h3>방법</h3>
+        <div class="eq">Δp<sub>t</sub> − g = ρ·(Δp<sub>t−1</sub> − g) + κ·(p*<sub>t−1</sub> − p<sub>t−1</sub>) + ε &nbsp;&nbsp; ρ = ${m.rho} · κ = ${m.kappa} · 반기 단위 · 지역 ${m.areas}곳, 관측 ${m.n}개</div>
+        <p class="note">p = 로그 가격 지수, g = 장기 추세 기울기, p* = 추세선. <b>ρ(관성)</b>: 지난 반기에 추세보다 1%p 더 올랐다면 이번에도 ${(m.rho).toFixed(2)}%p 더 오르는 경향. <b>κ(평균 회귀)</b>: 추세선과의 차이가 반기마다 ${(m.kappa * 100).toFixed(0)}%씩 줄어드는 경향${m.half_life_years ? `(절반으로 줄기까지 약 ${m.half_life_years}년)` : ""}.
+        ρ·κ는 모든 지역을 묶어 추정하고, 미래 오차는 그 지역의 과거 오차를 다시 뽑아 2,000번 모의했습니다. 지수는 단지×면적대 고정효과 회귀로 만들어, 비싼 단지가 많이 팔린 분기에 지수가 튀는 착시를 없앴습니다.
+        ${m.rho_raw !== m.rho || m.kappa_raw !== m.kappa ? `추정값이 허용 범위를 벗어나 잘랐습니다(원래 ρ ${m.rho_raw}, κ ${m.kappa_raw}).` : ""}</p>
+        <p class="note">한계: 추세선은 임대료·소득이 아니라 과거 가격만으로 그은 것입니다. 금리, 정책, 공급 충격은 들어 있지 않습니다. 2006년 이후 자료라 큰 사이클이 서너 번뿐입니다.</p></section>`;
+    }
+    // 재건축 단계
+    const ev = Object.entries(F.events || {}), any = ev.some(([, v]) => v.jump);
+    h += `<section><h2>재건축 단계가 나아가면</h2>`;
+    if (any) {
+      const cell = (x) => !x ? `<td class="r note">자료 부족</td>` : `<td class="r num"><b class="${cls(x.q[1])}">${sgn(x.q[1])}</b> <span class="note">(${sgn(x.q[0])} ~ ${sgn(x.q[2])}, ${x.n}곳)</span></td>`;
+      h += `<p class="read">서울 재건축 단지에서 단계별 인가일 앞뒤 12개월의 가격을 같은 구 지수와 비교한 초과 변화입니다.</p>
+        <div class="tw"><table><thead><tr><th>단계</th><th class="r">인가 전 1년 (미리 오른 폭)</th><th class="r">인가 후 1년</th><th class="r">그다음 1년</th></tr></thead><tbody>${
+          ev.map(([k, v]) => `<tr><td>${esc(k)} <span class="note">${v.n}건</span></td>${cell(v.run_up)}${cell(v.jump)}${cell(v.follow)}</tr>`).join("")}</tbody></table></div>
+        <p class="note">굵은 값 = 중앙값, 괄호 = 가운데 절반의 범위. 구 평균보다 얼마나 더 올랐는지입니다. 인가까지 간 단지만 보이고(무산된 곳은 빠짐), 여러 단계가 1~2년 사이에 겹치는 경우가 많아 단계 하나의 순수한 효과로 읽으면 과대평가됩니다. 이주가 시작되면 거래가 끊겨 관리처분 이후는 표본이 적습니다. 출처: 서울시 정비사업 추진현황의 단계별 인가일.</p>`;
+    } else h += `<div class="wait"><p class="read" style="margin:0">단계별 인가일 앞뒤로 거래가 3건 이상 있는 재건축 단지가 아직 5곳 미만입니다. 과거 자료가 채워지면 표가 나옵니다.</p></div>`;
+    h += `</section>`;
+    // 교통 호재
+    const feed = (C && C.feed) || [], pins = (C && C.items) || [];
+    h += `<section><h2>교통 호재 소식</h2><p class="read">국토교통부·정책브리핑·서울시·경기도·기획재정부 누리집의 글에서 철도·지하철·고속도로의 단계 변화(계획, 예타 통과, 기본계획, 착공, 개통)를 자동으로 모읍니다.</p>`;
+    h += feed.length ? `<div class="tw"><table><thead><tr><th>날짜</th><th>단계</th><th>제목</th><th>기관</th></tr></thead><tbody>${feed.slice(0, 40).map((x) => `<tr><td class="num" style="white-space:nowrap">${esc(x.date)}</td><td><span class="tag">${esc(x.stage)}</span></td><td><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.title)}</a></td><td style="white-space:nowrap">${esc(x.org || "")}</td></tr>`).join("")}</tbody></table></div>` : `<div class="wait"><p class="read" style="margin:0">아직 모인 소식이 없습니다. 다음 자동 갱신부터 쌓입니다.</p></div>`;
+    h += `<p class="note">제목의 낱말로 자동 분류한 것이라 잘못 분류된 글이 섞일 수 있습니다. 지도에 표시되는 확정 호재(◆, 지금 ${pins.length}곳)는 고시 원문을 확인해 따로 등록한 것만입니다.</p></section>`;
+    // 준비 중인 시나리오
+    h += `<section style="border-bottom:0"><h2>준비 중인 시나리오</h2>
+      <div class="tw"><table><thead><tr><th>시나리오</th><th>방법</th><th>필요한 것</th></tr></thead><tbody>
+        <tr><td>금리 인상·인하</td><td>금리 충격 뒤 1~5년 가격 반응 경로</td><td>한국은행 ECOS 키</td></tr>
+        <tr><td>주식 급락·급등</td><td>코스피 충격 뒤 지역 지수 반응</td><td>한국은행 ECOS 키</td></tr>
+        <tr><td>지하철역 신설</td><td>이미 개통한 역 주변의 거리대별 전후 비교</td><td>역 위치·개통일 자료, 확정 호재 등록</td></tr>
+        <tr><td>임대료 대비 과열</td><td>전세·월세 대비 가격으로 추세선을 대체</td><td>전월세 실거래가 활용신청</td></tr>
+      </tbody></table></div></section>`;
+    $("#out").innerHTML = h;
+  }
+
+  function pick(code) { cur = F.gus.find((g) => g.code === code) || F.gus[0]; cx = null; $("#cq").value = ""; render(); try { history.replaceState(null, "", "#" + cur.code); } catch (e) {} }
+  function bindSearch() {
+    const box = $("#hitlist");
+    $("#cq").addEventListener("input", (e) => {
+      const q = e.target.value.trim();
+      if (!M || q.length < 2) { box.hidden = true; if (!q && cx) { cx = null; render(); } return; }
+      const hits = M.complexes.filter((c) => c.name.includes(q) && c.std84).slice(0, 12);
+      box.innerHTML = hits.map((c) => `<button type="button" data-id="${esc(c.id)}">${esc(c.name)} <span class="note">${esc(c.gu)} ${esc(c.dong || "")}</span></button>`).join("") || `<div class="note" style="padding:8px 10px">찾는 단지가 없어요</div>`;
+      box.hidden = false;
+      box.querySelectorAll("button").forEach((b) => b.addEventListener("click", () => {
+        const c = M.complexes.find((x) => x.id === b.dataset.id); box.hidden = true; $("#cq").value = c.name;
+        cur = F.gus.find((g) => g.code === c.id.split(":")[0]) || cur; $("#gu").value = cur.code; cx = c; render();
+      }));
+    });
+    document.addEventListener("click", (e) => { if (!e.target.closest("#hits")) box.hidden = true; });
+  }
+
+  fetch("../data/forecast/summary.json", { cache: "no-cache" }).then((r) => { if (!r.ok) throw 0; return r.json(); }).then((f) => {
+    F = f;
+    $("#gu").innerHTML = f.gus.map((g) => `<option value="${g.code}">${esc(g.label)}${g.ready ? "" : " (수집 중)"}</option>`).join("");
+    $("#gu").addEventListener("change", (e) => pick(e.target.value));
+    $("#stamp").textContent = `기준 ${String(f.generated_at).slice(0, 16).replace("T", " ")}`;
+    bindSearch();
+    const h = location.hash.slice(1), first = f.gus.find((g) => g.code === h) || f.gus.find((g) => g.ready) || f.gus[0];
+    Promise.all([
+      fetch("../data/catalysts.json", { cache: "no-cache" }).then((r) => r.json()).then((c) => { C = c; }).catch(() => {}),
+      fetch("../data/market/summary.json", { cache: "no-cache" }).then((r) => r.json()).then((m) => { M = m; }).catch(() => {}),
+    ]).then(() => { if (cur) render(); });
+    $("#gu").value = first.code; pick(first.code);
+  }).catch(() => { $("#out").innerHTML = `<section><div class="wait"><p class="read" style="margin:0">예측 자료가 아직 없습니다. 데이터 갱신이 한 번 끝나면 여기에 나옵니다.</p></div></section>`; });
+})();
+</script>
+</body>
+</html>

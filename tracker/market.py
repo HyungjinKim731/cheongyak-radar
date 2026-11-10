@@ -19,6 +19,7 @@ import datetime as dt
 import logging
 import re
 import statistics
+import time
 import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import Any
@@ -48,7 +49,9 @@ SIGUNGU = {
     "고양시 일산서구": "41287", "과천시": "41290", "구리시": "41310", "남양주시": "41360", "오산시": "41370",
     "시흥시": "41390", "군포시": "41410", "의왕시": "41430", "하남시": "41450", "용인시 처인구": "41461",
     "용인시 기흥구": "41463", "용인시 수지구": "41465", "파주시": "41480", "이천시": "41500", "김포시": "41570",
-    "화성시": "41590", "광주시": "41610", "양주시": "41630",
+    "화성시": "41590",
+    # 2026.2.1 화성특례시 일반구 출범 — 새 시군구 코드(실거래가 조회는 새 코드 기준)
+    "화성시 만세구": "41591", "화성시 효행구": "41593", "화성시 병점구": "41595", "화성시 동탄구": "41597", "광주시": "41610", "양주시": "41630",
 }
 # 2025~2026년에 구가 새로 생긴 곳: 옛 코드와 새 구 코드를 함께 조회한다
 SPLIT = {"화성시": ["화성시 만세구", "화성시 효행구", "화성시 병점구", "화성시 동탄구"],
@@ -140,9 +143,17 @@ class TradeClient:
         rows: list[dict] = []
         page = 1
         while True:
-            r = self.s.get(TRADE_URL, params={"serviceKey": self.key, "LAWD_CD": lawd, "DEAL_YMD": ym,
-                                              "pageNo": page, "numOfRows": 1000}, timeout=30)
-            items, total = _parse_xml(r.text)
+            for attempt in range(3):            # 공공데이터포털 초당 한도·일시 오류는 잠깐 쉬고 다시
+                try:
+                    time.sleep(0.06)
+                    r = self.s.get(TRADE_URL, params={"serviceKey": self.key, "LAWD_CD": lawd, "DEAL_YMD": ym,
+                                                      "pageNo": page, "numOfRows": 1000}, timeout=30)
+                    items, total = _parse_xml(r.text)
+                    break
+                except (requests.RequestException, RuntimeError) as e:
+                    if attempt == 2 or "SERVICE_KEY" in str(e) or "등록되지 않은" in str(e):
+                        raise
+                    time.sleep(1.5 * (attempt + 1))
             rows.extend(items)
             if len(rows) >= total or not items:
                 break

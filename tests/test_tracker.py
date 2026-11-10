@@ -1,6 +1,7 @@
 """python -m unittest discover tests"""
 import datetime as dt
 import json
+import math
 import tempfile
 import unittest
 from pathlib import Path
@@ -375,3 +376,171 @@ class HistoryMatchTest(unittest.TestCase):
 def today_iso():
     from tracker.util import today_kst
     return today_kst().isoformat()
+
+
+class MarketMapTest(unittest.TestCase):
+    def _t(self, seq, date, price, area=84.9, deal="중개거래"):
+        return {"apt": seq, "dong": "반포동", "jibun": "1", "seq": seq, "deal": deal, "build_year": 2016,
+                "area": area, "price": price, "date": date, "floor": 10}
+
+    def test_clean_and_stats(self):
+        from tracker import marketmap as mm
+        today = dt.date(2026, 11, 10)
+        ts = [self._t("A", f"2026-{m:02d}-15", 300000 + m * 1000) for m in range(1, 11)]
+        ts += [self._t("A", "2026-05-01", 100000)]                     # 단지 중앙값의 1/3 → 이상치
+        ts += [self._t("A", "2026-06-01", 200000, deal="직거래")]       # 직거래 제외
+        clean, direct, outl = mm.clean_trades(ts)
+        self.assertEqual((len(clean), direct, outl), (10, 1, 1))
+        s = mm.band_stats(clean, today)
+        self.assertEqual(s["last"][1], 310000)
+        self.assertEqual(s["peak"][1], 309000)                           # 연속 3건 중앙값 최고(308·309·310 → 309)
+        self.assertEqual(s["n12"], 10)
+        self.assertEqual(s["ppa12"], round(st_median([t["price"] / t["area"] * 3.3058 for t in clean])))
+
+    def test_same_complex_yoy_and_index(self):
+        from tracker import marketmap as mm
+        today = dt.date(2026, 11, 10)
+        ts = []
+        for k, base in (("A", 200000), ("B", 100000), ("C", 150000), ("D", 120000), ("E", 90000)):
+            ts += [self._t(k, "2025-07-10", base), self._t(k, "2025-08-10", base)]            # 1년 전 6개월
+            ts += [self._t(k, "2026-08-10", base * 1.1), self._t(k, "2026-09-10", base * 1.1)]  # 최근 6개월 +10%
+        ts += [self._t("Z", "2026-09-20", 900000), self._t("Z", "2026-10-20", 900000)]           # 최근에만 거래된 비싼 단지
+        yoy, n = mm.same_complex_yoy(ts, today)
+        self.assertEqual((yoy, n), (10.0, 5))      # 비싼 단지 Z가 섞여도 같은 단지끼리만 비교 → +10%
+        self.assertEqual(mm.band_of(59.9), "59")
+        self.assertEqual(mm.band_of(84.99), "84")
+
+
+def st_median(xs):
+    import statistics
+    return statistics.median(xs)
+
+
+class MarketHistoryTest(unittest.TestCase):
+    def _t(self, seq, date, price, area=84.9):
+        return {"apt": seq, "dong": "반포동", "jibun": "1", "seq": seq, "deal": "중개거래", "build_year": 2010,
+                "area": area, "price": price, "date": date, "floor": 10}
+
+    def test_history_stats_cagr_and_drawdown(self):
+        from tracker import marketmap as mm
+        today = dt.date(2026, 11, 10)
+        # 2010년 10억 → 해마다 +10%, 단 2022년은 고점(30억)·2023년은 급락(21억)
+        price = {y: round(100000 * 1.1 ** (y - 2010)) for y in range(2010, 2027)}
+        price[2022], price[2023] = 300000, 210000
+        ts = [self._t("A", f"{y}-{m:02d}-15", price[y]) for y in range(2010, 2027) for m in (2, 5, 8, 10) for _ in (0, 1)]
+        clean, _, outl = mm.clean_trades(ts)
+        self.assertEqual(outl, 0)                                        # 긴 기간의 상승을 이상치로 지우지 않음
+        h = mm.history_stats(clean, 2010, today)
+        self.assertEqual(h["y0"], 2010)
+        self.assertAlmostEqual(h["since"], (price[2026] / 100000 - 1) * 100, places=0)
+        self.assertTrue(9.0 <= h["cagr"] <= 11.0, h["cagr"])
+        self.assertEqual(h["mdd"][0], -30.0)                             # 30억 → 21억
+        self.assertTrue(h["mdd"][1].startswith("2022") and h["mdd"][2].startswith("2023"))
+        q = mm.band_history(clean)["84"]
+        self.assertEqual(q[0], ["2010Q1", 100000, 2])
+
+    def test_chain_index_same_complex(self):
+        from tracker import marketmap as mm
+        ts = []
+        for i in range(6):                                               # 단지 6곳, 해마다 +10%
+            for y in (2020, 2021, 2022):
+                p = round((100000 + i * 50000) * 1.1 ** (y - 2020))
+                ts += [self._t(f"C{i}", f"{y}-03-01", p), self._t(f"C{i}", f"{y}-09-01", p)]
+        ts += [self._t("NEW", "2022-05-01", 900000), self._t("NEW", "2022-06-01", 900000)]   # 비싼 새 단지가 끼어도 지수는 그대로
+        idx = mm.chain_index(ts)
+        self.assertEqual([r[0] for r in idx], [2020, 2021, 2022])
+        self.assertAlmostEqual(idx[1][1], 110.0, places=0)
+        self.assertAlmostEqual(idx[2][1], 121.0, places=0)
+        self.assertEqual(idx[2][2], 6)
+
+
+class CatalystTest(unittest.TestCase):
+    def test_only_official_rows_survive(self):
+        import tempfile
+        from pathlib import Path
+        from tracker import catalysts
+        rows = ("kind,line,name,lat,lng,stage,notice_no,notice_date,open_target,source_url,memo\n"
+                "지하철역,가상선,공식역,37.5,127.0,기본계획,고시 제1호,2026-01-01,2030,https://www.molit.go.kr/x,\n"
+                "지하철역,가상선,블로그역,37.5,127.0,착공,,,,https://blog.example.com/x,\n"
+                "지하철역,가상선,좌표없음역,,,착공,,,,https://www.molit.go.kr/x,\n"
+                "지하철역,가상선,단계오류역,37.5,127.0,추진중,,,,https://www.molit.go.kr/x,\n")
+        with tempfile.TemporaryDirectory() as d:
+            f = Path(d) / "c.csv"
+            f.write_text(rows, encoding="utf-8")
+            items, dropped = catalysts.load(f)
+        self.assertEqual([x["name"] for x in items], ["공식역"])
+        self.assertEqual(items[0]["stage_i"], 2)
+        self.assertEqual(len(dropped), 3)
+
+
+class ForecastTest(unittest.TestCase):
+    def _trades(self, seed=1):
+        """단지 12곳(수준이 서로 다름), 2006~2026 분기마다 거래. 참 지수: 반기마다 +2%, 2015년부터는 비싼 단지만 거래가 늘어남."""
+        import random
+        rng = random.Random(seed)
+        ts = []
+        for y in range(2006, 2027):
+            for q in range(4):
+                true = 0.01 * ((y - 2006) * 4 + q)
+                for c in range(12):
+                    n = 3 if (c < 6 or y < 2015) else 9                      # 구성 변화(비싼 단지 거래 비중 ↑)
+                    for _ in range(n):
+                        lv = math.log(1000 + c * 300)
+                        price = math.exp(lv + true + rng.gauss(0, 0.02)) * 84.9
+                        ts.append({"seq": f"C{c}", "dong": "가동", "jibun": str(100 + c), "area": 84.9, "price": round(price),
+                                   "date": f"{y}-{q * 3 + 2:02d}-15", "deal": "중개거래", "build_year": 2000, "floor": 5})
+        return ts
+
+    def test_fe_index_ignores_composition(self):
+        from tracker import forecast as fc, marketmap as mm
+        idx = fc.fe_index(self._trades(), mm.ckey, mm.band_of)
+        self.assertEqual(fc._qname(idx["q0"]), "2006Q1")
+        self.assertAlmostEqual(idx["logidx"][-1], 0.01 * 83, delta=0.01)       # 참값 0.83 — 단순 중앙값이면 구성 변화로 더 크게 나옴
+        h0, p = fc.halves(idx)
+        self.assertEqual(len(p), 42)
+
+    def test_fit_recovers_momentum_and_reversion(self):
+        import random
+        from tracker import forecast as fc
+        rng = random.Random(7)
+        series = {}
+        for k in range(30):                                                    # ρ=0.5, κ=0.15, g=0.02 로 만든 가짜 지수
+            p, d = [0.0, 0.02], 0.02
+            for t in range(2, 40):
+                d = 0.02 + 0.5 * (d - 0.02) + 0.15 * (0.02 * (t - 1) - p[-1]) + rng.gauss(0, 0.02)
+                p.append(p[-1] + d)
+            series[str(k)] = p
+        m = fc.fit_pooled(series)
+        self.assertAlmostEqual(m["rho"], 0.5, delta=0.12)
+        self.assertAlmostEqual(m["kappa"], 0.15, delta=0.1)
+        bt = fc.backtest(series, {c: 4012 for c in series})
+        self.assertTrue(60 <= bt["y1"]["cover80"] <= 95, bt)
+        self.assertLessEqual(bt["y1"]["err_model"], bt["y1"]["err_nochange"])
+
+    def test_event_study_finds_jump(self):
+        from tracker import forecast as fc, marketmap as mm
+        from tracker.upcoming import _jibun_key
+        ts = self._trades()
+        for t in ts:                                                           # C3 단지만 2016-07 이후 +10%
+            if t["seq"] == "C3" and t["date"] >= "2016-07-01":
+                t["price"] = round(t["price"] * 1.10)
+        idx = fc.fe_index(ts, mm.ckey, mm.band_of)
+        zones = [{"name": "가동 재건축", "type": "재건축", "sigungu": "X구", "address": "X구 가동103",
+                  "milestones": {"d_union": "2016-07-01"}}]
+        rows = fc.event_rows(ts, idx, zones, _jibun_key)
+        self.assertEqual(len(rows), 1)
+        self.assertAlmostEqual(math.exp(rows[0]["jump"]) - 1, 0.10, delta=0.03)
+        self.assertAlmostEqual(rows[0]["run_up"], 0.0, delta=0.03)
+
+    def test_feed_classify(self):
+        from tracker import catalysts as c
+        pl = ["강남구", "분당구", "과천시"]
+        a = c.classify("위례신사선 도시철도 기본계획 승인…강남구 구간 포함", pl)
+        self.assertEqual((a["kind"], a["stage"], a["places"]), ("철도·지하철", "기본계획", ["강남구"]))
+        self.assertEqual(c.classify("GTX-C 노선 착공식 개최", pl)["stage"], "착공")
+        self.assertEqual(c.classify("세종-포천 고속도로 수도권 구간 개통", pl)["kind"], "도로")
+        self.assertIsNone(c.classify("부산 도시철도 사상-하단선 개통", pl))          # 서울·경기 밖
+        self.assertIsNone(c.classify("강남구 지하철역 환경 개선 캠페인", pl))          # 결정이 아닌 글
+        self.assertIsNone(c.classify("올해 수도권 공공주택 6만호 이상 착공", pl))      # 교통이 아님
+        self.assertIsNone(c.classify("○○ 의원, 9호선 연장 조기 착공 촉구", pl))       # 요구·희망
+        self.assertEqual(c.classify("용문~홍천 광역철도 예비타당성조사 통과", pl), None)  # 홍천(강원)

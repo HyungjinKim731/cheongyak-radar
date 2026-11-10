@@ -1,37 +1,73 @@
-=== 2026-11-09 업데이트 방법 (한 번에) ===
+업데이트 안내 (2026-11-10 저녁, 이 파일 하나로 11/10 낮에 드린 것까지 모두 포함)
+==========================================================================
 
-[이번에 들어간 것]
- 1. 기대 시세: 공고 위치에서 실제 거리 1→2→3km 안 10년 이내 단지 실거래로 계산 (근거 없으면 순위 제외)
- 2. 추천 순위: 투자 점수(연 환산) = (시세 여유율 + 3개월 상승률) ÷ 묶이는 기간
- 3. 전매제한·실거주의무·재당첨 제한 표시 (공고문 확인 / 법령 기준 추정 구분)
- 4. 줍줍 탭 + 새 줍줍·접수 하루 전 알림 (GitHub 앱 / 텔레그램)
- 5. 용어집 탭 (법령 근거 링크)
- 6. 지도: 카카오 키 상태 표시, 키가 생기면 예전 '동 단위' 좌표도 번지 단위로 다시 찾음
- 7. 보는 범위 기본값: 🎯 핵심지역만(정부 지정 규제지역) + 주변 시세 10억↑ (화면 맨 위에서 바로 바꿈,
-    config.toml [focus] 에서 기본값·추가/제외 지역 수정). 줍줍 알림도 같은 기준
- 8. 투자 점수 수정: 묶이는 기간 = max(전매, 입주까지 + max(실거주, 2년)), 손실은 기간으로 나누지 않음,
-    비교 근거가 약하면(거래 8건 미만·거래 1건 단지·단지 간 값 차이 50% 초과) 순위 제외, 토지임대부·지분적립형 순위 제외
- 9. 이미 분양한 정비구역 표시: 청약홈 과거 4년 공고와 주소(지번)로 짝지어 '분양 완료' (예: 서초신동아 → 아크로 드 서초)
-    ※ 첫 실행 때 과거 4년치 공고를 한 번 받느라 몇 분 더 걸림
-10. 초보 가이드·용어집을 위 탭에서 빼고, 오른쪽 위 '📖 가이드·용어집' 버튼으로 따로 들어가게 함(← 레이더로 돌아가기)
+■ 이번에 바뀌는 것
+ 1. 첫 화면 "ASAR Partners" 신설           → 주소 끝 /
+ 2. 청약 레이더가 /radar/ 로 이동         → 예전 주소(/#zupzup 등)는 자동으로 넘어감
+ 3. 실거래가 분석 지도 /market/                    → 단지·동·구 실거래 통계 + 준공 이후 전체 흐름
+ 4. 분석실 /lab/                          → 산점도·그룹 비교·헤도닉 회귀·공간 통계
+ 5. 배포 방식 변경(★ 설정 1곳 직접 바꿔야 함, 아래 3번)
+ 6. 줍줍 알림의 링크가 /radar/#zupzup 으로 바뀜
+ 7. 사이트 이름 ASAR Partners (Applied Statistical Asset Research)
+    메뉴: Offerings(청약 레이더) · Comps(실거래가 분석 지도) · Quant Lab(분석실) · Scenario·Portfolio(준비 중) · Handbook(가이드와 용어집)
+ 9. Scenario(시나리오 예측) /scenario/  → 지역·단지 1~5년 가격 범위, 백테스트, 재건축 단계 효과, 교통 호재 소식
+      * 과거 실거래(2006년~)가 12년치 이상 모인 지역부터 나옵니다. 그 전에는 "과거 자료를 모으는 중".
+ 8. 예정 호재 틀: data/catalysts.csv 에 한 줄씩 적으면 지도에 ◆ 로 표시 (공식 출처 주소가 아니면 자동 제외)
+      열: kind,line,name,lat,lng,stage,notice_no,notice_date,open_target,source_url,memo
+      stage 는 계획 / 예타통과 / 기본계획 / 착공 / 개통 중 하나. 지금은 비어 있음(고시 원문 확인 후 채움)
 
-[순서] 아나콘다 프롬프트
- 1) cd /d "C:\Users\jins7\OneDrive\바탕 화면\cheongyak-tracker"
- 2) git pull                         ← 먼저! (GitHub 자동 갱신 데이터 받기)
- 3) 압축 파일을 풀어 이 폴더에 '덮어쓰기'
- 4) git add .
- 5) git commit -m "거리 기반 시세, 투자 점수, 줍줍 탭·알림, 용어집"
- 6) git push
- 7) GitHub → Actions 에서 '청약·정비 데이터 갱신'이 자동으로 돎 (첫 실행은 10~20분)
+■ 순서 (Anaconda Prompt)
+ 1) 폴더로 이동하고 GitHub 최신 상태로 맞추기
+      cd "C:\Users\jins7\OneDrive\바탕 화면\cheongyak-tracker"
+      git fetch origin
+      git reset --hard origin/main
 
-[확인]
- - 사이트 '지도' 탭 아래 문구 맨 앞: [카카오 키 정상 (N건)] 이면 OK
-   [카카오 키 거절됨 ...] → Kakao Developers 앱의 [카카오맵] 사용 설정 ON, REST API 키인지 확인
-   [카카오 키 없음] → GitHub Secret 이름이 KAKAO_REST_KEY 인지 확인
- - '추천 순위' 탭: 카카오가 정상이어야 '근거 부족' 없이 순위가 채워짐
- - '줍줍' 탭: 첫 실행은 알림 없이 기록만, 그다음 새 공고부터 알림
+ 2) 압축을 풀어 폴더에 덮어쓰기(같은 이름은 모두 바꾸기) 한 뒤
+      git rm -r --cached docs/data data/state/trades
+      git add -A
+      git commit -m "ASAR Partners: 첫 화면, 실거래가 분석 지도, 분석실"
+      git push
+    * git rm 줄에서 "did not match any files" 가 나오면 그냥 넘어가면 됩니다.
+    * profile.local.json / portfolio.local.json / .env 는 압축에 없고, 올라가지도 않습니다.
 
-[git pull 에서 오류가 나면]
- "Your local changes would be overwritten" → 아래 두 줄 후 다시 2)부터
-   git stash
-   git pull
+ 3) ★ GitHub 저장소 → Settings → Pages → "Build and deployment" 의 Source 를
+      "Deploy from a branch" → "GitHub Actions" 로 바꾸기   (한 번만)
+
+ 4) Actions → "청약·정비 데이터 갱신" → Run workflow
+    * 첫 실행은 20~40분(24개월 실거래 + 단지 위치 찾기).
+    * 준공 이후 자료(2006년~)는 갱신 때마다 500달치씩 받아 3~4일에 걸쳐 채워집니다.
+      그 전에는 "과거 자료를 아직 모으는 중" 이라고 나오는 것이 정상입니다.
+
+ 5) 확인
+      https://hyungjinkim731.github.io/cheongyak-radar/          첫 화면
+      https://hyungjinkim731.github.io/cheongyak-radar/radar/    청약 레이더
+      https://hyungjinkim731.github.io/cheongyak-radar/market/   실거래가 분석 지도
+      https://hyungjinkim731.github.io/cheongyak-radar/lab/      분석실
+      https://hyungjinkim731.github.io/cheongyak-radar/scenario/ 시나리오 예측
+    * 휴대폰 홈 화면에 추가해 둔 아이콘은 지우고 첫 화면에서 다시 추가하세요.
+
+■ 문제가 생기면
+ - 사이트가 404: 3번(Source = GitHub Actions)을 했는지, Actions 실행이 초록색으로 끝났는지 확인
+ - Actions 가 빨간색: 실패한 단계 이름과 마지막 10줄 정도를 복사해서 알려 주세요
+ - 실거래가 분석 지도·분석실이 "자료가 아직 없어요": 4번 실행이 끝나기 전입니다
+
+■ 아직 확인 못 한 것(실제 키로 돌려 봐야 아는 것)
+ - 화성시 동탄구 법정동 코드 41597 (올해 생긴 구). 지도에 동탄이 비어 있으면 알려 주세요.
+ - 과거 자료를 받을 때 하루 호출 한도(data.go.kr 개발계정)에 걸리면 자동으로 멈추고 다음 갱신 때 이어 받습니다.
+
+■ 추가 키 (없어도 지금 기능은 모두 동작, 다음 업데이트의 시나리오 예측용)
+ - ECOS_KEY : 한국은행 경제통계시스템 https://ecos.bok.or.kr/api/ → 회원가입 → 인증키 신청 → 마이페이지에서 확인
+              GitHub 저장소 Settings → Secrets and variables → Actions → New repository secret
+              Name: ECOS_KEY / Secret: 받은 키
+ - data.go.kr 에서 "활용신청"만 누르면 되는 것(키는 지금 쓰는 DATA_GO_KR_KEY 그대로):
+     · 국토교통부_아파트 전월세 실거래가 자료
+     · 국토교통부_공동주택 단지 목록제공 서비스 / 공동주택 기본 정보제공 서비스
+
+■ Scenario 에 쓰인 방법 (화면 '방법' 칸에도 같은 내용)
+ - 지수: 단지×면적대 고정효과 회귀(같은 단지·같은 면적대끼리 비교, 반복매매지수와 같은 원리)
+ - 기준 예측: 관성 + 평균 회귀  Δp − g = ρ(Δp₋₁ − g) + κ(추세선 − p₋₁) + ε, 반기 단위, 모든 지역을 묶어 ρ·κ 추정
+ - 범위: 그 지역의 과거 오차를 다시 뽑아 2,000번 모의 → 10·25·50·75·90%
+ - 백테스트: 과거 각 시점까지의 자료만으로 예측해 1년·3년 뒤 실제와 비교, '변화 없음'·'추세 연장'과 오차 비교
+ - 범위 보정: 과거 예측에서 80% 범위가 실제를 덜 담았으면 그 배율만큼 범위를 넓힘
+ - 재건축: 서울시 정비사업 현황의 단계별 인가일 앞뒤 12개월, 같은 구 지수 대비 초과 변화(사건 연구)
+ - 교통 호재 소식: 국토부·정책브리핑·서울시·경기도·기재부 글의 제목에서 단계 낱말을 찾아 자동 분류(오분류 가능)

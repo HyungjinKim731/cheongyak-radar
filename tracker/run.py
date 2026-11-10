@@ -274,6 +274,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--skip-prices", action="store_true")
     ap.add_argument("--no-news", action="store_true")
     ap.add_argument("--no-geo", action="store_true", help="지도 좌표 조회 생략(캐시만 사용)")
+    ap.add_argument("--no-marketmap", action="store_true", help="시세 지도 데이터 생략")
     args = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
 
@@ -345,6 +346,26 @@ def main(argv: list[str] | None = None) -> int:
         log.warning(w)
     log.info("완료: 청약 %d건, 정비사업 %d곳, 새 변경 %d건 → %s",
              len(schedules), len(pipe), len(new_changes), OUT.relative_to(ROOT))
+    try:                                       # 예정 호재 (data/catalysts.csv → docs/data/catalysts.json)
+        from . import catalysts
+        from .marketmap import DEFAULT_AREAS
+        places = sorted({w for a in (cfg.get("marketmap", {}).get("areas") or DEFAULT_AREAS) for w in a["sigungu"].split()}
+                        | {"분당", "판교", "광교", "동탄", "위례", "과천"})
+        catalysts.build(places, with_feed=not (args.no_news or args.demo))
+    except Exception as e:
+        log.warning("예정 호재 목록 갱신 실패: %s", e)
+    if not (args.demo or args.no_marketmap):
+        try:                                   # 실거래가 분석 지도 (docs/market) — 실패해도 청약 레이더 갱신은 그대로
+            from . import marketmap
+            mm = cfg.get("marketmap", {})
+            gm = geo.Geocoder(STATE / "geocode.json", max_new=0 if args.no_geo else mm.get("geocode_per_run", 4000),
+                              max_seconds=mm.get("geocode_max_seconds", 600))
+            try:
+                marketmap.build(cfg, os.environ.get("DATA_GO_KR_KEY", "").strip() or None, gm, pipeline=pipe)
+            finally:
+                gm.save()
+        except Exception as e:
+            log.warning("시세 지도 갱신 실패: %s", e)
     return 0
 
 

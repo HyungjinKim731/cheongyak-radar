@@ -8,6 +8,7 @@ on:
     paths:
       - "data/watchlist.csv"  # 관심목록을 고치면 바로 반영
       - "data/notice_rules.csv"
+      - "data/catalysts.csv"
       - "tracker/**"           # 계산 방식이 바뀌면 바로 다시 계산
       - "data/raw/**"
       - "config.toml"
@@ -15,6 +16,8 @@ on:
 permissions:
   contents: write
   issues: write        # 줍줍 알림 이슈
+  pages: write         # 사이트 배포 (Settings → Pages → Source: GitHub Actions)
+  id-token: write
 
 concurrency:
   group: update-data
@@ -23,6 +26,10 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -35,6 +42,16 @@ jobs:
 
       - run: pip install -r requirements.txt
 
+      # 실거래 원본·만들어진 화면 데이터는 크고 자주 바뀌어 저장소에 넣지 않고 Actions 캐시에 보관(저장소 용량 보호)
+      - name: 캐시 복원 (실거래 원본·지난 화면 데이터)
+        uses: actions/cache@v4
+        with:
+          path: |
+            data/state/trades
+            docs/data
+          key: data-${{ github.run_id }}
+          restore-keys: data-
+
       - name: 개인 파일이 올라오지 않았는지 확인
         run: |
           for f in profile.local.json portfolio.local.json .env; do
@@ -45,6 +62,7 @@ jobs:
         env:
           DATA_GO_KR_KEY: ${{ secrets.DATA_GO_KR_KEY }}
           KAKAO_REST_KEY: ${{ secrets.KAKAO_REST_KEY }}   # 없어도 됨(지도 정확도용)
+          ECOS_KEY: ${{ secrets.ECOS_KEY }}               # 없어도 됨(한국은행 금리·주가 — 시나리오 예측용, 다음 업데이트부터 사용)
           VWORLD_KEY: ${{ secrets.VWORLD_KEY }}           # 없어도 됨
           NAVER_MAP_ID: ${{ secrets.NAVER_MAP_ID }}       # 없어도 됨(네이버 클라우드 Maps)
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}   # 없어도 됨(줍줍 텔레그램 알림)
@@ -53,14 +71,26 @@ jobs:
           NAVER_MAP_SECRET: ${{ secrets.NAVER_MAP_SECRET }}
         run: python -m tracker.run
 
-      - name: 변경분 커밋
+      - name: 작은 상태 파일만 커밋 (위치 캐시·변경 이력·알림 기록 등)
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/data data/state data/raw
+          git rm -r --cached --quiet --ignore-unmatch docs/data data/state/trades
+          git add data/state data/raw
           if git diff --cached --quiet; then
             echo "변경 없음"
           else
-            git commit -m "data: $(TZ=Asia/Seoul date +'%Y-%m-%d %H:%M') 갱신"
+            git commit -m "state: $(TZ=Asia/Seoul date +'%Y-%m-%d %H:%M') 갱신"
             git push
           fi
+
+      - name: 사이트 배포 준비
+        uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+      - name: 사이트 배포 (청약 레이더 + 시세 지도)
+        id: deployment
+        uses: actions/deploy-pages@v4
