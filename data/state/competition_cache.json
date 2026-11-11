@@ -1398,9 +1398,9 @@
   "rank1_req": 7150,
   "rank1_avg": 36.48,
   "rank1_max": 849.0,
-  "score_min": null,
-  "score_max": null,
-  "score_avg": null,
+  "score_min": 64,
+  "score_max": 74,
+  "score_avg": 69.1,
   "available": true
  },
  "apt:2026000502:2026000502": {
@@ -1994,15 +1994,70 @@
   "available": true
  },
  "apt:2026000535:2026000535": {
-  "types": [],
-  "rank1_supply": null,
-  "rank1_req": null,
-  "rank1_avg": null,
-  "rank1_max": null,
+  "types": [
+   {
+    "type": "059.9670A",
+    "supply": 7,
+    "req": 70,
+    "rates": {
+     "해당지역": "4.14",
+     "기타지역": "-"
+    }
+   },
+   {
+    "type": "059.9898B",
+    "supply": 7,
+    "req": 42,
+    "rates": {
+     "해당지역": "1.29",
+     "기타지역": "-"
+    }
+   },
+   {
+    "type": "068.9683",
+    "supply": 4,
+    "req": 15,
+    "rates": {
+     "해당지역": "(△4)",
+     "기타지역": "3.75"
+    }
+   },
+   {
+    "type": "074.9857",
+    "supply": 12,
+    "req": 52,
+    "rates": {
+     "해당지역": "1.50",
+     "기타지역": "-"
+    }
+   },
+   {
+    "type": "079.9780",
+    "supply": 7,
+    "req": 15,
+    "rates": {
+     "해당지역": "(△3)",
+     "기타지역": "3.67"
+    }
+   },
+   {
+    "type": "084.9932",
+    "supply": 4,
+    "req": 34,
+    "rates": {
+     "해당지역": "3.00",
+     "기타지역": "-"
+    }
+   }
+  ],
+  "rank1_supply": 41,
+  "rank1_req": 228,
+  "rank1_avg": 5.56,
+  "rank1_max": 4.14,
   "score_min": null,
   "score_max": null,
   "score_avg": null,
-  "available": false
+  "available": true
  },
  "apt:2026000525:2026000525": {
   "types": [
@@ -2043,9 +2098,8 @@
     "supply": 403,
     "req": 206,
     "rates": {
-     "해당지역": "1.15",
-     "기타지역": "(△197)",
-     "기타경기": null
+     "해당지역": "(△264)",
+     "기타지역": "(△197)"
     }
    },
    {
@@ -2053,9 +2107,8 @@
     "supply": 198,
     "req": 20,
     "rates": {
-     "해당지역": "(△49)",
-     "기타지역": "(△178)",
-     "기타경기": null
+     "해당지역": "(△188)",
+     "기타지역": "(△178)"
     }
    },
    {
@@ -2063,9 +2116,8 @@
     "supply": 157,
     "req": 26,
     "rates": {
-     "해당지역": "(△28)",
-     "기타지역": "(△131)",
-     "기타경기": null
+     "해당지역": "(△138)",
+     "기타지역": "(△131)"
     }
    },
    {
@@ -2073,9 +2125,8 @@
     "supply": 117,
     "req": 18,
     "rates": {
-     "해당지역": "(△24)",
-     "기타지역": "(△99)",
-     "기타경기": null
+     "해당지역": "(△106)",
+     "기타지역": "(△99)"
     }
    },
    {
@@ -2083,16 +2134,15 @@
     "supply": 147,
     "req": 12,
     "rates": {
-     "해당지역": "(△36)",
-     "기타지역": "(△135)",
-     "기타경기": null
+     "해당지역": "(△139)",
+     "기타지역": "(△135)"
     }
    }
   ],
   "rank1_supply": 1022,
   "rank1_req": 282,
   "rank1_avg": 0.28,
-  "rank1_max": 1.15,
+  "rank1_max": null,
   "score_min": null,
   "score_max": null,
   "score_avg": null,
@@ -2162,6 +2212,41 @@
    }
   ],
   "rank1_supply": 2,
+  "rank1_req": null,
+  "rank1_avg": null,
+  "rank1_max": null,
+  "score_min": null,
+  "score_max": null,
+  "score_avg": null,
+  "available": true
+ },
+ "apt:2026820014:2026820014": {
+  "types": [],
+  "rank1_supply": null,
+  "rank1_req": null,
+  "rank1_avg": null,
+  "rank1_max": null,
+  "score_min": null,
+  "score_max": null,
+  "score_avg": null,
+  "available": false
+ },
+ "remndr:2026910280:2026910280": {
+  "types": [
+   {
+    "type": "075.4603",
+    "supply": 4,
+    "req": 0,
+    "rates": {}
+   },
+   {
+    "type": "084.9596",
+    "supply": 2,
+    "req": 0,
+    "rates": {}
+   }
+  ],
+  "rank1_supply": 6,
   "rank1_req": null,
   "rank1_avg": null,
   "rank1_max": null,
