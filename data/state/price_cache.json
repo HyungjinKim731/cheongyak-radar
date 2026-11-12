@@ -5500,5 +5500,92 @@
     "SUPLY_HSHLDCO": 10
    }
   ]
+ },
+ "apt:2026000576:2026000576": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.8861A",
+    "SUPLY_AR": "119.2032",
+    "LTTOT_TOP_AMOUNT": "110500",
+    "SUPLY_HSHLDCO": 82,
+    "SPSPLY_HSHLDCO": 98
+   },
+   {
+    "HOUSE_TY": "084.9580B",
+    "SUPLY_AR": "120.6563",
+    "LTTOT_TOP_AMOUNT": "110500",
+    "SUPLY_HSHLDCO": 43,
+    "SPSPLY_HSHLDCO": 45
+   },
+   {
+    "HOUSE_TY": "084.8700C",
+    "SUPLY_AR": "120.9921",
+    "LTTOT_TOP_AMOUNT": "109900",
+    "SUPLY_HSHLDCO": 42,
+    "SPSPLY_HSHLDCO": 48
+   },
+   {
+    "HOUSE_TY": "099.9001A",
+    "SUPLY_AR": "140.8321",
+    "LTTOT_TOP_AMOUNT": "127200",
+    "SUPLY_HSHLDCO": 157,
+    "SPSPLY_HSHLDCO": 23
+   },
+   {
+    "HOUSE_TY": "099.9015B",
+    "SUPLY_AR": "140.3974",
+    "LTTOT_TOP_AMOUNT": "124200",
+    "SUPLY_HSHLDCO": 237,
+    "SPSPLY_HSHLDCO": 35
+   },
+   {
+    "HOUSE_TY": "104.8286 ",
+    "SUPLY_AR": "147.4366",
+    "LTTOT_TOP_AMOUNT": "140840",
+    "SUPLY_HSHLDCO": 152,
+    "SPSPLY_HSHLDCO": 22
+   }
+  ]
+ },
+ "apt:2026000457:2026000457": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.7100A",
+    "SUPLY_AR": "81.0969",
+    "LTTOT_TOP_AMOUNT": "61345",
+    "SUPLY_HSHLDCO": 37,
+    "SPSPLY_HSHLDCO": 205
+   },
+   {
+    "HOUSE_TY": "059.9900B",
+    "SUPLY_AR": "81.4772",
+    "LTTOT_TOP_AMOUNT": "61520",
+    "SUPLY_HSHLDCO": 18,
+    "SPSPLY_HSHLDCO": 108
+   },
+   {
+    "HOUSE_TY": "059.9900C",
+    "SUPLY_AR": "81.4772",
+    "LTTOT_TOP_AMOUNT": "61515",
+    "SUPLY_HSHLDCO": 3,
+    "SPSPLY_HSHLDCO": 11
+   },
+   {
+    "HOUSE_TY": "074.9800A",
+    "SUPLY_AR": "101.8363",
+    "LTTOT_TOP_AMOUNT": "75423",
+    "SUPLY_HSHLDCO": 8,
+    "SPSPLY_HSHLDCO": 42
+   },
+   {
+    "HOUSE_TY": "084.9500A",
+    "SUPLY_AR": "115.3774",
+    "LTTOT_TOP_AMOUNT": "85406",
+    "SUPLY_HSHLDCO": 16,
+    "SPSPLY_HSHLDCO": 100
+   }
+  ]
  }
 }

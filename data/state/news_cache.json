@@ -615,75 +615,6 @@
   "fetched_at": "2026-11-12T20:00:30+09:00",
   "articles": []
  },
- "의왕역 한신더휴": {
-  "fetched_at": "2026-11-12T20:00:31+09:00",
-  "articles": [
-   {
-    "title": "도촌동 행정복지센터",
-    "source": "jungwongu.go.kr",
-    "date": "2026-11-11",
-    "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxOa1pFVVBydE54U3Bxd0lSQmMwS1dzNkRfUHV5M1BCOHlDYmM2ZVEwRjdITkRrRTIwRGpHLWJjeUZFcTNOSzZIMElZWTVMd2NUdkJ2WURkTjliZlYzZjRmX2R3QWhWR0FzMk1tZGhIUkNZYkxsU2NHbGlValVXcm0weUI1eTM1RS1iUFA3b2lIcHdqSWVNa3V0V202ZG4yUmNTVXR4YmFHbzlCanN0Z0YzR0RjRmtDNXEzRW5BaTFBaG9jRHoxQmJDTm1GNVBvaGhP?oc=5",
-    "source_url": "https://www.jungwongu.go.kr:10008",
-    "text": "도촌동 행정복지센터  도촌동 행정복지센터    중원구청 "
-   },
-   {
-    "title": "동소식 모아보기",
-    "source": "anyang.go.kr",
-    "date": "2026-11-11",
-    "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxPSWxUM2tkYVI3N2p1QUZlcGE0M2Nsd1h0Yi1PMEJ2ZjZTNUg5M3dyc3RzRnpab2tkeUs0aDk1RmYtdWRVb19HYmJVNjNKRllJcnRWMU1ISmZ6elprQVctT3djS0hkTHNBclA1bWhDMDd2dVdZNlZKalM0UUNDSThuR0hoT1dobU5lZ1E?oc=5",
-    "source_url": "https://www.anyang.go.kr",
-    "text": "동소식 모아보기  동소식 모아보기    안양시청 "
-   },
-   {
-    "title": "새소식",
-    "source": "gjcity.go.kr",
-    "date": "2026-11-11",
-    "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNeFJZNmxHNXV2Rmc1U0pkVEFNSmgyZTdUWjJjdlVJM1N3akktdDRTb09udENLdWlTdFFWZDRtWE54ZHRiM3V3TWxFWFZKdUpNRHZvUFhfcWE1eDQyTnNWVVhsenhISnJvV3hKcHFXcEFLa3k1dWVFbUxPcWVuSGQyaXp1clA3dV9aMlAtazgwQQ?oc=5",
-    "source_url": "https://www.gjcity.go.kr",
-    "text": "새소식  새소식    광주시청 "
-   },
-   {
-    "title": "새소식",
-    "source": "anyang.go.kr",
-    "date": "2026-11-11",
-    "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxOSzJzUzRCNWlmQ19PWVdmQ0Y3ZDhzVmxrNXZhTkEtc3MwQlVRM3dOSnRhQ0EwblgyUUZJQ25wcWdIZFRzU0xXLTk3U0pIYVZCV2ZiN0RISWNkT3dNTVA1OXU0UFQtZ09rVUYxZzFYa0IwQ3VpRkNwMjlHdEI4cVNjY2lxa1I3QQ?oc=5",
-    "source_url": "https://www.anyang.go.kr",
-    "text": "새소식  새소식    안양시청 "
-   },
-   {
-    "title": "호수동 | 우리동 소식",
-    "source": "ansan.go.kr",
-    "date": "2026-11-10",
-    "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPQUlDenhzZlRfZWZOTG9sVllKQ25wdkFERDA4RlNINkltSy1FaEJCS0l3ejI5eTk4S2o5aWllY29rX19MMVJzdm9hNnFwR1AzTEtvUGVsdWNOZTlfQ2xTYWxYUF9xZVVia3BoOXZXaklrVGJPbkx5LW00SnVFTmRnVXRZTU4zYm1yNEVSblpmWDZUMWpNWFo1TQ?oc=5",
-    "source_url": "https://www.ansan.go.kr",
-    "text": "호수동 | 우리동 소식  호수동 | 우리동 소식    안산시청 "
-   },
-   {
-    "title": "동소식",
-    "source": "sujigu.go.kr",
-    "date": "2026-11-10",
-    "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTFBnM3YzRk9RU3ZJSEtyeW9UQUMxMUY0dV9HZkNnQTN1c2VXN2hVeFE5ZjBTMV9SMk04VU1jXzBYOHZaVkZJN2lMTzV6aDJBMG9QeTVhcUdPR3pWdmxwMGFTUkx2SQ?oc=5",
-    "source_url": "https://www.sujigu.go.kr",
-    "text": "동소식  동소식    수지구청 "
-   },
-   {
-    "title": "동소식",
-    "source": "giheunggu.go.kr",
-    "date": "2026-11-10",
-    "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOT2dMXzNYRXNBM3lKelUzWE8zTWdiTDNyRUhtY2RBeENEVnV4NnNEdml6bGZMQlhyYVlySV9MdmNzY2pLb3FfMnRWY0d6MmRMSHhFUVJyV0ZPMWtyMkdzOXlobmNRMlJ5SUdyT0cwQkt5dE1Ta0FzWkVUZ0w5aXlWM2JYVjFwMDlzaW41VTcxVEFzT0FBX05HeA?oc=5",
-    "source_url": "https://www.giheunggu.go.kr",
-    "text": "동소식  동소식    기흥구청 "
-   },
-   {
-    "title": "새소식",
-    "source": "gjcity.go.kr",
-    "date": "2026-11-10",
-    "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxPRXhwTl9faERYTXdUX2lfZVdKcnZ3RndNLWw0T0RKVjluWjB0ZVdoa0psTGh2RUxYNkEwdDlEcU04YTFqNjg5cEZGRlJiQktXc0w2TGpNWWs0OHF2ZTZUOEl5X1lHWFQycnlVY01hX19uVEdUeHdZcUg5MWJ6ajNiVGxSdzYxbnJ1RHRwWjNVYw?oc=5",
-    "source_url": "https://www.gjcity.go.kr",
-    "text": "새소식  새소식    광주시청 "
-   }
-  ]
- },
  "방배 더 유엘 포레(2차)": {
   "fetched_at": "2026-11-12T20:00:32+09:00",
   "articles": []
@@ -1133,7 +1064,7 @@
   ]
  },
  "오남역 서희스타힐스 여의재 3단지 (조합원 취소분)": {
-  "fetched_at": "2026-11-12T06:56:18+09:00",
+  "fetched_at": "2026-11-13T06:51:31+09:00",
   "articles": [
    {
     "title": "주택특별공급",
@@ -1146,20 +1077,12 @@
   ]
  },
  "시흥 거모 아테라(시흥거모 A-6BL) 신혼희망타운(공공분양)(본청약)": {
-  "fetched_at": "2026-11-12T06:56:23+09:00",
+  "fetched_at": "2026-11-13T06:51:36+09:00",
   "articles": []
  },
  "제일풍경채 광주 포에듀": {
-  "fetched_at": "2026-11-12T06:56:24+09:00",
+  "fetched_at": "2026-11-13T06:51:36+09:00",
   "articles": [
-   {
-    "title": "(추천명단)(#광주)’제일풍경채 광주 포에듀’ 서울시 장애인 특별공급 기관추천 명단",
-    "source": "서울시",
-    "date": "2026-11-11",
-    "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5JSTM1a2ZlWG5uSDRFLU0tXzhNUW9wS2NWUlJLUXBwN0lWSTREWENtNVFPZFJqc3FpbFlpemNoMFJ0c2p4cmVWT1ZaUTlTWkctQ1c2ZmhHWHY0Rm96?oc=5",
-    "source_url": "https://news.seoul.go.kr",
-    "text": "(추천명단)(#광주)’제일풍경채 광주 포에듀’ 서울시 장애인 특별공급 기관추천 명단  (추천명단)(#광주)’제일풍경채 광주 포에듀’ 서울시 장애인 특별공급 기관추천 명단    분야별정보 "
-   },
    {
     "title": "동소식 모아보기 - 만안구청",
     "source": "anyang.go.kr",
@@ -1215,11 +1138,19 @@
     "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNVWpYbGh3VERXekR5SDZCUVpPbmFMczNEY2lHNldhS29PUXhkdms3b0xJRHpZWEdvWnVXMHBzelRaMWNiWkpvR0k5Vmx5bThlR280ZnNaUGpZNDNRamo3dllaRDhlakVOODFGMkUwUFdsbU1GUm5nVktQOXRtUzhGdWdfTVFQVnBVSHNsZHgxU2NUNENmNXhWdDdjUGxMZkE?oc=5",
     "source_url": "https://www.hscity.go.kr",
     "text": "우리마을새소식  우리마을새소식    화성시청 "
+   },
+   {
+    "title": "동탄구청 > 행정복지센터 > 동탄9동 > 새소식",
+    "source": "hscity.go.kr",
+    "date": "2026-11-03",
+    "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxNWDdFbFJnMThOMEY1Mm5TeDdNX01heXhBa0FrcW10N3dYeUxNSk9NMkJGcGJpdk1oZXpJUmE5V0JXc2FkN2NNQlJLa1ZSUlBqU24wXzNXMDVVT09qVXBydnRxMEVDa1dRUEt6TUFzUEpmRDdSRDdvYTVTMzVtOUJhOEs2eGIzYzNIcFg0SkV0SnBkb3o2M0xHZHVPd24wc1FtV2JEZllibUl6TExrUkJldU8yV1NmOVgtWG9JSEJjeUs2dw?oc=5",
+    "source_url": "https://www.hscity.go.kr",
+    "text": "동탄구청 > 행정복지센터 > 동탄9동 > 새소식  동탄구청 > 행정복지센터 > 동탄9동 > 새소식    화성시청 "
    }
   ]
  },
  "의정부역 펠리스타워 양우내안애": {
-  "fetched_at": "2026-11-12T06:56:25+09:00",
+  "fetched_at": "2026-11-13T06:51:37+09:00",
   "articles": [
    {
     "title": "주택특별공급",
@@ -1238,6 +1169,14 @@
     "text": "주택특별공급  주택특별공급    중소벤처기업부 "
    },
    {
+    "title": "(추천명단)(#의정부)’의정부역 펠리스타워 양우내안愛’ 서울시 장애인 특별공급 기관추천 명단",
+    "source": "서울시",
+    "date": "2026-11-10",
+    "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFAtRmFHaEtkcEZnRHc5UFZoa1czM18yejFjUHBtaE1CY3lmSUxEMy04SnJaWGVrbE5xN1VUX2x4RzNDOGpIRUlNUllNVHlaTU5DNHJ0eHRoeEIyd01n?oc=5",
+    "source_url": "https://news.seoul.go.kr",
+    "text": "(추천명단)(#의정부)’의정부역 펠리스타워 양우내안愛’ 서울시 장애인 특별공급 기관추천 명단  (추천명단)(#의정부)’의정부역 펠리스타워 양우내안愛’ 서울시 장애인 특별공급 기관추천 명단    분야별 정보 "
+   },
+   {
     "title": "(새소식2026-110)(#의정부)'의정부역 펠리스타워 양우내안愛' 서울시 장애인 특별공급 기관추천 안내",
     "source": "서울시",
     "date": "2026-10-12",
@@ -1252,19 +1191,27 @@
     "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTFA1eGQwVzlqbWljWC1fZXd3U1l3WnhFdXNPV3FwUnZBQWsyek9YVFl3VllWYVJ5WXhqSEYyQm94RVVpNEoxaDNxbkhNcUJTZ01fTmVrSllWMDJkenVKOXQyY0FobHJURS1HbkNKWEJnTmZWRHJsMHZSbl9LenZKSlk?oc=5",
     "source_url": "https://www.mss.go.kr",
     "text": "주택특별공급  주택특별공급    중소벤처기업부 "
+   },
+   {
+    "title": "경기지방중소벤처기업청",
+    "source": "mss.go.kr",
+    "date": "2019-09-21",
+    "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1kYXNQdnJKVGpDZHd2eWE0UDNkUUNfdjBRalgxQXZ1N01IXzNOT0Zwa0tCRFlVazgydWZ5UHJLa0FGaTVEMTN6VnJIYVJOckt2XzRGdU5R?oc=5",
+    "source_url": "https://www.mss.go.kr",
+    "text": "경기지방중소벤처기업청  경기지방중소벤처기업청    중소벤처기업부 "
    }
   ]
  },
  "중화역 라온프라이빗 센트로": {
-  "fetched_at": "2026-11-12T06:56:25+09:00",
+  "fetched_at": "2026-11-13T06:51:38+09:00",
   "articles": [
    {
-    "title": "(추천명단)(#중랑구)’중화역 라온프라이빗 센트로’ 서울시 장애인 특별공급 기관추천 명단",
+    "title": "(추천명단)(#중랑구)'중화역 라온프라이빗 센트로' 서울시 장애인 특별공급 기관추천 명단(정정)",
     "source": "서울시",
-    "date": "2026-11-11",
-    "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE9PcjQxVXlycHFLeVlKdzBMaF9xTGhvOXBwVW5yckVaTGFlWnhYeTJSdUl1YTc4akRxYWE3c3lxWUxSR3hRV0FTNXRWdWVTbklZZnJGaWNXVEEwTC1x?oc=5",
+    "date": "2026-11-12",
+    "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1LNlZYdE40bTAtUlVjYzk0alNWZzdUTmktbldZcmQ2LUtNZEVtQ2RPRDJlNkRZMTZzRU41SHREem1rVWNxNTRsQ0dqSEhVNDhrNlo1dnEtbnd5ZFNB?oc=5",
     "source_url": "https://news.seoul.go.kr",
-    "text": "(추천명단)(#중랑구)’중화역 라온프라이빗 센트로’ 서울시 장애인 특별공급 기관추천 명단  (추천명단)(#중랑구)’중화역 라온프라이빗 센트로’ 서울시 장애인 특별공급 기관추천 명단    분야별정보 "
+    "text": "(추천명단)(#중랑구)'중화역 라온프라이빗 센트로' 서울시 장애인 특별공급 기관추천 명단(정정)  (추천명단)(#중랑구)'중화역 라온프라이빗 센트로' 서울시 장애인 특별공급 기관추천 명단(정정)    분야별 정보 "
    },
    {
     "title": "주택특별공급 - 알림소식 - 서울지방중소벤처기업청",
@@ -1275,12 +1222,12 @@
     "text": "주택특별공급 - 알림소식 - 서울지방중소벤처기업청  주택특별공급 - 알림소식 - 서울지방중소벤처기업청    중소벤처기업부 "
    },
    {
-    "title": "(일정변경)(#중랑구)'중화역 라온프라이빗 센트로' 서울시 장애인 특별공급 기관추천 일정 3차 변경 안내",
+    "title": "(일정변경)(#중랑구)'중화역 라온프라이빗 센트로' 서울시 장애인 특별공급 기관추천 일정 2차 변경 안내",
     "source": "서울시",
-    "date": "2026-11-05",
-    "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBma3lKNUFxbU5URjM1VUlDTUNTbzNjTWUxQTRfU2ZaNFdpWFRab3pSYi1oNG1IX2VKdUlaOFNzaFhjR2FvSzNUTGd3YTBhd1ZhSmhwTzZjSElVdTYw?oc=5",
+    "date": "2026-10-15",
+    "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE9aMGJxZGRuUl9saFh4VFlhU0FmOGpRdTZ4MGFYdGh5aTk3S3FYb2pRamwza0pRZE9VQ2I1NHQxNC1LNzhwMGx4VmRnTU83NWJoV3FyS2YyZUczLWlR?oc=5",
     "source_url": "https://news.seoul.go.kr",
-    "text": "(일정변경)(#중랑구)'중화역 라온프라이빗 센트로' 서울시 장애인 특별공급 기관추천 일정 3차 변경 안내  (일정변경)(#중랑구)'중화역 라온프라이빗 센트로' 서울시 장애인 특별공급 기관추천 일정 3차 변경 안내    분야별정보 "
+    "text": "(일정변경)(#중랑구)'중화역 라온프라이빗 센트로' 서울시 장애인 특별공급 기관추천 일정 2차 변경 안내  (일정변경)(#중랑구)'중화역 라온프라이빗 센트로' 서울시 장애인 특별공급 기관추천 일정 2차 변경 안내    분야별정보 "
    },
    {
     "title": "주택특별공급 - 알림소식 - 서울지방중소벤처기업청",
@@ -1313,19 +1260,27 @@
     "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE40Z0xqZU1oTVlPWS1lVlM2MXlsRFlrVkhBOUtFZ1hJd1E1WUVzQnk0dm9ibFRjZnlXeVgyVXdyOWRoN194NVZodnd1VkljVklwU3lZ?oc=5",
     "source_url": "https://news.seoul.go.kr",
     "text": "새소식  새소식    분야별정보 "
+   },
+   {
+    "title": "2026년 동행안심벨 신청(연중 상시 접수)",
+    "source": "서울시",
+    "date": "2019-06-30",
+    "url": "https://news.google.com/rss/articles/CBMiSEFVX3lxTFB1bVQ0UUJyeDJZc19UYVVaek5zWUlkQ21MSE84NGh3ZkNJZF9jczJEY2pRVUJfMXdiTml1MldNaV9jYXRlTzVsTQ?oc=5",
+    "source_url": "https://news.seoul.go.kr",
+    "text": "2026년 동행안심벨 신청(연중 상시 접수)  2026년 동행안심벨 신청(연중 상시 접수)    분야별 정보 "
    }
   ]
  },
  "신월동 한양립스(3차)": {
-  "fetched_at": "2026-11-12T06:56:19+09:00",
+  "fetched_at": "2026-11-13T06:51:31+09:00",
   "articles": []
  },
  "청계 노르웨이숲(14차)": {
-  "fetched_at": "2026-11-12T06:56:30+09:00",
+  "fetched_at": "2026-11-13T06:51:42+09:00",
   "articles": []
  },
  "해링턴플레이스 노원 센트럴(4차)": {
-  "fetched_at": "2026-11-12T06:56:19+09:00",
+  "fetched_at": "2026-11-13T06:51:32+09:00",
   "articles": [
    {
     "title": "청년안심주택",
@@ -1370,11 +1325,11 @@
   ]
  },
  "수원이목지구 대방 디에트르 더 리체Ⅰ(A4BL)": {
-  "fetched_at": "2026-11-12T06:56:20+09:00",
+  "fetched_at": "2026-11-13T06:51:33+09:00",
   "articles": []
  },
  "의정부역 센트럴 아이파크(6차)": {
-  "fetched_at": "2026-11-12T06:56:21+09:00",
+  "fetched_at": "2026-11-13T06:51:34+09:00",
   "articles": [
    {
     "title": "의정부역 센트럴 아이파크 임의공급 (5차) 입주자모집공고",
@@ -1387,23 +1342,105 @@
   ]
  },
  "중동역 다채로움 더원": {
-  "fetched_at": "2026-11-12T06:56:29+09:00",
+  "fetched_at": "2026-11-13T06:51:41+09:00",
   "articles": []
  },
  "고덕신도시 아테라 A-63블록 공공분양주택(3차)": {
-  "fetched_at": "2026-11-12T06:56:22+09:00",
+  "fetched_at": "2026-11-13T06:51:35+09:00",
   "articles": []
  },
  "평택 고덕 국제신도시 A-55 대광로제비앙 모아엘가(4차)": {
-  "fetched_at": "2026-11-12T06:56:26+09:00",
+  "fetched_at": "2026-11-13T06:51:39+09:00",
   "articles": []
  },
  "이천자이 더 리체": {
-  "fetched_at": "2026-11-12T06:56:27+09:00",
+  "fetched_at": "2026-11-13T06:51:40+09:00",
   "articles": []
  },
  "안양자이 더 포레스트": {
-  "fetched_at": "2026-11-12T06:56:28+09:00",
+  "fetched_at": "2026-11-13T06:51:41+09:00",
   "articles": []
+ },
+ "아르뮤제자이": {
+  "fetched_at": "2026-11-13T06:51:43+09:00",
+  "articles": [
+   {
+    "title": "인천광역시 검단구 아라1동 행정복지센터",
+    "source": "geomdan.go.kr",
+    "date": "2026-10-26",
+    "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxPLVdxbko2eV9QSFI4dTdhRzVuNkZDQ1pHM1pOZnZqalg0aUtEaVphWjlheWJ4Y0NISFdaUnFYOVRyeTNYcnJPdE5FY2d2UGNvNURwT214enlVY1gyWG1VQlFDXzRYZ2otVHBxN0h4Nmx5VnlROW5NUkZlYmhHc1NZeXRLUVdpSENfMWNGLWducw?oc=5",
+    "source_url": "https://www.geomdan.go.kr",
+    "text": "인천광역시 검단구 아라1동 행정복지센터  인천광역시 검단구 아라1동 행정복지센터    검단구청 "
+   },
+   {
+    "title": "강남구 주민센터 > 논현1동 > 우리동이야기 > 새소식",
+    "source": "gangnam.go.kr",
+    "date": "2026-10-20",
+    "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxPZzQwQzFnZWY5NldxSWhCOF90cVhLNF84ZVJmdmhzNEIzcnRFNlg0d2xsRUhIOEdGMDVaZnR4UWhtREt3allodTgzNjlLWTZwbHdGdUlrWV81WWdYbFlyUnI1RElGOW9HTl9RQXhYTUFJWERxQ05makpqTXpPYlJIOXY0WERKQTlTUVdDa3FtZWVNa3czVWc?oc=5",
+    "source_url": "https://www.gangnam.go.kr",
+    "text": "강남구 주민센터 > 논현1동 > 우리동이야기 > 새소식  강남구 주민센터 > 논현1동 > 우리동이야기 > 새소식    강남구청 "
+   },
+   {
+    "title": "장애인일자리 참여자 대상 취업정보 제공 안내(10월 2차)",
+    "source": "namdong.go.kr",
+    "date": "2026-10-20",
+    "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOYjdqOERJWFBTRFJqUlZvNUxQckQxQ1I3bVdoLWhnd2ZrdFRWRU1DT0hSY3lBVHRIc19oUFdmSDBkMmUxRXVKUFVMU0EwVWFuQk9Ma2VkTk1ScXZBYU9NVndHdWxxbUxUVy1US2R0a1Q0NkRWNl9mREo4dmpIbVNkLWpWb2JGcDZCMGtEVml2bk9LdExhWE9KY1ZlcWJEUUx2V1ZhZU82YjU?oc=5",
+    "source_url": "https://www.namdong.go.kr",
+    "text": "장애인일자리 참여자 대상 취업정보 제공 안내(10월 2차)  장애인일자리 참여자 대상 취업정보 제공 안내(10월 2차)    남동구청 "
+   },
+   {
+    "title": "강남구 주민센터 > 수서동 > 우리동이야기 > 새소식",
+    "source": "gangnam.go.kr",
+    "date": "2026-10-19",
+    "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNd25aSDFQVktLT1JnODdhTTBJWDJxUkZEcVJlcG0ybXE0d0I4TnZOa2thdlI3LUZYSE94cHh1N1h4eVE3SzFTQUdwdmZLTW5XZWZYbGFVUFBZSWExSzBURjBBTzVibU1vZ3Fhc2NXOUpueVIyMHRNVG1NVkNlcHJWbU52Yzk2eHF5S2ZIRmIyZU1SNzBCQUE?oc=5",
+    "source_url": "https://www.gangnam.go.kr",
+    "text": "강남구 주민센터 > 수서동 > 우리동이야기 > 새소식  강남구 주민센터 > 수서동 > 우리동이야기 > 새소식    강남구청 "
+   },
+   {
+    "title": "동탄구청 > 행정복지센터 > 동탄7동 > 새소식",
+    "source": "hscity.go.kr",
+    "date": "2026-10-17",
+    "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxOVXgydy1EQWhwOS1UcVBHUU1wc1NXMUVYYUl6N1dmUm5lejFhNGhPUVUzSjd1Z25DTURmQjVueVctUVMtN0lrR2haZ0R4RHNLNVlKSzQ5UUR2azFiajg5enZYLU03ZmNtRjdmaGtmNUZ3c1B3NHN0YXJuZEdxeVJTTEJZVlVLUHZPMlNiX1VTQmNwQkZuNUZlUUs0R1pvM3A0bGVFMjZjZDM0emxLN0NVQUFrdXlCTTl4Ul90RHR0OXVlQQ?oc=5",
+    "source_url": "https://www.hscity.go.kr",
+    "text": "동탄구청 > 행정복지센터 > 동탄7동 > 새소식  동탄구청 > 행정복지센터 > 동탄7동 > 새소식    화성시청 "
+   },
+   {
+    "title": "안산「아르뮤제이」장애인 특별공급 안내",
+    "source": "suwon.go.kr",
+    "date": "2026-10-16",
+    "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQMEp6REFFem9iVy03aDdGSkQxeFNjbmYzT3dzbHdPWFVHNFJfcTdZTFZDaElrbjNDbWpfZ2h0Zi1LVTJhQzBLRlJjQk54a2E0c2VyNVBjdXppU0hYUTZjQVltN2NJeEc5bklxQ0otZFc4M2kwcFFjVVBuM2FsUS1JcGlYMHp0c1BQUFhB?oc=5",
+    "source_url": "https://www.suwon.go.kr",
+    "text": "안산「아르뮤제이」장애인 특별공급 안내  안산「아르뮤제이」장애인 특별공급 안내    수원특례시청 "
+   },
+   {
+    "title": "주택특별공급",
+    "source": "mss.go.kr",
+    "date": "2026-10-12",
+    "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTFA1eGQwVzlqbWljWC1fZXd3U1l3WnhFdXNPV3FwUnZBQWsyek9YVFl3VllWYVJ5WXhqSEYyQm94RVVpNEoxaDNxbkhNcUJTZ01fTmVrSllWMDJkenVKOXQyY0FobHJURS1HbkNKWEJnTmZWRHJsMHZSbl9LenZKSlk?oc=5",
+    "source_url": "https://www.mss.go.kr",
+    "text": "주택특별공급  주택특별공급    중소벤처기업부 "
+   }
+  ]
+ },
+ "부천대장 하우스토리 디센트(부천대장지구 A2BL) 공공분양주택": {
+  "fetched_at": "2026-11-13T06:51:44+09:00",
+  "articles": [
+   {
+    "title": "우리동 소식 목록 - 부림동 - 동안구청",
+    "source": "anyang.go.kr",
+    "date": "2026-11-09",
+    "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNbmdRQ2dZY3RicDRMc2E4NFZBT3ptNmlqMXdCTXZHVlVndnVvTnVSd0syRVhOWG5VaXR5MWhtblF2bDA4QW45aW9POU9LUEFkQ2ZyZ2dnYTc3dnpDa3JfWUx2QVJCM0c4WWZrM3IxV1JNU0hGeDZuOEQ1Ul9xZHpYMW85TVE1ZVFvQ013?oc=5",
+    "source_url": "https://www.anyang.go.kr",
+    "text": "우리동 소식 목록 - 부림동 - 동안구청  우리동 소식 목록 - 부림동 - 동안구청    안양시청 "
+   },
+   {
+    "title": "기타공고 상세 | 공고·입법예고 | 부천소식",
+    "source": "bucheon.go.kr",
+    "date": "2026-09-01",
+    "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxPV002MEZ1WWsyUlhwazRmYzBUcTNWMl9WT0xIQjIyRnRmd1lzZ2NMT3NEYURBN2J0U1ljSjR0LXZXVk85ckFGcVBCcjR6SkQ2Ri1IZjA3Q0NUdHQ4U1p2Q1IxLW4yZTZnMk1LMjBXQVQ2eGpZeGNOYjNCYS1uMTBPMmFmeHBuUFBEa3U3Q3ZHTURnTmtDNVp2R2dMYnRnaXZONDdYdE1FemlTWlQ2VmNkLWZkdnlYdnZGMXktaGNMMGlmZFlNZUdqMUJZRHR1d1FoVzkwYTRUMTY?oc=5",
+    "source_url": "https://www.bucheon.go.kr",
+    "text": "기타공고 상세 | 공고·입법예고 | 부천소식  기타공고 상세 | 공고·입법예고 | 부천소식    부천시청 "
+   }
+  ]
  }
 }

@@ -1336,9 +1336,9 @@
   "rank1_req": 6624,
   "rank1_avg": 51.75,
   "rank1_max": 259.57,
-  "score_min": null,
-  "score_max": null,
-  "score_avg": null,
+  "score_min": 63,
+  "score_max": 69,
+  "score_avg": 67.2,
   "available": true
  },
  "apt:2026000517:2026000517": {
@@ -2247,6 +2247,36 @@
    }
   ],
   "rank1_supply": 6,
+  "rank1_req": null,
+  "rank1_avg": null,
+  "rank1_max": null,
+  "score_min": null,
+  "score_max": null,
+  "score_avg": null,
+  "available": true
+ },
+ "opt:2026940252:2026940252": {
+  "types": [
+   {
+    "type": "045.8300",
+    "supply": 2,
+    "req": 0,
+    "rates": {}
+   },
+   {
+    "type": "053.7200B",
+    "supply": 2,
+    "req": 0,
+    "rates": {}
+   },
+   {
+    "type": "053.8100A",
+    "supply": 1,
+    "req": 0,
+    "rates": {}
+   }
+  ],
+  "rank1_supply": 5,
   "rank1_req": null,
   "rank1_avg": null,
   "rank1_max": null,
