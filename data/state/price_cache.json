@@ -5587,5 +5587,108 @@
     "SPSPLY_HSHLDCO": 100
    }
   ]
+ },
+ "apt:2026000560:2026000560": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9409A",
+    "SUPLY_AR": "109.7007",
+    "LTTOT_TOP_AMOUNT": "182700",
+    "SUPLY_HSHLDCO": 51,
+    "SPSPLY_HSHLDCO": 59
+   },
+   {
+    "HOUSE_TY": "084.9708B",
+    "SUPLY_AR": "110.4326",
+    "LTTOT_TOP_AMOUNT": "178500",
+    "SUPLY_HSHLDCO": 25,
+    "SPSPLY_HSHLDCO": 29
+   },
+   {
+    "HOUSE_TY": "084.9894C",
+    "SUPLY_AR": "108.7429",
+    "LTTOT_TOP_AMOUNT": "177500",
+    "SUPLY_HSHLDCO": 25,
+    "SPSPLY_HSHLDCO": 29
+   }
+  ]
+ },
+ "apt:2026000505:2026000505": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "039.9342 ",
+    "SUPLY_AR": "54.2361",
+    "LTTOT_TOP_AMOUNT": "118241",
+    "SUPLY_HSHLDCO": 5,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "059.9926 ",
+    "SUPLY_AR": "78.3717",
+    "LTTOT_TOP_AMOUNT": "189843",
+    "SUPLY_HSHLDCO": 13,
+    "SPSPLY_HSHLDCO": 18
+   },
+   {
+    "HOUSE_TY": "084.9794A",
+    "SUPLY_AR": "111.3570",
+    "LTTOT_TOP_AMOUNT": "257484",
+    "SUPLY_HSHLDCO": 25,
+    "SPSPLY_HSHLDCO": 28
+   },
+   {
+    "HOUSE_TY": "084.9940B",
+    "SUPLY_AR": "110.9884",
+    "LTTOT_TOP_AMOUNT": "251744",
+    "SUPLY_HSHLDCO": 19,
+    "SPSPLY_HSHLDCO": 26
+   }
+  ]
+ },
+ "remndr:2026910299:2026910299": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.9671A",
+    "LTTOT_TOP_AMOUNT": "44500",
+    "SUPLY_HSHLDCO": 12,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "074.9936A",
+    "LTTOT_TOP_AMOUNT": "53200",
+    "SUPLY_HSHLDCO": 3,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.9999A",
+    "LTTOT_TOP_AMOUNT": "57900",
+    "SUPLY_HSHLDCO": 3,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.9989B",
+    "LTTOT_TOP_AMOUNT": "55300",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   }
+  ]
+ },
+ "opt:2026940249:2026940249": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9501A",
+    "LTTOT_TOP_AMOUNT": "57,600",
+    "SUPLY_HSHLDCO": 7
+   },
+   {
+    "HOUSE_TY": "084.9553B",
+    "LTTOT_TOP_AMOUNT": "56,600",
+    "SUPLY_HSHLDCO": 6
+   }
+  ]
  }
 }
