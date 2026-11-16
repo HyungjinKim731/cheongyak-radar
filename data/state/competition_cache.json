@@ -2344,5 +2344,163 @@
   "score_max": null,
   "score_avg": null,
   "available": true
+ },
+ "apt:2026000531:2026000531": {
+  "types": [],
+  "rank1_supply": null,
+  "rank1_req": null,
+  "rank1_avg": null,
+  "rank1_max": null,
+  "score_min": null,
+  "score_max": null,
+  "score_avg": null,
+  "available": false
+ },
+ "apt:2026000557:2026000557": {
+  "types": [],
+  "rank1_supply": null,
+  "rank1_req": null,
+  "rank1_avg": null,
+  "rank1_max": null,
+  "score_min": null,
+  "score_max": null,
+  "score_avg": null,
+  "available": false
+ },
+ "apt:2026000553:2026000553": {
+  "types": [],
+  "rank1_supply": null,
+  "rank1_req": null,
+  "rank1_avg": null,
+  "rank1_max": null,
+  "score_min": null,
+  "score_max": null,
+  "score_avg": null,
+  "available": false
+ },
+ "apt:2026000497:2026000497": {
+  "types": [],
+  "rank1_supply": null,
+  "rank1_req": null,
+  "rank1_avg": null,
+  "rank1_max": null,
+  "score_min": null,
+  "score_max": null,
+  "score_avg": null,
+  "available": false
+ },
+ "remndr:2026910297:2026910297": {
+  "types": [
+   {
+    "type": "084.9452A",
+    "supply": 2,
+    "req": 0,
+    "rates": {}
+   },
+   {
+    "type": "084.9704B",
+    "supply": 1,
+    "req": 0,
+    "rates": {}
+   }
+  ],
+  "rank1_supply": 3,
+  "rank1_req": null,
+  "rank1_avg": null,
+  "rank1_max": null,
+  "score_min": null,
+  "score_max": null,
+  "score_avg": null,
+  "available": true
+ },
+ "remndr:2026910293:2026910293": {
+  "types": [
+   {
+    "type": "084.9400B",
+    "supply": 1,
+    "req": 0,
+    "rates": {}
+   },
+   {
+    "type": "084.9400C",
+    "supply": 1,
+    "req": 0,
+    "rates": {}
+   },
+   {
+    "type": "120.5800",
+    "supply": 1,
+    "req": 0,
+    "rates": {}
+   }
+  ],
+  "rank1_supply": 3,
+  "rank1_req": null,
+  "rank1_avg": null,
+  "rank1_max": null,
+  "score_min": null,
+  "score_max": null,
+  "score_avg": null,
+  "available": true
+ },
+ "remndr:2026910288:2026910288": {
+  "types": [
+   {
+    "type": "059.9871A",
+    "supply": 1,
+    "req": 0,
+    "rates": {}
+   }
+  ],
+  "rank1_supply": 1,
+  "rank1_req": null,
+  "rank1_avg": null,
+  "rank1_max": null,
+  "score_min": null,
+  "score_max": null,
+  "score_avg": null,
+  "available": true
+ },
+ "remndr:2026910284:2026910284": {
+  "types": [
+   {
+    "type": "054.8244",
+    "supply": 7,
+    "req": 0,
+    "rates": {}
+   },
+   {
+    "type": "059.9935B",
+    "supply": 2,
+    "req": 0,
+    "rates": {}
+   },
+   {
+    "type": "060.7403",
+    "supply": 5,
+    "req": 0,
+    "rates": {}
+   },
+   {
+    "type": "084.9888A",
+    "supply": 2,
+    "req": 0,
+    "rates": {}
+   },
+   {
+    "type": "084.9933B",
+    "supply": 7,
+    "req": 0,
+    "rates": {}
+   }
+  ],
+  "rank1_supply": 23,
+  "rank1_req": null,
+  "rank1_avg": null,
+  "rank1_max": null,
+  "score_min": null,
+  "score_max": null,
+  "score_avg": null,
+  "available": true
  }
 }

@@ -5690,5 +5690,15 @@
     "SUPLY_HSHLDCO": 6
    }
   ]
+ },
+ "opt:2026940256:2026940256": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "084.9960 ",
+    "LTTOT_TOP_AMOUNT": "439,800",
+    "SUPLY_HSHLDCO": 5
+   }
+  ]
  }
 }
