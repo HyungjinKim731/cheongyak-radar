@@ -2357,26 +2357,82 @@
   "available": false
  },
  "apt:2026000557:2026000557": {
-  "types": [],
-  "rank1_supply": null,
-  "rank1_req": null,
-  "rank1_avg": null,
+  "types": [
+   {
+    "type": "084.9904A",
+    "supply": 398,
+    "req": 39,
+    "rates": {
+     "해당지역": "(△382)",
+     "기타지역": "(△359)"
+    }
+   },
+   {
+    "type": "084.9732B",
+    "supply": 146,
+    "req": 13,
+    "rates": {
+     "해당지역": "(△141)",
+     "기타지역": "(△133)"
+    }
+   }
+  ],
+  "rank1_supply": 544,
+  "rank1_req": 52,
+  "rank1_avg": 0.1,
   "rank1_max": null,
   "score_min": null,
   "score_max": null,
   "score_avg": null,
-  "available": false
+  "available": true
  },
  "apt:2026000553:2026000553": {
-  "types": [],
-  "rank1_supply": null,
-  "rank1_req": null,
-  "rank1_avg": null,
-  "rank1_max": null,
+  "types": [
+   {
+    "type": "059.9777",
+    "supply": 6,
+    "req": 144,
+    "rates": {
+     "해당지역": "12.00",
+     "기타지역": "-"
+    }
+   },
+   {
+    "type": "084.7415A",
+    "supply": 152,
+    "req": 71,
+    "rates": {
+     "해당지역": "(△112)",
+     "기타지역": "(△81)"
+    }
+   },
+   {
+    "type": "084.8836B",
+    "supply": 111,
+    "req": 48,
+    "rates": {
+     "해당지역": "(△86)",
+     "기타지역": "(△63)"
+    }
+   },
+   {
+    "type": "084.9911C",
+    "supply": 75,
+    "req": 41,
+    "rates": {
+     "해당지역": "(△49)",
+     "기타지역": "(△34)"
+    }
+   }
+  ],
+  "rank1_supply": 344,
+  "rank1_req": 304,
+  "rank1_avg": 0.88,
+  "rank1_max": 12.0,
   "score_min": null,
   "score_max": null,
   "score_avg": null,
-  "available": false
+  "available": true
  },
  "apt:2026000497:2026000497": {
   "types": [],
@@ -2495,6 +2551,65 @@
    }
   ],
   "rank1_supply": 23,
+  "rank1_req": null,
+  "rank1_avg": null,
+  "rank1_max": null,
+  "score_min": null,
+  "score_max": null,
+  "score_avg": null,
+  "available": true
+ },
+ "apt:2026000533:2026000533": {
+  "types": [],
+  "rank1_supply": null,
+  "rank1_req": null,
+  "rank1_avg": null,
+  "rank1_max": null,
+  "score_min": null,
+  "score_max": null,
+  "score_avg": null,
+  "available": false
+ },
+ "opt:2026940250:2026940250": {
+  "types": [
+   {
+    "type": "074.5900A",
+    "supply": 11,
+    "req": 0,
+    "rates": {}
+   },
+   {
+    "type": "074.7200B",
+    "supply": 10,
+    "req": 0,
+    "rates": {}
+   },
+   {
+    "type": "084.5600A",
+    "supply": 10,
+    "req": 0,
+    "rates": {}
+   }
+  ],
+  "rank1_supply": 31,
+  "rank1_req": null,
+  "rank1_avg": null,
+  "rank1_max": null,
+  "score_min": null,
+  "score_max": null,
+  "score_avg": null,
+  "available": true
+ },
+ "remndr:2026910290:2026910290": {
+  "types": [
+   {
+    "type": "039.6950",
+    "supply": 6,
+    "req": 0,
+    "rates": {}
+   }
+  ],
+  "rank1_supply": 6,
   "rank1_req": null,
   "rank1_avg": null,
   "rank1_max": null,

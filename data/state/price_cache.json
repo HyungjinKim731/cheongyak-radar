@@ -5700,5 +5700,46 @@
     "SUPLY_HSHLDCO": 5
    }
   ]
+ },
+ "remndr:2026930045:2026930045": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "043.7300 ",
+    "SUPLY_AR": "68.9800",
+    "LTTOT_TOP_AMOUNT": "110548",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "059.4700A",
+    "SUPLY_AR": "88.1700",
+    "LTTOT_TOP_AMOUNT": "157939",
+    "SUPLY_HSHLDCO": 1,
+    "SPSPLY_HSHLDCO": 0
+   },
+   {
+    "HOUSE_TY": "084.9600D",
+    "SUPLY_AR": "113.3700",
+    "LTTOT_TOP_AMOUNT": "185607",
+    "SUPLY_HSHLDCO": 0,
+    "SPSPLY_HSHLDCO": 1
+   }
+  ]
+ },
+ "opt:2026940260:2026940260": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "078.4400N",
+    "LTTOT_TOP_AMOUNT": "196,300",
+    "SUPLY_HSHLDCO": 5
+   },
+   {
+    "HOUSE_TY": "084.0800N",
+    "LTTOT_TOP_AMOUNT": "205,900",
+    "SUPLY_HSHLDCO": 1
+   }
+  ]
  }
 }
