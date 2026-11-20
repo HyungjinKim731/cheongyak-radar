@@ -2762,5 +2762,23 @@
   "score_max": null,
   "score_avg": null,
   "available": true
+ },
+ "opt:2026940263:2026940263": {
+  "types": [
+   {
+    "type": "084.7884A",
+    "supply": 15,
+    "req": 0,
+    "rates": {}
+   }
+  ],
+  "rank1_supply": 15,
+  "rank1_req": null,
+  "rank1_avg": null,
+  "rank1_max": null,
+  "score_min": null,
+  "score_max": null,
+  "score_avg": null,
+  "available": true
  }
 }
