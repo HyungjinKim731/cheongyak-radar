@@ -2828,26 +2828,132 @@
   "available": false
  },
  "apt:2026000576:2026000576": {
-  "types": [],
-  "rank1_supply": null,
-  "rank1_req": null,
-  "rank1_avg": null,
-  "rank1_max": null,
+  "types": [
+   {
+    "type": "084.8861A",
+    "supply": 146,
+    "req": 172,
+    "rates": {
+     "해당지역": "(△1)",
+     "기타지역": "27.00"
+    }
+   },
+   {
+    "type": "084.9580B",
+    "supply": 82,
+    "req": 49,
+    "rates": {
+     "해당지역": "(△43)",
+     "기타지역": "(△33)"
+    }
+   },
+   {
+    "type": "084.8700C",
+    "supply": 88,
+    "req": 15,
+    "rates": {
+     "해당지역": "(△78)",
+     "기타지역": "(△73)"
+    }
+   },
+   {
+    "type": "099.9001A",
+    "supply": 179,
+    "req": 91,
+    "rates": {
+     "해당지역": "(△94)",
+     "기타지역": "(△88)"
+    }
+   },
+   {
+    "type": "099.9015B",
+    "supply": 270,
+    "req": 41,
+    "rates": {
+     "해당지역": "(△236)",
+     "기타지역": "(△229)"
+    }
+   },
+   {
+    "type": "104.8286",
+    "supply": 172,
+    "req": 47,
+    "rates": {
+     "해당지역": "(△126)",
+     "기타지역": "(△125)"
+    }
+   }
+  ],
+  "rank1_supply": 937,
+  "rank1_req": 415,
+  "rank1_avg": 0.44,
+  "rank1_max": 27.0,
   "score_min": null,
   "score_max": null,
   "score_avg": null,
-  "available": false
+  "available": true
  },
  "apt:2026000457:2026000457": {
-  "types": [],
-  "rank1_supply": null,
-  "rank1_req": null,
-  "rank1_avg": null,
-  "rank1_max": null,
+  "types": [
+   {
+    "type": "059.7100A",
+    "supply": 37,
+    "req": 4756,
+    "rates": {
+     "해당지역": "117.82",
+     "기타지역": "249.37",
+     "기타경기": "317.29"
+    }
+   },
+   {
+    "type": "059.9900B",
+    "supply": 18,
+    "req": 1987,
+    "rates": {
+     "해당지역": "107.60",
+     "기타지역": "219.78",
+     "기타경기": "254.00"
+    }
+   },
+   {
+    "type": "059.9900C",
+    "supply": 3,
+    "req": 257,
+    "rates": {
+     "해당지역": "84.00",
+     "기타지역": "255.00",
+     "기타경기": "142.00"
+    }
+   },
+   {
+    "type": "074.9800A",
+    "supply": 8,
+    "req": 1118,
+    "rates": {
+     "해당지역": "203.00",
+     "기타지역": "278.50",
+     "기타경기": "319.00"
+    }
+   },
+   {
+    "type": "084.9500A",
+    "supply": 16,
+    "req": 2501,
+    "rates": {
+     "해당지역": "157.20",
+     "기타지역": "311.63",
+     "기타경기": "440.00"
+    }
+   }
+  ],
+  "rank1_supply": 82,
+  "rank1_req": 10619,
+  "rank1_avg": 129.5,
+  "rank1_max": 440.0,
   "score_min": null,
   "score_max": null,
   "score_avg": null,
-  "available": false
+  "available": true
  },
  "remndr:2026930046:2026930046": {
   "types": [],
@@ -2917,6 +3023,66 @@
    }
   ],
   "rank1_supply": 30,
+  "rank1_req": null,
+  "rank1_avg": null,
+  "rank1_max": null,
+  "score_min": null,
+  "score_max": null,
+  "score_avg": null,
+  "available": true
+ },
+ "opt:2026940260:2026940260": {
+  "types": [
+   {
+    "type": "078.4400N",
+    "supply": 5,
+    "req": 0,
+    "rates": {}
+   },
+   {
+    "type": "084.0800N",
+    "supply": 1,
+    "req": 0,
+    "rates": {}
+   }
+  ],
+  "rank1_supply": 6,
+  "rank1_req": null,
+  "rank1_avg": null,
+  "rank1_max": null,
+  "score_min": null,
+  "score_max": null,
+  "score_avg": null,
+  "available": true
+ },
+ "opt:2026940264:2026940264": {
+  "types": [
+   {
+    "type": "075.7218B",
+    "supply": 4,
+    "req": 0,
+    "rates": {}
+   },
+   {
+    "type": "075.7753A",
+    "supply": 9,
+    "req": 0,
+    "rates": {}
+   },
+   {
+    "type": "084.7677B",
+    "supply": 4,
+    "req": 0,
+    "rates": {}
+   },
+   {
+    "type": "084.7910A",
+    "supply": 6,
+    "req": 0,
+    "rates": {}
+   }
+  ],
+  "rank1_supply": 23,
   "rank1_req": null,
   "rank1_avg": null,
   "rank1_max": null,
