@@ -2429,9 +2429,9 @@
   "rank1_req": 304,
   "rank1_avg": 0.88,
   "rank1_max": 12.0,
-  "score_min": null,
-  "score_max": null,
-  "score_avg": null,
+  "score_min": 0,
+  "score_max": 63,
+  "score_avg": 29.5,
   "available": true
  },
  "apt:2026000497:2026000497": {
@@ -2817,15 +2817,43 @@
   "available": true
  },
  "apt:2026000560:2026000560": {
-  "types": [],
-  "rank1_supply": null,
-  "rank1_req": null,
-  "rank1_avg": null,
-  "rank1_max": null,
+  "types": [
+   {
+    "type": "084.9409A",
+    "supply": 51,
+    "req": 707,
+    "rates": {
+     "해당지역": "13.86",
+     "기타지역": "-"
+    }
+   },
+   {
+    "type": "084.9708B",
+    "supply": 25,
+    "req": 186,
+    "rates": {
+     "해당지역": "7.44",
+     "기타지역": "-"
+    }
+   },
+   {
+    "type": "084.9894C",
+    "supply": 25,
+    "req": 193,
+    "rates": {
+     "해당지역": "7.72",
+     "기타지역": "-"
+    }
+   }
+  ],
+  "rank1_supply": 101,
+  "rank1_req": 1086,
+  "rank1_avg": 10.75,
+  "rank1_max": 13.86,
   "score_min": null,
   "score_max": null,
   "score_avg": null,
-  "available": false
+  "available": true
  },
  "apt:2026000576:2026000576": {
   "types": [
@@ -3090,5 +3118,46 @@
   "score_max": null,
   "score_avg": null,
   "available": true
+ },
+ "opt:2026940257:2026940257": {
+  "types": [
+   {
+    "type": "059.5900B",
+    "supply": 10,
+    "req": 0,
+    "rates": {}
+   },
+   {
+    "type": "079.7500A",
+    "supply": 2,
+    "req": 0,
+    "rates": {}
+   },
+   {
+    "type": "080.1500A",
+    "supply": 1,
+    "req": 0,
+    "rates": {}
+   }
+  ],
+  "rank1_supply": 13,
+  "rank1_req": null,
+  "rank1_avg": null,
+  "rank1_max": null,
+  "score_min": null,
+  "score_max": null,
+  "score_avg": null,
+  "available": true
+ },
+ "apt:2026000505:2026000505": {
+  "types": [],
+  "rank1_supply": null,
+  "rank1_req": null,
+  "rank1_avg": null,
+  "rank1_max": null,
+  "score_min": null,
+  "score_max": null,
+  "score_avg": null,
+  "available": false
  }
 }
