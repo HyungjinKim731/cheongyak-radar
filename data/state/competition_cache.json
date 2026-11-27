@@ -3150,15 +3150,52 @@
   "available": true
  },
  "apt:2026000505:2026000505": {
-  "types": [],
-  "rank1_supply": null,
-  "rank1_req": null,
-  "rank1_avg": null,
-  "rank1_max": null,
+  "types": [
+   {
+    "type": "039.9342",
+    "supply": 5,
+    "req": 451,
+    "rates": {
+     "해당지역": "90.20",
+     "기타지역": "-"
+    }
+   },
+   {
+    "type": "059.9926",
+    "supply": 13,
+    "req": 874,
+    "rates": {
+     "해당지역": "67.23",
+     "기타지역": "-"
+    }
+   },
+   {
+    "type": "084.9794A",
+    "supply": 25,
+    "req": 163,
+    "rates": {
+     "해당지역": "6.52",
+     "기타지역": "-"
+    }
+   },
+   {
+    "type": "084.9940B",
+    "supply": 19,
+    "req": 241,
+    "rates": {
+     "해당지역": "5.74",
+     "기타지역": "-"
+    }
+   }
+  ],
+  "rank1_supply": 62,
+  "rank1_req": 1729,
+  "rank1_avg": 27.89,
+  "rank1_max": 90.2,
   "score_min": null,
   "score_max": null,
   "score_avg": null,
-  "available": false
+  "available": true
  },
  "apt:2026820015:2026820015": {
   "types": [],

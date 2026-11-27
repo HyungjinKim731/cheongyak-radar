@@ -6176,5 +6176,38 @@
     "SPSPLY_HSHLDCO": 0
    }
   ]
+ },
+ "apt:2026000612:2026000612": {
+  "v": 2,
+  "models": [
+   {
+    "HOUSE_TY": "059.9390A",
+    "SUPLY_AR": "80.8197",
+    "LTTOT_TOP_AMOUNT": "44300",
+    "SUPLY_HSHLDCO": 36,
+    "SPSPLY_HSHLDCO": 214
+   },
+   {
+    "HOUSE_TY": "059.8977B",
+    "SUPLY_AR": "80.4519",
+    "LTTOT_TOP_AMOUNT": "43200",
+    "SUPLY_HSHLDCO": 16,
+    "SPSPLY_HSHLDCO": 103
+   },
+   {
+    "HOUSE_TY": "071.8211B",
+    "SUPLY_AR": "95.6642",
+    "LTTOT_TOP_AMOUNT": "49500",
+    "SUPLY_HSHLDCO": 14,
+    "SPSPLY_HSHLDCO": 102
+   },
+   {
+    "HOUSE_TY": "084.7577A",
+    "SUPLY_AR": "112.6368",
+    "LTTOT_TOP_AMOUNT": "56800",
+    "SUPLY_HSHLDCO": 23,
+    "SPSPLY_HSHLDCO": 153
+   }
+  ]
  }
 }
